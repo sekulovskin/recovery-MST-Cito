@@ -1,0 +1,24 @@
+---
+title: "**Traineeship Proposal**"
+author: "Nikola Sekulovski (6465588)"
+output: pdf_document
+header-includes:
+    - \usepackage{setspace}\doublespacing
+---
+
+**Where**: National Institute for Educational Measurement (CITO), Arnhem.
+
+**When**: ~10.1.2022 – 18.2.2022
+
+**Supervisor**: Stefan Jansen
+
+**ECTS**: 7.5
+
+**Project**: ***Recovery of early mistakes in multistage tests***
+
+**Description**: In multistage tests, blocks of test items are administered based on ability estimates of students at several stages. If students make mistakes early on in the assessment, these will impact the ability estimates and difficulty of subsequent items administered. Policy makers are concerned about the "fairness" of multistage tests, and are therefore interested in the impact of these mistakes on the total ability estimate. In other words: to what degree are students able to recover from early mistakes? This question can be investigated by a simulation of student behaviour in a multistage test. Using Item Response Theory and the design constraints of a multistage test, it is possible to write a simple simulation program for these tests, from which you can derive a relation between the estimated final ability and the position of mistakes within the test.
+
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\thispagestyle{empty}
+\pagestyle{plain}
