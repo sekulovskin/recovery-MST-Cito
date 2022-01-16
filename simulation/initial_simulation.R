@@ -1,11 +1,10 @@
-#===========================================================
-# Initial simulation
-#==========================================================
-setwd("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship")
+#=====================================================================
+# Initial simulation of response patterns and ability (re)estimates
+#====================================================================
 library(dexterMST)
 library(dplyr)
 options(warn = 1) #get rid of the warnings 
-
+setwd("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation")
 #As discussed in the email I will use the provided items parameters,
 #routing rules and test design from ACET.
 test_design <- read.csv('dexter_mst_design_dov.csv')
@@ -44,12 +43,30 @@ abilities_L[[i]]$true_theta <- true.theta_L #The WLE was proposed by Warm (1989)
 #Combine it in a data frame
 abilities_L <- do.call(rbind, abilities_L)
 
-#store each student in a separate data frame
-students_L <- list()
+#store each student's ability estimates in a separate data frame
+students_abilities_L <- list()
  for(i in 1:length(true.theta_L)){
-   students_L[[i]] <- abilities_L %>%
+   students_abilities_L[[i]] <- abilities_L %>%
   filter(person_id == i)
+ }
+
+rm(abilities_L)
+
+#--------------------------------------------------
+# Do the same with the response patterns
+patterns_L <- do.call(rbind, patterns_L)
+
+#store each student's ability estimates in a separate data frame
+students_patterns_L <- list()
+
+for(i in 1:length(true.theta_L)){
+  students_patterns_L[[i]] <- patterns_L %>%
+    filter(person_id == i)
 }
+
+rm(patterns_L)
+
+
 
 ## Repeat all of this for the other subjects that follor an MST design (Rekenen en Taal)
 
@@ -84,11 +101,27 @@ for(i in 1:n_sim){
 abilities_R <- do.call(rbind, abilities_R)
 
 #store each student in a separate data frame
-students_R <- list()
+students_abilities_R <- list()
 for(i in 1:length(true.theta_R)){
-  students_R[[i]] <- abilities_R %>%
+  students_abilities_R[[i]] <- abilities_R %>%
     filter(person_id == i)
 }
+
+rm(abilities_R)
+
+#--------------------------------------------------
+# Do the same with the response patterns
+patterns_R <- do.call(rbind, patterns_R)
+
+#store each student's ability estimates in a separate data frame
+students_patterns_R <- list()
+
+for(i in 1:length(true.theta_R)){
+  students_patterns_R[[i]] <- patterns_R %>%
+    filter(person_id == i)
+}
+
+rm(patterns_R)
 
 #============================================
 # For the Language test (Taal)
@@ -120,16 +153,28 @@ for(i in 1:n_sim){
 abilities_T <- do.call(rbind, abilities_T)
 
 #store each student in a separate data frame
-students_T <- list()
+students_abilities_T <- list()
 for(i in 1:length(true.theta_T)){
-  students_T[[i]] <- abilities_T %>%
+  students_abilities_T[[i]] <- abilities_T %>%
     filter(person_id == i)
 }
 
+rm(abilities_T)
+--------------------------------------------------
+# Do the same with the response patterns
+patterns_T <- do.call(rbind, patterns_T)
 
+#store each student's ability estimates in a separate data frame
+students_patterns_T <- list()
 
+for(i in 1:length(true.theta_T)){
+  students_patterns_T[[i]] <- patterns_T %>%
+    filter(person_id == i)
+}
+
+rm(patterns_T)
 
 #The next steps should be finding for which student (true ability) there is most variability
-#and then incpect the patterns
+#and then inspect the patterns
 #Think about the EARLY MISTAKES PART!!
 
