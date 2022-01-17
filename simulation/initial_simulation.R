@@ -22,7 +22,11 @@ pars_L <- pars[pars[, 'item_id'] %in% test_design_L$item_id, ]
 
 #construct the true reading latent ability. Note for now I assume that theta ranges roughly from
 # -1.5 to 1.5 with an 0.1 increase. This results in 31 students
-true.theta_L <- seq(-1.5, 1.5, 0.1)
+#true.theta_L <- seq(-1.5, 1.5, 0.1)
+##Add observed abilities of last year’s ACET   I will do 40 students, and sort them in an increasing order
+set.seed(123)
+true.theta_L <- sort(rnorm(40, 0.219, 0.236), decreasing = FALSE) 
+summary(true.theta_L)
 #----------------------------------------------------
 #Simulate response data and respective abilities n_sim number of times
 n_sim <- 100 # We need to talk about how big this should be!
@@ -81,7 +85,10 @@ routing_rules_R <- routing_rules[grepl('^R', routing_rules$module_id), ]
 pars_R <- pars[pars[, 'item_id'] %in% test_design_R$item_id, ]
 
 # Maybe I should change these theta values to be slightly different for each test
-true.theta_R <- seq(-1.5, 1.5, 0.1) 
+#true.theta_R <- seq(-1.5, 1.5, 0.1) 
+# Add observed ACET abilities
+set.seed(123)
+true.theta_R <- sort(rnorm(40, 0.326, 0.389), decreasing = FALSE)
 #----------------------------------------------------
 
 #Construct "storage space"
@@ -133,7 +140,10 @@ routing_rules_T <- routing_rules[grepl('^T', routing_rules$module_id), ]
 pars_T <- pars[pars[, 'item_id'] %in% test_design_T$item_id, ]
 
 # Maybe I should change these theta values to be slightly different for each test
-true.theta_T <- seq(-1.5, 1.5, 0.1) 
+#true.theta_T <- seq(-1.5, 1.5, 0.1)
+#Add the observed ACET abilities
+set.seed(123)
+true.theta_T <- sort(rnorm(40, 0.273, 0.301), decreasing = FALSE)
 #----------------------------------------------------
 
 #Construct "storage space"
