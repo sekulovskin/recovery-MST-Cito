@@ -28,7 +28,7 @@ lapply(students_abilities_L, function(x){t.test(x[,4],x[,5])})
 #THIS WAS IN THE CASE WHEN RUNNING IT WITH THE OLD TRUE THETA (i.e., ranging from -1.5 to 1.5)
 #We observe a significant difference between the true and the average estimated "true" theta
 # for 10 students
-# OF course, these results slightly differ every time we re-reun the analysis
+# OF course, these results slightly differ every time we re-run the analysis
 # These are the students with "true" theta of:
 # 1.5; 1.4; 1.3; 0.9; -0.9; -1; -1.1; -1.2; -1.3; -1.4 & -1.5.
 #--------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ for (i in 1:length(true.theta_L)){
     filter(booklet_id != "LDA1-LDC1-LDF1-LDI1")
 }
 
-#There tend to be very few mismatches ofr high thetas
+#There tend to be very few mismatches for high thetas
 
 
 #-------------------------------------------------------------------------------------------------------
