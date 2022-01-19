@@ -162,7 +162,7 @@ t.test(student_39_L_split[[2]]$theta, student_39_L_split[[2]]$true_theta)
 #final theta estimate. These significant differences were observed both when
 #testing whether there is a difference between the average *ESTIMATED* theta
 #between situations when a student made 0 mistakes and 1 mistake in module 1;
-#ANd also in the situation when controling for the number of mistakes and
+#AND also in the situation when controlling for the number of mistakes and
 #measuring whether there is a significant difference between the average 
 #ESTIMATED theta and the TRUE theta!
 
