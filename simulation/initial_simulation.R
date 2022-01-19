@@ -174,7 +174,8 @@ for(i in 1:length(true.theta_T)){
 
 rm(patterns_T)
 
-#The next steps should be finding for which student (true ability) there is most variability
-#and then inspect the patterns
-#Think about the EARLY MISTAKES PART!!
+
+
+
+
 
