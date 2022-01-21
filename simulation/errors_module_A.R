@@ -396,8 +396,8 @@ t.test(theta ~ errors, data = student_41_L)
 #as opposed to a situation where the student didn't make a mistake. With the average
 # re-estimated theta of 1.21 for students with no mistake.
 #---------------------------
-t.test(theta ~ errors, data = student_39_L)
 # For true_theta = 1.2
+t.test(theta ~ errors, data = student_39_L)
 #t = 6.3959, df = 22.338, p-value = 1.818e-06
 #mean in group 0 mean in group 1 
 #1.1981191       0.8978614 
@@ -428,7 +428,7 @@ t.test(student_41_L_split[[2]]$theta, student_41_L_split[[2]]$true_theta)
 #Conclusion: Even though the size is to small, to say anything about the p-vales
 #and even though in both situations, we had a significant p-value,
 #it is evident by looking at the means of both situations that there is a way bigger
-#discrepancy between the true and the r-restimated averge theta in the case where
+#discrepancy between the true and the r-estimated average theta in the case where
 #the student makes 1 mistake as opposed to no mistakes in the first module (A)
 
 # For true_theta = 1.2
@@ -438,7 +438,7 @@ student_39_L_split <- split(student_39_L, student_39_L$errors)
 t.test(student_39_L_split[[1]]$theta, student_39_L_split[[1]]$true_theta)
 #t = -0.068624, df = 88, p-value = 0.9454
 # mean of x mean of y 
-#1.198119  1.200000 
+#1.198119  1.200000   #NO DIFFERENCE
 
 # No significant difference, and also very small difference when observing the means!
 
@@ -496,7 +496,7 @@ unique(student_1_R$errors)  # 3:1, 4:15, 5:84
 
 #--------------------------------------------------------------------------------
 # First we will see whether there is a significant difference between the average 
-#estimated thetas, for instances when having different errors on module A
+#estimated thetas, for instances when having different number of errors on module A
 
 #NOTE WE DO NOT ONLY LOOK AT THE P-VALUE (and don't take it too seriously) SINCE THERE IS A HUGE DISCREPANCY IN SIZE (BUT MORE AT THE AVERAGE ESTIMATES)
 # FOR THETA = 1.8
@@ -548,7 +548,7 @@ student_32_R %>%
 
 student_32_R %>%
   filter(errors==3) %>%
-  summary()     #0.2258 
+  summary()     #0.2258   #So in general, for a medium theta, there is no big difference
 
 #FOR THETA -1.2
 t.test(theta ~ errors, data = student_3_R)
@@ -756,3 +756,48 @@ summary(student_49_T_split[[2]])
 #1.165 vs 1.35 (a smaller difference actually)
 
 #OVERALL CONCLUSION: BIG DIFFERENCES TEND TO BE PRESENT EVEN AFTER CONTROLLING FOR THE NUMBER OF MISTAKES.
+
+#========================================================================================
+#Repeat the initial analyses for ALL student, controlling for the number of errors 
+#=====================================================================================
+
+#For Lezen
+
+#split each student by the number of errors
+students_abilities_L_split <- list()
+for(i in 1:length(true.theta_L)){
+  students_abilities_L_split[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
+}
+
+summaries_L <- list()
+for(i in 1:length(true.theta_L)){
+  summaries_L[[i]] <- lapply(students_abilities_L_split[[i]], summary)
+}
+
+#For Rekenen
+
+#split each student by the number of errors
+students_abilities_R_split <- list()
+for(i in 1:length(true.theta_R)){
+  students_abilities_R_split[[i]] <-  split(students_abilities_R[[i]], students_abilities_R[[i]]$error)
+}
+
+summaries_R <- list()
+for(i in 1:length(true.theta_R)){
+  summaries_R[[i]] <- lapply(students_abilities_R_split[[i]], summary)
+}
+
+#For Taal
+
+#split each student by the number of errors
+students_abilities_T_split <- list()
+for(i in 1:length(true.theta_T)){
+  students_abilities_T_split[[i]] <-  split(students_abilities_T[[i]], students_abilities_T[[i]]$error)
+}
+
+summaries_R <- list()
+for(i in 1:length(true.theta_R)){
+  summaries_R[[i]] <- lapply(students_abilities_R_split[[i]], summary)
+}
+
+#Conclusions will follow
