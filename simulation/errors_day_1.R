@@ -167,6 +167,7 @@ for( i in 1:length(true.theta_L)){
   patterns_module_C_L.1[[i]]$occ <-seq(1:nrow(patterns_module_C_L.1[[i]]))
 } 
 
+#patterns_module_C_L.1[[41]]$occ <-seq(1:nrow(patterns_module_C_L.1[[41]]))
 #item 2 C
 
 patterns_module_C_L.2 <- list()
@@ -664,4 +665,5 @@ for(i in 1:length(true.theta_L)){
   patterns_Day.1_L[[i]] <- rbind(patterns_module_A_L[[i]], patterns_module_B_L[[i]], patterns_module_C_L[[i]], 
                                  patterns_module_D_L[[i]], patterns_module_E_L[[i]], patterns_module_F_L[[i]])
 }
+
 
