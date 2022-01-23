@@ -607,7 +607,7 @@ patterns_module_F_L.6 <- list()
 for (i in 1:length(true.theta_L)){
   
   patterns_module_F_L.6[[i]] <- students_patterns_L[[i]] %>%
-    filter(item_id == "SV00163D") 
+    filter(item_id == "SV00163D")
   
 }
 
