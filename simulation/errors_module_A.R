@@ -370,7 +370,8 @@ rm(errors_module_A_T, n_errors_module_A_T, patterns_module_A_T, students_pattern
 #------------------------------------------------------
 
 #We will only look at the situations where significant differences appeared in the
-#initial analyses, namely for students with theta 1.3 and 1.2 i.e., students 41 and 39
+#initial analyses (based on more repetitions of the simulation!!!!), 
+#namely for students with theta 1.3 and 1.2 i.e., students 41 and 39
 
 #Extract these students in separate data frames
 student_41_L <- students_abilities_L[[41]]
@@ -389,21 +390,21 @@ unique(student_39_L$errors)  #in both cases there are only 0 and 1
 #that these students have a high true theta)
 # For true_theta = 1.3
 t.test(theta ~ errors, data = student_41_L)
-#t = 4.6781, df = 12.251, p-value = 0.0005054
+#t = 3.3965, df = 7.6199, p-value = 0.01012
 #mean in group 0 mean in group 1 
-#1.2112101       0.9532306 
+#1.247428        1.108579
 # There is a significant difference between situations where the student made 1 mistake,
 #as opposed to a situation where the student didn't make a mistake. With the average
-# re-estimated theta of 1.21 for students with no mistake.
+# re-estimated theta of 1.24 for students with no mistake.
 #---------------------------
 # For true_theta = 1.2
 t.test(theta ~ errors, data = student_39_L)
-#t = 6.3959, df = 22.338, p-value = 1.818e-06
+#t = 5.2064, df = 4.7933, p-value = 0.003898
 #mean in group 0 mean in group 1 
-#1.1981191       0.8978614 
+#1.2008832       0.9202921  
 # There is a significant difference between situations where the student made 1 mistake,
 #as opposed to a situation where the student didn't make a mistake. With the average
-# re-estimated theta of 1.19 (very close to the true theta) for students with no mistake.
+# re-estimated theta of 1.2 (very close to the true theta on average) for students with no mistake.
 #----------------------------------------------------------------------------------
 
 #Secondly, we will repeat the same analysis as in the `initia_analyses.R` script
@@ -436,17 +437,17 @@ student_39_L_split <- split(student_39_L, student_39_L$errors)
 
 # First for 0 errors
 t.test(student_39_L_split[[1]]$theta, student_39_L_split[[1]]$true_theta)
-#t = -0.068624, df = 88, p-value = 0.9454
+#t = 0.035781, df = 95, p-value = 0.9715
 # mean of x mean of y 
-#1.198119  1.200000   #NO DIFFERENCE
+#1.200883  1.200000    #NO DIFFERENCE
 
 # No significant difference, and also very small difference when observing the means!
 
 #Secondly, for 1 error
 t.test(student_39_L_split[[2]]$theta, student_39_L_split[[2]]$true_theta)
-#t = -7.9273, df = 10, p-value = 1.275e-05
+#t = -5.8383, df = 3, p-value = 0.01001
 #mean of x mean of y 
-#0.8978614 1.2000000 
+#0.9202921 1.2000000
 
 #OVERALL CONCLUSION: The number of mistakes in the first module of the reading test,
 #for students having a high "true" theta value (in this case 1.3 and 1.2), influence the

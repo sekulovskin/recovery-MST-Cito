@@ -66,7 +66,7 @@ for(i in 1:length(true.theta_L)){
 
 rm(patterns_L)
 
-
+save(students_abilities_L, file = ".Rdata")
 
 ## Repeat all of this for the other subjects that follor an MST design (Rekenen en Taal)
 
@@ -175,7 +175,6 @@ for(i in 1:length(true.theta_T)){
 rm(patterns_T)
 
 
-
-
+save.image(file = "simulated.responses.RData")
 
 
