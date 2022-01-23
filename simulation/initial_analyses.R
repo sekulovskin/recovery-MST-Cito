@@ -1,7 +1,8 @@
 #=============================================
 #Analyses of simulated response patterns 
 #============================================
-
+setwd("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation")
+load("simulated.responses.RData")
 #============================================
 # For the reading test (Lezen)
 #===========================================
@@ -22,7 +23,7 @@
 lapply(students_abilities_L, function(x){t.test(x[,4],x[,5])})
 
 #IN THE CASE WHEN USING true-theta based on the observed distributions:
-#  1.3; 1.2; 
+#  1.3; 1.2; (roughly)
 
 #-----------------------------------------------------------------------------------
 #THIS WAS IN THE CASE WHEN RUNNING IT WITH THE OLD TRUE THETA (i.e., ranging from -1.5 to 1.5)
@@ -47,7 +48,7 @@ lapply(students_abilities_L, function(x){t.test(x[,4],x[,5])})
 # Apply the welch test 
 lapply(students_abilities_R, function(x){t.test(x[,4],x[,5])})
 #IN THE CASE WHEN USING true-theta based on the observed distributions:
-# 1.8; 1.75; 1.7; 1.65; 0.25; -1.2; -1.25; -1.3  (CONCLUSION: on the extremes)
+# 1.8; 1.7; -1.25; -1.3  (CONCLUSION: on the extremes)
 
 #-----------------------------------------------------------------------------------
 #THIS WAS IN THE CASE WHEN RUNNING IT WITH THE OLD TRUE THETA (i.e., ranging from -1.5 to 1.5)
@@ -70,7 +71,7 @@ lapply(students_abilities_R, function(x){t.test(x[,4],x[,5])})
 lapply(students_abilities_T, function(x){t.test(x[,4],x[,5])})
 
 #IN THE CASE WHEN USING true-theta based on the observed distributions:
-#1.35 only
+# NO significant differences
 
 #-----------------------------------------------------------------------------------
 #THIS WAS IN THE CASE WHEN RUNNING IT WITH THE OLD TRUE THETA (i.e., ranging from -1.5 to 1.5)
@@ -227,3 +228,6 @@ for (i in 1:length(true.theta_T)){
 t.test(students_abilities_T[[1]]$diff, students_abilities_T[[10]]$diff)
 #same conclusion
 
+
+
+###OVERALL CONCLUSION: MORE MISMATCHES ARE PRESENT AT THE EXTREMES, SO THE FOCUS OF THE ANALYSES SHOULD BE ON THOSE
