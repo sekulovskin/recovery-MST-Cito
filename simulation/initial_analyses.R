@@ -76,7 +76,7 @@ lapply(students_abilities_T, function(x){t.test(x[,4],x[,5])})
 #-----------------------------------------------------------------------------------
 #THIS WAS IN THE CASE WHEN RUNNING IT WITH THE OLD TRUE THETA (i.e., ranging from -1.5 to 1.5)
 #We observe a significant difference between the true and the average estimated "true" theta
-# for 10 studentd
+# for 10 students
 # These are the students with "true" theta of:
 # 1; -1.4; -1.5.
 #-----------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ for (i in 1:length(true.theta_L)){
 
 t.test(students_abilities_L[[41]]$diff, students_abilities_L[[24]]$diff)
 #students with higher "true" thetas, tend to have a bigger difference between true and estimated ability
-#We can repeat the same thing with the students having the lowest "true" theta valus and with intermediate ones.
+#We can repeat the same thing with the students having the lowest "true" theta values and with intermediate ones.
 #And also with many other combinations
 
 #Let;s look at the easiest route A-B-D-G

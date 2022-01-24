@@ -407,7 +407,7 @@ t.test(theta ~ errors, data = student_39_L)
 # re-estimated theta of 1.2 (very close to the true theta on average) for students with no mistake.
 #----------------------------------------------------------------------------------
 
-#Secondly, we will repeat the same analysis as in the `initia_analyses.R` script
+#Secondly, we will repeat the same analysis as in the `initial_analyses.R` script
 #In order to do this we will need to split the data (NOTE THIS ANALYSIS IS NOT
 #AS INFORMATIVE AS THE PREVIOUS, DUE TO VERY UNEQUAL SAMPLE SIZES (REPEATED MEASUREMENTS) 
 #IN THE SPLIT DATA SETS)
@@ -705,7 +705,7 @@ t.test(student_1_R_split[[3]]$theta, student_1_R_split[[3]]$true_theta)
 #-1.265712 -1.300000  (not so small of a difference)
 
 #OVERALL CONCLUSUON: WE USUALLY HAVE AN OVER-UNDER ESTIMATE OF THETA, ON THE POSITIVE-NEGATIVE EXTREMES
-#OF THE ABILITY CONTINUUM. And we have a slight over-estimate od theta in the middle of the continuum
+#OF THE ABILITY CONTINUUM. And we have a slight over-estimate of theta in the middle of the continuum
 
 
 #------------------------------------------------------
@@ -757,6 +757,12 @@ summary(student_49_T_split[[2]])
 #1.165 vs 1.35 (a smaller difference actually)
 
 #OVERALL CONCLUSION: BIG DIFFERENCES TEND TO BE PRESENT EVEN AFTER CONTROLLING FOR THE NUMBER OF MISTAKES.
+
+
+
+
+
+
 
 #========================================================================================
 #Repeat the initial analyses for ALL student, controlling for the number of errors 

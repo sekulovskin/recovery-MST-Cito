@@ -54,8 +54,8 @@ summary(student12_L[[4]])  #  (mean)theta   :-0.02351   "LDA1-LDC1-LDE1-LDG1"
 #The estimate for theta when the student takes the easiest path is slightly lower than he's true theta
 #(which is expected); The re-estimate is even worse when he takes module E in the the third stage. 
 #The difference is even bigger when he ends up in module H in the last stage, and again, surprisingly it is less big when
-#he takes path C in the second stage and then continues ith E and G. THIS MEANS THAT CORRECT ANSWERS IN THE FIRST MODULE
-#CAN STILL BE CORRECTED FOR IN THE SUBEQUESNT ONES
+#he takes path C in the second stage and then continues with E and G. THIS MEANS THAT CORRECT ANSWERS IN THE FIRST MODULE
+#CAN STILL BE CORRECTED FOR IN THE SUBEQUENT ONES
 
 #####For student 13 #####  (true theta =  - 0.1)
 
@@ -150,7 +150,7 @@ summary(student31_L[[3]])  #  (mean)theta   :0.7915      A C F I
 # ABD, respectively (so no issues with forbidden rules were found). However, the most important observation, 
 #on both extremes is that students can compensate very well for mismatches on the first stage (so ending up in module C for
 #low achieving students and ending up un module B for high achieving stunts). This is a very important observation,
-#since it gives, or at least hints an aswer to the main research question.
+#since it gives, or at least hints an answer to the main research question.
 
 rm(student10_L, student10_L, student11_L, student12_L, student13_L, student14_L, student15_L, student26_L, 
    student27_L, student28_L, student31_L)
@@ -350,24 +350,24 @@ summary(student51_T[[2]])  #  (mean)theta   :1.5074   A C F I
 
 ############lezen:
 # 1. For all courses, it is easier to compensate for "mistakes" in the First stage (module A) than in the second stage (mod B/C)
-# 2. It is also interesting to note, that route A B E H gives a higher theta estimate than A C E H!!!!!
-# Not approachit forbidden paths (??)
+# 2. It is also interesting to note, that route A B E H gives a higher theta estimate than A C E H!!!!! (modules B and C are longer that's why!)
+# Not approaching forbidden paths (??) 
 
 # ##########Rekenen:
 # 3. Recovering from early mistakes (in stage 1/module A) is still present;
-# 4. Way less variabiliity in possible routes
-# 5. More over-restimates present
-# Not approachit forbidden paths (??)
+# 4. Way less variability in possible routes
+# 5. More over-estimates present
+# Not approaching forbidden paths (??)
 
 # #########Taal:
 
-#6. Most variability in paths out of all 3 subjects, variability present also at the topmost positive extreme
+#6. Most variability in paths out of all 3 subjects, variability present also at the top-most positive extreme
 #7. Some possibilities of recovering from "mistakes" made in stages 2 and 3 (for example taking a route A B F G) (for a student with a low true theta!!)
 # When approaching an unlikely path (like A C F H), there is ~0.15 units discrepancy, however
 #it is smaller than for A C E H, but we will look into the other students as well
 # 8. there is a huge discrepancy when taking the path A C F G (which is a very unlikely path), but even more so,
 #when taking A C E H.  In both cases the student cannot compensate enough.#
-# SO YES, in some rare cases, big discrepancies are due to forbidden (or unlikely) paths, but that is not the sole reason.
+# SO YES, in some rare cases, big discrepancies are due to "forbidden" (or unlikely) paths, but that is not the sole reason.
 #THIS IS THE ONLY COURSE WHERE THESE PATHS ARE APPROACHED
 #FOR STUDENTS ON THE HIGHEST EXTREME OF TAAL, THERE IS A A BIG DISCREPANCY EVEN WHEN RECOVERING FROM EARLY MISTAKES IN STAGE 1
 
