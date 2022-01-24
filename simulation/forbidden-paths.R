@@ -6,9 +6,9 @@
 #load("simulated.responses.RData")
 #NOTE: This is not exactly what we initially had in mind
 
-#We will be looking at the edges of the distribution i.e, I will take the 15 most proficient and 15 least proficient students
+#We will be looking at the edges of the distribution i.e, I will take the  most proficient and least proficient students
 #Then I will inspect if there is more than one path i.,e other paths than the "perfect one" and then
-#look at the differences between the average r-re estimated thetas in both situations 
+#look at the differences between the average re-estimated thetas in both situations 
 
 #++++++++++++++++++++++++++++
 #Lezen
