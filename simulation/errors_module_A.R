@@ -79,7 +79,7 @@ for(i in 1:length(true.theta_L)){
 }
 
 # Remove unnecessary elements that we will not use anymore 
-rm(errors_module_A_L, n_errors_module_A_L, patterns_module_A_L, students_patterns_L)
+rm(errors_module_A_L, n_errors_module_A_L)
 
 
 #===============================================================================
@@ -223,7 +223,7 @@ for(i in 1:length(true.theta_R)){
 }
 
 # Remove unnecessary elements that we will not use anymore 
-rm(errors_module_A_R, n_errors_module_A_R, patterns_module_A_R, students_patterns_R)
+rm(errors_module_A_R, n_errors_module_A_R)
 
 
 #===============================================================================
@@ -357,7 +357,7 @@ for(i in 1:length(true.theta_T)){
 }
 
 # Remove unnecessary elements that we will not use anymore 
-rm(errors_module_A_T, n_errors_module_A_T, patterns_module_A_T, students_patterns_T)
+rm(errors_module_A_T, n_errors_module_A_T)
 
 
 #========================================================================================
