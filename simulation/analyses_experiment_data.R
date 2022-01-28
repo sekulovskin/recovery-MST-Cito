@@ -40,8 +40,7 @@ data %>%
 
 #ANCOVA
 #CAUTION: WE TAKE THE P-VALUES `WITH A GRAIN OF SALT` SINCE MANY OF THE ASSUMPTIONS ARE VIOLATED AND WE ARE NOT DEALING WITH A LINEAR RELATIONSHIP
-#OTHER TECHNIQUES WILL BE CONSIDERED (SUCH AS FITTING SOME TYPE OF A GLM) AND/OR USING THE Johnson-Neyman TECHNIQUE
-#https://kenstoyama.wordpress.com/2018/01/21/the-johnson-neyman-tecnique-and-an-r-script-to-apply-it/
+#OTHER TECHNIQUES WILL BE CONSIDERED 
 
 ###Assumptions:
 
@@ -149,7 +148,7 @@ post_hoc
 
 #Lets check the same model with a regression
 
-reg_mod <- lm(avg.theta.diff ~ avg.error.Day1 + n.paths + subject, data = data)
+reg_mod <- lm(avg.theta.diff ~ avg.error.modA + n.paths + subject, data = data)
 summary(reg_mod)
 #Coefficients:
 #  Estimate Std. Error t value Pr(>|t|)    
@@ -163,4 +162,17 @@ summary(reg_mod)
 
 #Let's check the resiudals
 plot(reg_mod)
-#There are violations, as expected, however, the results we obtained are still 
+#There are violations.
+
+# We can also consider adding a quadratic relationship for the variables that indicate the number of errors (for Mod.A and day 1)
+ancova2 <- aov(avg.theta.diff ~ avg.error.Day1^2 + n.paths + subject, data = data)
+Anova(ancova2, type = "III")
+
+#It doesn't change much
+
+#We will exclude the average number of errors in module A, since when we add that the sig. difference
+#between Lezen and Rekenen seems to diminish, and also, avg.error.Day1 sizeses to be a significant predictor,
+#(even though we ask for the Type III SS's). This might be due to the fact that the, in a way.
+#the variable `avg.error.modA` is contained within the variable `avg.error.Day1`
+
+#End of analyses#
