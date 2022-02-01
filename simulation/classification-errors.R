@@ -1,21 +1,20 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Classification errors
 #NOTE: Before you run this script be sure to first run: `initial_analysis.R`; `errors_module_A.R`; 
-library(dplyr)
 source("ref-score&classification-functions.R")
 
 #Plan: Since, till now it is already evident that mismatches between the true and the re-estimated theta
 #tend to appear on the extremes of the ability distribution, we will use only these values to calculate 
 # classification errors. So I will pick the top 15 most proficient and top 15 least proficient students/
-#This indicates that we have a total of 15 students with a one to one mapping between the thetas for the different subjects
+#This indicates that we have a total of 30 students with a one to one mapping between the thetas for the different subjects
 #So the theta value for student 1 in Lezen correspons to the theta value for student 1 in Rekenen and so on..Which leads to the first
 #assumption in this analysis:
 
 #ASSUMPTION: I  assume that a low achieving student in one subject corresponds to a low achieving student in another subject
 
-#For schrijven I will be using the true thetas throughout.
+#For schrijven I will be using the true thetas throughout (so differences will automatically be attributed only to subjects administered using thr MST)
 
-#WHAT IF THE STUDENT HASN'T REACHED THE REFERENCE POINT?? (FOR NOW I IGNORE THIS)
+#For NOW students who haven;t reached the reference point are labeled as "Not classifed" in the classification (talk about this!)
 
 #++++++++++++++++++++++++++++++
 #For the true theta first
