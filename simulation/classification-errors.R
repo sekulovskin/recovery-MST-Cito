@@ -7,12 +7,12 @@ source("ref-score&classification-functions.R")
 #tend to appear on the extremes of the ability distribution, we will use only these values to calculate 
 # classification errors. So I will pick the top 15 most proficient and top 15 least proficient students/
 #This indicates that we have a total of 30 students with a one to one mapping between the thetas for the different subjects
-#So the theta value for student 1 in Lezen correspons to the theta value for student 1 in Rekenen and so on..Which leads to the first
+#So the theta value for student 1 in Lezen corresponds to the theta value for student 1 in Rekenen and so on..Which leads to the first
 #assumption in this analysis:
 
 #ASSUMPTION: I  assume that a low achieving student in one subject corresponds to a low achieving student in another subject
 
-#For schrijven I will be using the true thetas throughout (so differences will automatically be attributed only to subjects administered using thr MST)
+#For schrijven I will be using the true thetas throughout (so differences will automatically be attributed only to subjects administered using the MST)
 
 #For NOW students who haven;t reached the reference point are labeled as "Not classifed" in the classification (talk about this!)
 
@@ -145,7 +145,7 @@ error_perfect_scores <- length(mismatches_perfect[mismatches_perfect==FALSE])/30
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Now we repeat the same, but when with increacing/decreasing the number of mistakes, for the most and least proficient students repsectovely
+#Now we repeat the same, but when with increasing/decreasing the number of mistakes, for the most and least proficient students respectively
 
 #Lezen----------------------------------------
 low_lezen <- c()
@@ -160,7 +160,7 @@ for(i in 27:41){
 
 high_lezen <- na.omit(high_lezen)
 
-one_mistake_thetas_L <- c(low_lezen, high_lezen)  #even thoguh the object is names `one_mistake` for the low achieving students it means highest number of mistakes - 1
+one_mistake_thetas_L <- c(low_lezen, high_lezen)  #even though the object is names `one_mistake` for the low achieving students it means highest number of mistakes - 1
 one_mistake_scores_L <- transform.ref.score.lezen(one_mistake_thetas_L)
 
 #Rekenen---------------------------
@@ -229,6 +229,6 @@ error_one_mistake <- length(mismatches_one_mistake[mismatches_one_mistake==FALSE
 
 
 #==========================================
-#Criteria 3: Different paths (this will only vary for Taal, since we spotted mistakes only there)
+#Criteria 3: Different paths (this will only vary for Taal, since we spotted differnces only there)
 
-
+#TBA

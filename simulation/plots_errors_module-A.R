@@ -1,6 +1,6 @@
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ##### Plots relating the true theta and the number of errors in module A###
-#(Note, in order to run this code you need to first run thr `errors_module_A.R` script)
+#(Note, in order to run this code you need to first run the `errors_module_A.R` script)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 library(ggplot2)
 library(mice)
@@ -11,15 +11,15 @@ options(scipen=999)
 #students_abilities_L <- lapply(students_abilities_L, function(x){x[, -c(1,2,3,5)]})
 students_abilities_L_split <- list()
 for(i in 1:length(true.theta_L)){
-  students_abilities_L_split[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
+  students_abilities_L_split[[i]] <- split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
 }
 
-#Get the mean re-resimated theta for each student and each number of mistakes
+#Get the mean reestimated theta for each student and each number of mistakes
 mean_thetas_L <- list()
 for(i in 1:length(true.theta_L)){
   mean_thetas_L[[i]] <- lapply(students_abilities_L_split[[i]], function(x){mean(x[, 4])})
 }
-#store them in a seperate df
+#store them in a separate df
 for(i in 1:length(true.theta_L)){
   mean_thetas_L[[i]] <- as.data.frame(mean_thetas_L[[i]])
 }
@@ -49,7 +49,7 @@ thetas.errors_L_imp <- complete(imp,1) #obtain the imputed data set
 
 ##Plot###
 
-#First coerce everything into one column and add a ariable indicating the number of errors
+#First coerce everything into one column and add a variable indicating the number of errors
 x <- unlist(thetas.errors_L_imp)
 errors <- rep(c(0, 1, 2, 3, 4, 5, 6, "true theta"), each = length(true.theta_L))
 errors_L_combined <- data.frame(x, errors)
