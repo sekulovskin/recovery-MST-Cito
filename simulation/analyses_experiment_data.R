@@ -89,7 +89,7 @@ summary(anova)
 ####Add the other variables as covariates and incpect the TYPE III sum of squares results
 #for more info see: https://towardsdatascience.com/anovas-three-types-of-estimating-sums-of-squares-don-t-make-the-wrong-choice-91107c77a27a
 #Type III sum of squares does not assume equal sample sizes
-# We look at the partiacl sum of squares, to see which covariate has a significant contribution 
+# We look at the partial sum of squares, to see which covariate has a significant contribution 
 ancova1 <- aov(avg.theta.diff ~ avg.error.modA + avg.error.Day1 + subject, data = data)
 Anova(ancova1, type = "III")
 #                  Sum Sq  Df  F value    Pr(>F)    
@@ -100,8 +100,8 @@ Anova(ancova1, type = "III")
 #  Residuals      0.48323 150                     
 
 #We can see that after we control for the average number of mistakes in the first day, there appears to be
-# a significant difference between the two groups (significant at the .05 level), the average number of mistakes in module 1 doesn't seem to
-#be a significant covariate (I even checked this when fitting a model only with that variable as a sovariate
+# a significant difference between the two groups (significant at the .05 level), the average number of mistakes in module A  doesn't seem to
+#be a significant covariate (I even checked this when fitting a model only with that variable as a covariate
 #and no differences between the two groups were observed).
 
 
@@ -117,7 +117,7 @@ Anova(ancova2, type = "III")
 #  Residuals      0.28568 150 
 
 #After we control for both the average number of errors in day 1 AND in the number of paths we see that the difference
-# between the three subjects for the average discrepancy between the two groups is more significant, not on the 0.01 level
+# between the three subjects for the average discrepancy between the two groups is more significant,  on the 0.01 level
 
 #Lastly let's add the average item weights in Module A as a covariate
 #We canot add this variable as a predictor since the model becomes singular!!!
@@ -160,7 +160,7 @@ summary(reg_mod)
 
 #Same conclusions 
 
-#Let's check the resiudals
+#Let's check the residuals
 plot(reg_mod)
 #There are violations.
 
@@ -171,7 +171,7 @@ Anova(ancova2, type = "III")
 #It doesn't change much
 
 #We will exclude the average number of errors in module A, since when we add that the sig. difference
-#between Lezen and Rekenen seems to diminish, and also, avg.error.Day1 sizeses to be a significant predictor,
+#between Lezen and Rekenen seems to diminish, and also, avg.error.Day1 sizes to be a significant predictor,
 #(even though we ask for the Type III SS's). This might be due to the fact that the, in a way.
 #the variable `avg.error.modA` is contained within the variable `avg.error.Day1`
 

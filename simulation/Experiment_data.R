@@ -10,14 +10,14 @@
 #+
 #+https://statmodeling.stat.columbia.edu/2007/08/16/no_you_dont_nee/
 #
-# Outcome variables are: The average absolute difference between the estimated and real theta; The number of mistakes in mod A
-# and the number of mistakes on the first day. 
+# Outcome variables are: The average absolute difference between the estimated and real theta. 
 #The factor is the subject;
 # The covariates are:
 #- number of forbidden paths;
 #- weights of the items in the first module (either the sum or the average)
 #- How well the information function follow the abilities of students (this will be per student) 
-
+#- Number of mistakes in module A
+# Number of mistakes on Day 1
 
 ########Lezen---------------------------------------------------------------------
 

@@ -229,6 +229,6 @@ error_one_mistake <- length(mismatches_one_mistake[mismatches_one_mistake==FALSE
 
 
 #==========================================
-#Criteria 3: Different paths (this will only vary for Taal, since we spotted differnces only there)
+#Criteria 3: Different paths (this will only vary for Taal, since we spotted differences only there)
 
 #TBA
