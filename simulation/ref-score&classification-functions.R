@@ -5,29 +5,29 @@ secondary.ed <- function(x){
   results <- c()
   for(i in 1:length(x)){
     if(x[i] <= 500){
-      results[i] <-  "Not classfied"
+      results[i] <-  "pro/bb"  #ask about this
     }
     else if (x[i] >= 501 & x[i] <= 504){
-      results[i] <-"pro"
+      results[i] <-"pro/bb"
     }
     
     else if (x[i] >= 505 & x[i] <= 524){
-      results[i] <-"bb"
+      results[i] <-"bb/kb"
     }
     
     else if (x[i] >= 525 & x[i] <= 532){
-      results[i] <-"kb"
+      results[i] <-"kb/gt"
     }
     
     else if (x[i] >= 533 & x[i] <= 539){
-      results[i] <-"gt"
+      results[i] <-"gt/havo"
     }
     
     else if (x[i] >= 540 & x[i] <= 544){
-      results[i] <-"havo"
+      results[i] <-"havo/vwo"
     }
     
-    else if (x[i] >= 550){
+    else if (x[i] >= 545 & x[i] <= 550){
       results[i] <- "vwo"
     }
   }

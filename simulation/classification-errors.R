@@ -213,22 +213,3 @@ mismatches_one_mistake <- true.classifications == one_mistake.classifications
 # Obtain the classification error
 error_one_mistake <- length(mismatches_one_mistake[mismatches_one_mistake==FALSE])/30 #0.2
 
-
-#It is evident that as the number of mistakes rises from 0 to 1, there trend to be mismatches for the most profficient stdents.
-
-
-
-#===========================================
-#Criteria 2: Number of mistakes in day 1
-
-#TBA
-
-
-
-
-
-
-#==========================================
-#Criteria 3: Different paths (this will only vary for Taal, since we spotted differences only there)
-
-#TBA
