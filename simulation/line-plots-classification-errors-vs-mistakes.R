@@ -4,7 +4,7 @@
 library(ggplot2)
 library(ggrepel)
 library(directlabels)
-#load("classification-errors-mistakes-modA.RData")
+load("classification-errors-mistakes-modA2.RData")
 #read.csv("errors.data.modA.csv")
 
 classification.classes.error.modA$class <- as.factor(classification.classes.error.modA$class)
@@ -12,8 +12,9 @@ classification.classes.error.modA$class <- as.factor(classification.classes.erro
 ggplot(classification.classes.error.modA, aes(x = mistakes, y = errors, group = class)) +  
   geom_line(aes(color=class), size = 1)+
   geom_point(aes(color=class)) +
+  ylim(0, 0.6) +
   labs(x = "Total number of mistakes in modules A (for all three subjects)",
-       y = "Classification error")
+       y = "Classification error", title = "Classification errors vs (total) number of mistakes in Module A")
   
   
   
