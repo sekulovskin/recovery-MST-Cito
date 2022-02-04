@@ -709,7 +709,7 @@ errors.gt.havo.df <- data.frame(errors, mistakes)
 rm(error.gt.havo.10mistakes, error.gt.havo.7mistakes, error.gt.havo.4mistakes, error.gt.havo.1mistakes)
 
 #+++++++++++++++++++
-#4. havo/vwo
+#5. havo/vwo
 #+++++++++++++++++
 
 #Lezen 
@@ -737,14 +737,14 @@ score_L_havo.vwo.mistakes <- transform.ref.score.lezen(students_abilities_L_spli
 
 # Rekenen (2 mistakes)
 
-score_R_havo.vwo.mistakes<- transform.ref.score.rekenen(students_abilities_R_split[[5]$`2`[,4])
+score_R_havo.vwo.mistakes<- transform.ref.score.rekenen(students_abilities_R_split[[5]]$`2`[,4])
 
 # Taal (3 mistakes)
 
 score_T_havo.vwo.mistakes <- transform.ref.score.taal(students_abilities_T_split[[5]]$`3`[,4])
 
 #Test score
-test_score_havo.vwo.mistakes<- round(score_L_havo.vwo.mistakes * 0.234368499 + score_T_havo.vwo.mistakes * 0.232847623 + score_R_havo.vwo.mistakes * 0.706118502 + score_S_havo.vwo * 0.127383676 + 484.75816)
+test_score_havo.vwo.mistakes <- round(score_L_havo.vwo.mistakes * 0.234368499 + score_T_havo.vwo.mistakes * 0.232847623 + score_R_havo.vwo.mistakes * 0.706118502 + score_S_havo.vwo * 0.127383676 + 484.75816)
 
 # Classify 
 classification_havo.vwo.mistakes <- secondary.ed(test_score_havo.vwo.mistakes)
@@ -841,7 +841,7 @@ errors.havo.vwo.df <- data.frame(errors, mistakes)
 rm(error.havo.vwo.8mistakes, error.havo.vwo.5mistakes, error.havo.vwo.2mistakes, error.havo.vwo.0mistakes)
 
 #+++++++++++++++++++
-#5.vwo
+#6.vwo
 #+++++++++++++++++
 
 #Lezen 
@@ -867,7 +867,7 @@ score_L_vwo.mistakes <- transform.ref.score.lezen(students_abilities_L_split[[6]
 
 # Rekenen (1 mistake)
 
-score_R_vwo.mistakes<- transform.ref.score.rekenen(students_abilities_R_split[[6]]$`1`[,4])
+score_R_vwo.mistakes <- transform.ref.score.rekenen(students_abilities_R_split[[6]]$`1`[,4])
 
 # Taal (2 mistakes)
 

@@ -30,6 +30,10 @@ secondary.ed <- function(x){
     else if (x[i] >= 545 & x[i] <= 550){
       results[i] <- "vwo"
     }
+    
+    else if (x[i] >= 550){
+      results[i] <- "vwo"
+    }
   }
   return(results)
 }
