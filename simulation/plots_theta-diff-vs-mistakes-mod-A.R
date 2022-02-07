@@ -1,11 +1,13 @@
-#========================================
-# Plots for the the difference between the true and the estimated theta for different number of mistakes in Module A
-#=======================================
+#=======================================================================
+# Plots for the the difference between the true 
+#and the estimated theta for different number of mistakes in Module A
+#======================================================================
 setwd("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation")
 load("simulated.responses.RData")
+library(ggplot2)
 #Again I will take the lowest and highest achieving 15 students and take their average theta_difference for all different number of mistakes
 #For example I will plot the distribution of the lowest achieving  students for different number of errors, and will do the same (IN A SEPARATE)
-#plot for hte highest achieving students, and repeat this for all three subjects.
+#plot for the highest achieving students, and repeat this for all three subjects.
 #NOTE: in order to run this script, you first need to run the script(s) `errors_module_A.R`...
 
 
@@ -58,7 +60,7 @@ five_mistakes_L <- c()
 
 four_mistakes_L <- c()
 
- for(i in 1:15){
+ for(i in 16:26){
    four_mistakes_L[i] <- mean(least_proficient_L[[i]]$`4`$diff)
  }
 
@@ -74,8 +76,53 @@ df.low_L$n.errors <- as.factor(df.low_L$n.errors)
 ggplot(df.low_L, aes(x = theta.diff, fill = n.errors)) +  
   geom_density(alpha=0.4)+ 
   xlim(-0.1, 0.3) +
-  labs(title = "Lezen (Module A), least profficient students",
-       x = "Ability")
+  labs(title = "Lezen (Module A), least proficient students",
+       x = "Difference between true and estimated ability")
+
+
+####Medium achieving students
+medium_proficient_L <- list()
+
+for(i in 16:27){
+  medium_proficient_L[[i]] <- students_abilities_L_split[[i]]
+}
+
+
+# 2 mistakes 
+
+two_mistakes_L <- c()
+
+for(i in 16:27){
+  two_mistakes_L[i] <- mean(medium_proficient_L[[i]]$`2`$diff)
+}
+
+two_mistakes_L <- na.omit(two_mistakes_L)
+
+# one mistake
+
+one_mistake_L <- c()
+
+for(i in 16:27){
+  one_mistake_L[i] <- mean(medium_proficient_L[[i]]$`1`$diff)
+}
+
+one_mistake_L <- na.omit(one_mistake_L)
+#Combine in one DF
+
+n.errors <- rep(1:2, each = 12)
+theta.diff <- c(one_mistake_L, two_mistakes_L)
+df.medium_L <- data.frame(theta.diff, n.errors)
+df.medium_L$n.errors <- as.factor(df.medium_L$n.errors)
+
+#Plot
+
+ggplot(df.medium_L, aes(x = theta.diff, fill = n.errors)) +  
+  geom_density(alpha=0.4)+ 
+  xlim(-0.1, 0.5) +
+  labs(title = "Lezen (Module A), medium proficient students",
+       x = "Difference between true and estimated ability")
+
+
 
 
 ##### High achieving students
@@ -117,10 +164,10 @@ df.high_L$n.errors <- as.factor(df.high_L$n.errors)
 ggplot(df.high_L, aes(x = theta.diff, fill = n.errors)) +  
   geom_density(alpha=0.4)+ 
   xlim(-0.1, 0.5) +
-  labs(title = "Lezen (Module A), most profficient students",
-       x = "Ability")
+  labs(title = "Lezen (Module A), most proficient students",
+       x = "Difference between true and estimated ability")
 
-
+#Conclusion: Discrepancies are higher with the most proficient students
 #++++++++++++++++++++++++++
 #       Rekenen
 #+++++++++++++++++++++++++
@@ -178,8 +225,61 @@ df.low_R$n.errors <- as.factor(df.low_R$n.errors)
 ggplot(df.low_R, aes(x = theta.diff, fill = n.errors)) +  
   geom_density(alpha=0.4)+ 
   xlim(-0.1, 0.5) +
-  labs(title = "Rekenen (Module A), least profficient students",
-       x = "Ability")
+  labs(title = "Rekenen (Module A), least proficient students",
+       x = "Difference between true and estimated ability")
+
+####Medium achieving students
+medium_proficient_R <- list()
+
+for(i in 16:45){
+  medium_proficient_R[[i]] <- students_abilities_R_split[[i]]
+}
+
+
+# 3 mistakes
+three_mistakes_R <- c()
+
+for(i in 16:45){
+  three_mistakes_R[i] <- mean(medium_proficient_R[[i]]$`3`$diff)
+}
+
+three_mistakes_R <- na.omit(three_mistakes_R)
+
+# 2 mistakes 
+
+two_mistakes_R <- c()
+
+for(i in 16:45){
+  two_mistakes_R[i] <- mean(medium_proficient_R[[i]]$`2`$diff)
+}
+
+two_mistakes_R <- na.omit(two_mistakes_R)
+two_mistakes_R <- two_mistakes_R[1:20]
+
+# one mistake
+
+one_mistake_R <- c()
+
+for(i in 16:45){
+  one_mistake_R[i] <- mean(medium_proficient_R[[i]]$`1`$diff)
+}
+
+one_mistake_R <- na.omit(one_mistake_R)
+one_mistake_R <- one_mistake_R[1:20]
+#Combine in one DF
+
+n.errors <- rep(c(1,2,3), each = 20)
+theta.diff <- c(one_mistake_R, two_mistakes_R, three_mistakes_R)
+df.medium_R <- data.frame(theta.diff, n.errors)
+df.medium_R$n.errors <- as.factor(df.medium_R$n.errors)
+
+#Plot
+
+ggplot(df.medium_R, aes(x = theta.diff, fill = n.errors)) +  
+  geom_density(alpha=0.4)+ 
+  xlim(-0.1, 0.5) +
+  labs(title = "Rekenen (Module A), medium proficient students",
+       x = "Difference between true and estimated ability")
 
 
 ##### High achieving students
@@ -222,8 +322,8 @@ df.high_R$n.errors <- as.factor(df.high_R$n.errors)
 ggplot(df.high_R, aes(x = theta.diff, fill = n.errors)) +   #LOOK INTO THIS PLOT
   geom_density(alpha=0.4)+ 
   xlim(-0.5, 0.5) +
-  labs(title = "Rekenen (Module A), most profficient students",
-       x = "Ability")
+  labs(title = "Rekenen (Module A), most proficient students",
+       x = "Difference between true and estimated ability")
 
 #++++++++++++++++++++++++++
 #     Taal
@@ -287,9 +387,61 @@ df.low_T$n.errors <- as.factor(df.low_T$n.errors)
 ggplot(df.low_T, aes(x = theta.diff, fill = n.errors)) +  
   geom_density(alpha=0.4)+ 
   xlim(0, 0.3) +
-  labs(title = "Taal (Module A), least profficient students",
-       x = "Ability")
+  labs(title = "Taal (Module A), least proficient students",
+       x = "Difference between true and estimated ability")
 
+####Medium achieving students
+medium_proficient_T <- list()
+
+for(i in 16:36){
+  medium_proficient_T[[i]] <- students_abilities_T_split[[i]]
+}
+
+
+# 3 mistakes
+three_mistakes_T <- c()
+
+for(i in 16:36){
+  three_mistakes_T[i] <- mean(medium_proficient_T[[i]]$`3`$diff)
+}
+
+three_mistakes_T <- na.omit(three_mistakes_T)
+
+# 2 mistakes 
+
+two_mistakes_T <- c()
+
+for(i in 16:36){
+  two_mistakes_T[i] <- mean(medium_proficient_T[[i]]$`2`$diff)
+}
+
+two_mistakes_T <- na.omit(two_mistakes_T)
+two_mistakes_T <- two_mistakes_T[1:20]
+
+# one mistake
+
+one_mistake_T <- c()
+
+for(i in 16:36){
+  one_mistake_T[i] <- mean(medium_proficient_T[[i]]$`1`$diff)
+}
+
+one_mistake_T <- na.omit(one_mistake_T)
+one_mistake_T <- one_mistake_T[1:20]
+#Combine in one DF
+
+n.errors <- rep(c(1,2,3), each = 20)
+theta.diff <- c(one_mistake_T, two_mistakes_T, three_mistakes_T)
+df.medium_T <- data.frame(theta.diff, n.errors)
+df.medium_T$n.errors <- as.factor(df.medium_T$n.errors)
+
+#Plot
+
+ggplot(df.medium_T, aes(x = theta.diff, fill = n.errors)) +  
+  geom_density(alpha=0.4)+ 
+  xlim(-0.1, 0.5) +
+  labs(title = "Taal (Module A), medium proficient students",
+       x = "Difference between true and estimated ability")
 
 ##### High achieving students
 
@@ -332,6 +484,6 @@ df.high_T$n.errors <- as.factor(df.high_T$n.errors)
 ggplot(df.high_T, aes(x = theta.diff, fill = n.errors)) +  
   geom_density(alpha=0.4)+ 
   xlim(-0, 0.45) +
-  labs(title = "Taal (Module A), most profficient students",
-       x = "Ability")
+  labs(title = "Taal (Module A), most proficient students",
+       x = "Difference between true and estimated ability")
 
