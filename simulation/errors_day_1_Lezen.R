@@ -860,13 +860,13 @@ for(i in 1:length(true.theta_L)){
 
 ###Analysis#####
 
-students_abilities_L_split.Day.1 <- list()
-for(i in 1:length(true.theta_L)){
-  students_abilities_L_split.Day.1[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$errors.Day1)
-}
+#students_abilities_L_split.Day.1 <- list()
+#for(i in 1:length(true.theta_L)){
+#  students_abilities_L_split.Day.1[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$errors.Day1)
+#}
 
-summaries_L.Day1 <- list()
-for(i in 1:length(true.theta_L)){
-  summaries_L.Day1[[i]] <- lapply(students_abilities_L_split.Day.1[[i]], summary)
-}
+#summaries_L.Day1 <- list()
+#for(i in 1:length(true.theta_L)){
+#  summaries_L.Day1[[i]] <- lapply(students_abilities_L_split.Day.1[[i]], summary)
+#}
 
