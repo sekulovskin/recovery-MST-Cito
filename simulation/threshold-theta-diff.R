@@ -501,7 +501,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[1]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[1]][i,4])
   re_est_test_score[i] <- round(true.scores_L[1] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[1] * 0.706118502 + 
@@ -525,7 +525,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[2]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[2]][i,4])
   re_est_test_score[i] <- round(true.scores_L[2] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[2] * 0.706118502 + 
@@ -547,7 +547,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[3]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[3]][i,4])
   re_est_test_score[i] <- round(true.scores_L[3] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[3] * 0.706118502 + 
@@ -558,7 +558,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_T[[3]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff) #From  0.01036987 to 0.19957935
+sort(theta.diff) #0.3151979
 range(students_abilities_T[[3]][,6]) #0.001342973 0.315197881
 
 #4. gt/havo
@@ -569,7 +569,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[4]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[4]][i,4])
   re_est_test_score[i] <- round(true.scores_L[4] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[4] * 0.706118502 + 
@@ -580,7 +580,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_T[[4]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff) # All are missclassified. Hence, another proof why "gt/havo" has such a high classification error
+sort(theta.diff) # No diff
 range(students_abilities_T[[4]][,6]) #0.002449343 0.318973850
 
 #5. havo/vwo
@@ -591,7 +591,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[5]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[5]][i,4])
   re_est_test_score[i] <- round(true.scores_L[5] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[5] * 0.706118502 + 
@@ -602,7 +602,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_T[[5]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff) #From  0.01036987 to 0.19957935  #Another proof why "gt/havo" has such a high classification error
+sort(theta.diff) #ANo diff
 range(students_abilities_T[[5]][,6]) #0.0007068031 0.3244042899
 
 
@@ -614,7 +614,7 @@ classification <- c()
 misclassifications<- c()
 #theta.diff <- c()
 for(i in 1:100){
-  re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_T[[6]][i,4])
+  re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[6]][i,4])
   re_est_test_score[i] <- round(true.scores_L[6] * 0.234368499 +
                                   re_est_scores[i] * 0.232847623 + 
                                   true.scores_R[6] * 0.706118502 + 
@@ -625,6 +625,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_T[[6]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff) #From  0.01036987 to 0.19957935  #Another proof why "gt/havo" has such a high classification error
+sort(theta.diff) #No diff
 range(students_abilities_T[[6]][,6]) #0.0007068031 0.3244042899
 
+save.image('threshold_values.RData')
