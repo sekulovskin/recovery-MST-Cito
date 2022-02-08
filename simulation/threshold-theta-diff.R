@@ -59,7 +59,7 @@ rm(pro_bb, bb_kb, kb_gt, gt_havo, havo_vwo, vwo)
 test_design <- read.csv('dexter_mst_design_dov.csv')
 routing_rules <- read.csv('dexter_mst_rules_dov.csv')
 pars <- read.csv('parameters_dov.csv')
-n_sim <- 100 #a 100 simulation for each typical student
+n_sim <- 1000 #a 100 simulation for each typical student
 #++++++++++++
 #Lezen
 #+++++++++++
@@ -183,17 +183,17 @@ rm(patterns_T)
 
 #Lezen
 for (i in 1:length(true.theta_L)){
-  students_abilities_L[[i]]$diff <-  abs(students_abilities_L[[i]]$true_theta - students_abilities_L[[i]]$theta)
+  students_abilities_L[[i]]$diff <-  abs(students_abilities_L[[i]]$true_theta) - abs(students_abilities_L[[i]]$theta)
 }
 
 #Rekenen
 for (i in 1:length(true.theta_R)){
-  students_abilities_R[[i]]$diff <-  abs(students_abilities_R[[i]]$true_theta - students_abilities_R[[i]]$theta)
+  students_abilities_R[[i]]$diff <-  abs(students_abilities_R[[i]]$true_theta) - abs(students_abilities_R[[i]]$theta)
 }
 
 #Taal
 for (i in 1:length(true.theta_T)){
-  students_abilities_T[[i]]$diff <-  abs(students_abilities_T[[i]]$true_theta - students_abilities_T[[i]]$theta)
+  students_abilities_T[[i]]$diff <-  abs(students_abilities_T[[i]]$true_theta) - abs(students_abilities_T[[i]]$theta)
 }
 
 
@@ -224,6 +224,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
   for(i in 1:100){
     re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[1]][i,4])
@@ -235,18 +236,21 @@ misclassifications <- c()
     classification[i] <- secondary.ed(re_est_test_score[i])
     misclassifications[i] <- classification[i] == true_classification
     theta.diff <- students_abilities_L[[1]][c(which(misclassifications == FALSE)), 6]
+    critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
  }
 
 print(theta.diff)
-#[1] 0.1911589 0.1860969  These should be considered threshold theta difference values, above which, missclassifications tend to appear
+#0.2208830 0.1810001 0.1911589  These should be considered threshold theta difference values, above which, missclassifications tend to appear
 range(students_abilities_L[[1]][,6]) #0.000132293 0.287072578
-
+print(critical_scores)  #39 37 37
+ 
 #2. bb/kb
 true_classification <- "bb/kb"
 re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[2]][i,4])
@@ -258,10 +262,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_L[[2]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 print(theta.diff)  #No such value present, all classification were TRUE
-range(students_abilities_L[[2]][,6])  #0.0004859134 0.1986404750
+range(students_abilities_L[[2]][,6])  #-0.27329743  0.04349776
+print(critical_scores)
 
 #3. kb/gt
 true_classification <- "kb/gt"
@@ -269,6 +275,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[3]][i,4])
@@ -280,10 +287,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_L[[3]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff)  #No such value present, all classification were TRUE
-range(students_abilities_L[[3]][,6]) #0.001711515 0.165898844
+range(students_abilities_L[[3]][,6]) #-0.2850636  0.1270095
+print(critical_scores)
 
 #4. gt/havo
 true_classification <- "gt/havo"
@@ -291,6 +300,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[4]][i,4])
@@ -302,17 +312,20 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_L[[4]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff)  ##No such value present, all classification were TRUE
-range(students_abilities_L[[4]][,6]) #0.001930093 0.205331884
- 
+range(students_abilities_L[[4]][,6]) #-0.3881127  0.2280978
+print(critical_scores)
+
 #5. havo/vwo
 true_classification <- "havo/vwo"
 re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[5]][i,4])
@@ -324,10 +337,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_L[[5]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
-sort(theta.diff)   #0.2577607 0.2617950 0.2973864
-range(students_abilities_L[[5]][,6])  #0.0009320767 0.2973864138
+sort(theta.diff)   # -0.2617950 -0.2453919
+range(students_abilities_L[[5]][,6])  #-0.3375041  0.2740336
+print(critical_scores) # 72 72
 
 #6. vwo
 true_classification <- "vwo"
@@ -335,6 +350,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.lezen(students_abilities_L[[6]][i,4])
@@ -346,11 +362,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_L[[6]][c(which(misclassifications== FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff)  #No missclassificatins
-range(students_abilities_L[[6]][,6]) #0.004620307 0.357634981
-
+range(students_abilities_L[[6]][,6]) #-0.9872288  0.2876861
+print(critical_scores)
 #++++++++++++++++++++++
 #Rekenen
 #++++++++++++++++++++
@@ -361,6 +378,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[1]][i,4])
@@ -372,10 +390,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[1]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
-sort(theta.diff)  #No misclass
-range(students_abilities_R[[1]][,6]) #0.00321671 0.34164384
+sort(theta.diff)  #0.1862854 0.2468439 0.2563819
+range(students_abilities_R[[1]][,6]) #-0.3690190  0.256381
+print(critical_scores) #13 12 13
 
 #2.  bb/kb
 true_classification <- "bb/kb"
@@ -383,6 +403,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications <- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[2]][i,4])
@@ -394,10 +415,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[2]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #No missclassifications
-range(students_abilities_R[[2]][,6])
+range(students_abilities_R[[2]][,6]) #-0.2267449  0.1512991
+print(critical_scores)
 
 #3.  kb/gt
 true_classification <- "kb/gt"
@@ -405,6 +428,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[3]][i,4])
@@ -416,10 +440,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[3]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #0.1811092 
 range(students_abilities_R[[3]][,6])  #0.000239411 0.181109228
+print(critical_scores)
 
 #4.  gt/havo
 true_classification <- "gt/havo"
@@ -427,6 +453,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[4]][i,4])
@@ -438,10 +465,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[4]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #0.2174139 0.2239834 0.2309973 0.2794335
 range(students_abilities_R[[4]][,6])  #0.000184858 0.279433461
+print(critical_scores)
 
 #5.  havo/vwo
 true_classification <- "havo/vwo"
@@ -449,6 +478,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[5]][i,4])
@@ -460,10 +490,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[5]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #0.1811065 0.1811065 0.1811065 0.1877943 0.1877943 0.1877943 0.1997075 0.1997075 0.2190695 0.2392707 0.2825664 0.3305173 0.5188249
 range(students_abilities_R[[5]][,6]) #0.0004134134 0.5188248888
+print(critical_scores)
 
 #6.  havo/vwo
 true_classification <- "vwo"
@@ -471,6 +503,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.rekenen(students_abilities_R[[6]][i,4])
@@ -482,11 +515,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_R[[6]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #No missclassification
-
 range(students_abilities_R[[6]][,6])  #0.6404295 1.3485786
+print(critical_scores)
 
 
 #++++++++++++++++++++++
@@ -499,6 +533,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[1]][i,4])
@@ -510,11 +545,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[1]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff)  #No difference
 range(students_abilities_T[[1]][,6]) #0.002745995 0.424571149
-
+print(critical_scores)
 
 
 #2. bb/kb
@@ -523,6 +559,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[2]][i,4])
@@ -534,10 +571,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[2]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #No
 range(students_abilities_T[[2]][,6]) #0.0006395509 0.2625308497
+print(critical_scores)
 
 #3. kb/gt
 true_classification <- "kb/gt"
@@ -545,6 +584,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[3]][i,4])
@@ -556,10 +596,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[3]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #0.3151979
 range(students_abilities_T[[3]][,6]) #0.001342973 0.315197881
+print(critical_scores)
 
 #4. gt/havo
 true_classification <- "gt/havo"
@@ -567,6 +609,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[4]][i,4])
@@ -578,10 +621,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[4]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) # No diff
 range(students_abilities_T[[4]][,6]) #0.002449343 0.318973850
+print(critical_scores)
 
 #5. havo/vwo
 true_classification <- "havo/vwo"
@@ -589,6 +634,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[5]][i,4])
@@ -600,11 +646,12 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[5]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #ANo diff
 range(students_abilities_T[[5]][,6]) #0.0007068031 0.3244042899
-
+print(critical_scores)
 
 #6. vwo
 true_classification <- "vwo"
@@ -612,6 +659,7 @@ re_est_scores <- c()
 re_est_test_score <- c()
 classification <- c()
 misclassifications<- c()
+critical_scores <- c()
 #theta.diff <- c()
 for(i in 1:100){
   re_est_scores[i] <-  transform.ref.score.taal(students_abilities_T[[6]][i,4])
@@ -623,9 +671,11 @@ for(i in 1:100){
   classification[i] <- secondary.ed(re_est_test_score[i])
   misclassifications[i] <- classification[i] == true_classification
   theta.diff <- students_abilities_T[[6]][c(which(misclassifications == FALSE)), 6]
+  critical_scores <- re_est_scores[c(which(misclassifications == FALSE))]
 }
 
 sort(theta.diff) #No diff
 range(students_abilities_T[[6]][,6]) #0.0007068031 0.3244042899
+print(critical_scores)
 
-save.image('threshold_values.RData')
+#save.image('threshold_values.RData')
