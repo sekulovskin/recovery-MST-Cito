@@ -8,7 +8,7 @@ source("ref-score&classification-functions.R")
 options(warn = -1)
 ACET_2021 <- read.csv("acet_data_2021.csv")
 
-#Now I am going to create the tyical student from each class by taking the average
+#Now I am going to create the typical student from each class by taking the average
 #of the observed classes
 
 ACET_2021 <- ACET_2021 %>%
@@ -198,7 +198,7 @@ for (i in 1:length(true.theta_T)){
 
 
 #Now for each of the 6 typical students we re-calculate their reference score and re-classify them, while varying the thetas (and consequently
-#the theta differences). We repeat this for each subject separately, keeping the other three subjects constant (and using the true theta)
+#the theta differences). We repeat this for each subject separately, keeping the other two subjects constant (and using the true theta)
 
 
 #First transform the "true theta's" into reference scores
@@ -348,7 +348,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_L[[6]][c(which(misclassifications== FALSE)), 6]
 }
 
-sort(theta.diff)  #ALL lead to misclassifications
+sort(theta.diff)  #No missclassificatins
 range(students_abilities_L[[6]][,6]) #0.004620307 0.357634981
 
 #++++++++++++++++++++++
@@ -374,7 +374,7 @@ for(i in 1:100){
   theta.diff <- students_abilities_R[[1]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff)  #alsmost all theta differences, starting from 0.003
+sort(theta.diff)  #No misclass
 range(students_abilities_R[[1]][,6]) #0.00321671 0.34164384
 
 #2.  bb/kb
@@ -418,8 +418,8 @@ for(i in 1:100){
   theta.diff <- students_abilities_R[[3]][c(which(misclassifications == FALSE)), 6]
 }
 
-sort(theta.diff) #0.1811092 and above
-range(students_abilities_R[[3]][,6])
+sort(theta.diff) #0.1811092 
+range(students_abilities_R[[3]][,6])  #0.000239411 0.181109228
 
 #4.  gt/havo
 true_classification <- "gt/havo"
@@ -441,7 +441,7 @@ for(i in 1:100){
 }
 
 sort(theta.diff) #0.2174139 0.2239834 0.2309973 0.2794335
-range(students_abilities_R[[4]][,6])  #0.2260902 0.6752198
+range(students_abilities_R[[4]][,6])  #0.000184858 0.279433461
 
 #5.  havo/vwo
 true_classification <- "havo/vwo"
@@ -463,7 +463,7 @@ for(i in 1:100){
 }
 
 sort(theta.diff) #0.1811065 0.1811065 0.1811065 0.1877943 0.1877943 0.1877943 0.1997075 0.1997075 0.2190695 0.2392707 0.2825664 0.3305173 0.5188249
-range(students_abilities_R[[5]][,6]) # 0.4175459 1.1460220
+range(students_abilities_R[[5]][,6]) #0.0004134134 0.5188248888
 
 #6.  havo/vwo
 true_classification <- "vwo"
