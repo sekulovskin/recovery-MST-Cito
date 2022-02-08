@@ -5,7 +5,7 @@
 setwd("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation")
 load("simulated.responses.RData")
 library(ggplot2)
-#Again I will take the lowest and highest achieving 15 students and take their average theta_difference for all different number of mistakes
+#Again I will take the lowest15, highest achieving 15 students and the middle students and take their average theta_difference for all different number of mistakes
 #For example I will plot the distribution of the lowest achieving  students for different number of errors, and will do the same (IN A SEPARATE)
 #plot for the highest achieving students, and repeat this for all three subjects.
 #NOTE: in order to run this script, you first need to run the script(s) `errors_module_A.R`...
@@ -60,7 +60,7 @@ five_mistakes_L <- c()
 
 four_mistakes_L <- c()
 
- for(i in 16:26){
+ for(i in 1:15){
    four_mistakes_L[i] <- mean(least_proficient_L[[i]]$`4`$diff)
  }
 
