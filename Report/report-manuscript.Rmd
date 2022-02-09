@@ -1,5 +1,78 @@
 ---
-title: "Internship Report"
-output: html_document
+title: "**Internship Report**: Recovery of early mistakes in multistage tests"
+date: "`r Sys.Date()`"
+author: Nikola Sekulovski
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+bibliography: ["ref.bib"]
+csl: apa-no-doi-no-issue.csl
+link-citations: TRUE
 ---
+```{r libraries, include=FALSE}
+library(tidyverse)
+library(Hmisc)
+library(gtsummary)
+```
 
+# **Introduction**
+  - What are MST's
+  - What are problems that might arise using MST's
+  - This particular MST (add the picture)  mention that this simulation uses the design for hearing impaired children
+  - Mention at least something about IRT (and that I will be using the words ability and theta interchangeably)
+  - Outline of the report  (cite software and link repo)
+  
+# **Initial (exploratory) simulation**
+
+## Outline of the simulation study
+
+```{r data from sim 1, include=FALSE}
+load("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/initial.simulated.responses.RData")
+```
+   
+ In an effort to answer the research question for this project, two simulations studies were conducted. In this section, the results from the analyses based on the first simulation will be presented. Using the observed distributions of the abilities from the 2021 administration of **ACET**, 200  $\theta$ values for each subject were simulated, and treated as the true abilities of 200 artificial students. A summary of these ability distributions is presented below.
+ 
+```{r summary of thetas, echo=FALSE, fig.cap= "True ability distributions based on the observed results from ACET 2021"}
+thetas <- data.frame(true.theta_L, true.theta_R, true.theta_T)
+names(thetas) <- c("Lezen", "Rekenen", "Taal")
+tbl_summary(thetas, statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {max}]"))
+```
+
+
+ Afterwards, **ACET's** test design, routing rules and the item parameters, for each subject, were used to generate a 1000 MST responses for each artificial student (i.e., for each true $\theta$). These responses were simulated using the `sim_mst` function from the package `dexterMST` [@dextermst], which simulates data from an Extended Nominal Response Model. Afterwards, using the `ability` function from the package `dexter` [@dexter], re-estimates of the true ability were obtained for all 1000 simulated responses for the 200 students for each of the three subjects. This plethora of responses for each level of ability allows to separately  explore how the ability estimate for each of the three subjects changes when certain factors, such as the number of mistakes in module A, the number of mistakes in Day 1 and different MST paths are varied. 
+
+## Initial analyses
+
+### T-tests
+  
+ In order to look whether different patterns and different, multiple replications lead to differences between the true and the re-estimated $\theta$...
+  
+## Number of mistakes 
+ - Analyses
+ - plots
+ 
+## Number of paths per subject
+
+
+## Statistical Analyses (maybe a better name)
+
+ - Explain the idea
+ - Put the assumptions in appendix
+ - Give the result and conclusions
+ 
+# **Classification errors**
+
+## Introduction
+
+## Classification errors and total number of mistakes in modules A
+
+## Threshold values 
+ 
+# **Conlusion**
+
+ - Recommendations on the test design
+ - Overall conclusions 
+ 
+# References
+ 
