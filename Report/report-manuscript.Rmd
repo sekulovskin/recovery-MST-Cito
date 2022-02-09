@@ -1,5 +1,5 @@
 ---
-title: "**Internship Report**: Recovery of early mistakes in multistage tests"
+title: "**Internship Report**: ***Recovery of early mistakes in multistage tests***"
 date: "`r Sys.Date()`"
 author: Nikola Sekulovski
 output: 
@@ -14,15 +14,36 @@ link-citations: TRUE
 library(tidyverse)
 library(Hmisc)
 library(gtsummary)
+library(knitr) 
+source("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/ref-score&classification-functions.R")
 ```
 
 # **Introduction**
-  - What are MST's
+ 
+Multistage tests (MST), are said to be "the best of both worlds" when compared to the traditional Linear Tests (LT) on the one hand, and Computerized Adaptive Tests (CAT) on the other. They allow for adaptation of the difficulty based on the level of proficiency, without many of the problems that come with using completely adaptive tests (such as CAT) [for more details, see, for example @yan2016computerized]. The main problems of CAT (among others) are:
+
+ - they are not easily applicable to essay items;
+ 
+ - there is no possibility for item reviewing; 
+ 
+ - lack of control over item ordering;
+ 
+ - they have high computer processing demands; 
+ 
+ - They are way more difficult to understand, program and control even by the most experienced Psychometricians.
+ 
+All of these shortcomings of CAT can be addressed using MST's. MST's can be defined as a series of sequential tests.......
+
   - What are problems that might arise using MST's
   - This particular MST (add the picture)  mention that this simulation uses the design for hearing impaired children
+  
+```{r ACET, out.width = "70%", fig.align = 'center', echo=FALSE, cache=TRUE}
+include_graphics("ACET.jpg")
+``` 
+  
   - Mention at least something about IRT (and that I will be using the words ability and theta interchangeably)
   - Outline of the report  (cite software and link repo)
-  
+
 # **Initial (exploratory) simulation**
 
 ## Outline of the simulation study
@@ -31,7 +52,7 @@ library(gtsummary)
 load("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/initial.simulated.responses.RData")
 ```
    
- In an effort to answer the research question for this project, two simulations studies were conducted. In this section, the results from the analyses based on the first simulation will be presented. Using the observed distributions of the abilities from the 2021 administration of **ACET**, 200  $\theta$ values for each subject were simulated, and treated as the true abilities of 200 artificial students. A summary of these ability distributions is presented below.
+ In an effort to answer the research question for this project, two simulations studies were conducted. In this section, the results from the analyses based on the first simulation will be presented. Using the observed distributions of the abilities from the 2021 administration of **ACET**, 200  $\theta$ values for each subject were simulated, and treated as the true abilities of 200 artificial students. A summary of these ability distributions is presented below. *add that a high amount of values were simulated before*
  
 ```{r summary of thetas, echo=FALSE, fig.cap= "True ability distributions based on the observed results from ACET 2021"}
 thetas <- data.frame(true.theta_L, true.theta_R, true.theta_T)
@@ -40,17 +61,84 @@ tbl_summary(thetas, statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {
 ```
 
 
- Afterwards, **ACET's** test design, routing rules and the item parameters, for each subject, were used to generate a 1000 MST responses for each artificial student (i.e., for each true $\theta$). These responses were simulated using the `sim_mst` function from the package `dexterMST` [@dextermst], which simulates data from an Extended Nominal Response Model. Afterwards, using the `ability` function from the package `dexter` [@dexter], re-estimates of the true ability were obtained for all 1000 simulated responses for the 200 students for each of the three subjects. This plethora of responses for each level of ability allows to separately  explore how the ability estimate for each of the three subjects changes when certain factors, such as the number of mistakes in module A, the number of mistakes in Day 1 and different MST paths are varied. 
+ Afterwards, **ACET's** test design, routing rules and the item parameters, for each subject, were used to generate a 1000 MST responses for each artificial student (i.e., for each true $\theta$). These responses were simulated using the `sim_mst` function from the package `dexterMST` [@dextermst], which simulates data from an Extended Nominal Response Model. Afterwards, using the `ability` function from the package `dexter` [@dexter], re-estimates of the true ability were obtained for all 1000 simulated responses for the 200 students for each of the three subjects. This plethora of responses for each level of ability allows to, separately,  explore how the ability estimate for each of the three subjects changes when certain factors, such as the number of mistakes in module A, the number of mistakes in Day 1 and different MST paths are varied. 
 
 ## Initial analyses
 
-### T-tests
+### Welch's Tests
   
- In order to look whether different patterns and different, multiple replications lead to differences between the true and the re-estimated $\theta$...
+ In order to preliminary inspect whether different patterns produced by the multiple simulated responses for each level of the true ability lead to differences between the true and the re-estimated $\theta$ simple [Welch's Tests](https://en.wikipedia.org/wiki/Welch%27s_t-test) were executed comparing each true $\theta$ and the mean of the re-estimated $\theta's$  for each subject. Briefly, the goal here is to inspect whether there is a *statistically significant* difference between the true and the average of the re-estimated $\theta's$ for each level of the true ability. However, this is done out of pure exploratory reasons and the p-values are always "taken with a grain of salt", since they can be quite misleading, especially when having a big sample size (which in this case is a 1000 - the number of simulations), the interested reader is refereed to @cohen1994earth for further elaborations all the issues with standard Null Hypothesis Testing. Since we are dealing with a "large enough" sample size we will use the value of $\alpha = .01$ as a cutoff for whether a mean difference is significant.
+ 
+#### Lezen
+
+```{r p-values Lezen, echo=FALSE, fig.cap= "Mean, SD, and 98% interval of the p-values for Lezen"}
+lezen_welch <- lapply(students_abilities_L, function(x){t.test(x[,4],x[,5])})
+p <- data.frame()
+  for(i in 1:length(true.theta_L)){
+    p[i,1] <- lezen_welch[[i]]$p.value 
+  }
+names(p) <- "p values"
+tbl_summary(p, statistic = list(all_continuous() ~ "{mean} ({sd}) [{p1}, {p99}], "))
+```
+
+As can be seen from the results presented in the table above, the mean p-value is quite high 0.48 and the lower bound of the 98% interval doesn't contain the value of .01, indicating that only less than 2% of the 200 true $\theta's$  are significantly different from their respective average re-estimated counterparts.
+
+```{r include=FALSE}
+which(p$`p values` <= 0.01)
+true.theta_L[65]
+```
+More specifically, the only significant difference was for $\theta = 0.11$, which roughly translates to a reference Lezen score of 54.
+
+#### Rekenen
+
+```{r p-values Rekenen, echo=FALSE, fig.cap= "Mean, SD, and 98% interval of the p-values for Rekenen"}
+rekenen_welch <- lapply(students_abilities_R, function(x){t.test(x[,4],x[,5])})
+p <- data.frame()
+  for(i in 1:length(true.theta_R)){
+    p[i,1] <- rekenen_welch[[i]]$p.value 
+  }
+names(p) <- "p values"
+tbl_summary(p, statistic = list(all_continuous() ~ "{mean} ({sd}) [{p1}, {p99}], "))
+```
+The situation for Rekenen is only slightly "worse", the mean p-value is still quite high, but lower than for Lezen, and the 99% interval now contains the cutoff value of .01 (the spread remains the same).
+
+```{r include=FALSE}
+which(p$`p values` <= 0.01)   #
+true.theta_R[c(28,  45,  88, 107, 113, 120, 133, 154, 175, 200)]
+transform.ref.score.rekenen(true.theta_R[c(28,  45,  88, 107, 113, 120, 133, 154, 175, 200)])
+```
+In this case siginificant differences were found for theta values -0.08212986  0.05575899  0.23431256  0.34069969 0.35896281  0.38566214  0.45522680  0.57362560  0.73550476  1.58676453 corresponding to reference Rekenen scores of 18 21 25 28 28 29 30 32 35 40, respectively. As can be seen, most of these discrepancies tend to be present on the extremes *(with a few exceptions in the middle).*
+
+#### Taal
+
+```{r p-values Taal, echo=FALSE, fig.cap= "Mean, SD, and 98% interval of the p-values for Taal"}
+taal_welch <- lapply(students_abilities_T, function(x){t.test(x[,4],x[,5])})
+p <- data.frame()
+  for(i in 1:length(true.theta_T)){
+    p[i,1] <- taal_welch[[i]]$p.value 
+  }
+names(p) <- "p values"
+tbl_summary(p, statistic = list(all_continuous() ~ "{mean} ({sd}) [{p1}, {p99}], "))
+```
+As with the previous two subjects the situation with Taal is simillar, now the loer bound of the 99% lies exactly on the cut
+
+```{r include=FALSE}
+which(p$`p values` <= 0.01)   #
+true.theta_T[c(28,  45,  88, 107, 113, 120, 133, 154, 175, 200)]
+transform.ref.score.taal(true.theta_R[c(28,  45,  88, 107, 113, 120, 133, 154, 175, 200)])
+```
+
+
+Here significant differences were found for $\theta$ values -0.04280228,  0.06389320,  0.20205419,  0.28437431,  0.29850592, 0.31916531,  0.37299298,  0.46460747, 0.58986615 and  1.24855302 corresponding to reference Rekenen scores of 34, 42, 51, 55, 55, 56, 58, 61, 64 and 70 respectively. Here we can see, again, that most of the discrepancies appear on the positive extreme, with a few exceptions in the middle.
   
+Based on the presented preliminary analyses, we can see that, when we do not control for anything, and just inspect whether there is a difference between the true and the average of the re-estimated $\theta's$ for each true ability, very few significant differences tend to appear. Moreover, if we take into account the differences in the ability range (see, table 1) for the three subjects we can mostly explain why more significant mismatches were observed for Rekenen and Taal, who tend to have a wider spread..
+
+### comparing abilities vs module path
+
 ## Number of mistakes 
+ - Describe
  - Analyses
- - plots
+ - plots (connect eith the (average) item difficulty parameters)
  
 ## Number of paths per subject
 
@@ -74,5 +162,5 @@ tbl_summary(thetas, statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {
  - Recommendations on the test design
  - Overall conclusions 
  
-# References
+# **References**
  
