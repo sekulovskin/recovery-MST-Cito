@@ -10,7 +10,7 @@ routing_rules <- read.csv('dexter_mst_rules_dov.csv')
 pars <- read.csv('parameters_dov.csv')
 
 
-N_students <- 200 #we will simulate 200 true theta's which will result in 200 artificial students
+
 n_sim <- 1000  #number of simulated responses per true theta (student)
 #============================================
 # For the reading test (Lezen)
@@ -21,7 +21,10 @@ routing_rules_L <- routing_rules[grepl('^L', routing_rules$module_id), ]
 pars_L <- pars[pars[, 'item_id'] %in% test_design_L$item_id, ]
 ##Based on the observed abilities (see, Simulated-vs-observed-thetas.R)
 set.seed(123)
-true.theta_L <- sort(rnorm(N_students, 0.219, 0.236), decreasing = FALSE)
+true.theta_L <- rnorm(185, 0.219, 0.236)
+#Add the extreme (theoretically possible values)
+extremes <- c(-2.54, -1.8, -1.5, -1.3, -1.2, -1, -0.9, -0.8, -0.6, -0.4, 1.2, 1.4, 1.7, 2.2, 3.4)
+true.theta_L <- sort(c(true.theta_L, extremes), decreasing = FALSE)
 #----------------------------------------------------
 #Construct "storage space"
 patterns_L <- list()
@@ -68,7 +71,9 @@ test_design_R <-test_design[grepl('^R', test_design$module_id), ]
 routing_rules_R <- routing_rules[grepl('^R', routing_rules$module_id), ]
 pars_R <- pars[pars[, 'item_id'] %in% test_design_R$item_id, ]
 set.seed(123)
-true.theta_R <- sort(rnorm(N_students, 0.326, 0.389), decreasing = FALSE) 
+true.theta_R <- sort(rnorm(190, 0.326, 0.389), decreasing = FALSE)
+extremes <- c(-1.97, -1.43, -1.17, -0.8, -0.7, -0.6, -0.5, 1.16, 1.38, 1.85)
+true.theta_R <- sort(c(true.theta_R, extremes), decreasing = FALSE)
 #----------------------------------------------------
 #Construct "storage space"
 patterns_R <- list()
@@ -111,7 +116,9 @@ test_design_T <-test_design[grepl('^T', test_design$module_id), ]
 routing_rules_T <- routing_rules[grepl('^T', routing_rules$module_id), ]
 pars_T <- pars[pars[, 'item_id'] %in% test_design_T$item_id, ]
 set.seed(123)
-true.theta_T <- sort(rnorm(N_students, 0.273, 0.301), decreasing = FALSE)
+true.theta_T <- sort(rnorm(190, 0.273, 0.301), decreasing = FALSE)
+extremes <- c(-1.7, -1.3, -1.1, -0.9, -0.7, -0.5, 1.4, 1.6, 1.8, 2.12)
+true.theta_T <- sort(c(true.theta_T, extremes), decreasing = FALSE)
 #----------------------------------------------------
 #Construct "storage space"
 patterns_T <- list()
@@ -141,7 +148,7 @@ for(i in 1:length(true.theta_T)){
   students_patterns_T[[i]] <- patterns_T %>%
     filter(person_id == i)
 }
-rm(patterns_T)
+rm(patterns_T, extremes)
 
 
 save.image(file = "initial.simulated.responses.RData")
