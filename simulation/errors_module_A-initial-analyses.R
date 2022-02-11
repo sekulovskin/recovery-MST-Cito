@@ -1,445 +1,299 @@
 #=========================
 #Initial analyses for the number of mistakes made in module A
 #========================
-
+#Note the data has to be run through the `errors_module_A.R` script first
 #------------------------------------------------------
 # LEZEN
 #------------------------------------------------------
 
-#We will only look at the situations where significant differences appeared in the
-#initial analyses (based on more repetitions of the simulation!!!!), 
-#namely for students with theta 1.3 and 1.2 i.e., students 41 and 39
+for(i in c(1,   2,   3,   4,   5,   6,   7,   8,  41,  59,  78, 162, 166, 196, 197, 198, 199, 200)){
+  print(unique(students_abilities_L[[i]]$errors))
+}
 
-#Extract these students in separate data frames
-student_41_L <- students_abilities_L[[41]]
-student_39_L <- students_abilities_L[[39]]
-#Transform the `errors` variable into a factor
-student_41_L$errors <- as.factor(student_41_L$errors)
-student_39_L$errors <- as.factor(student_39_L$errors)
-#check how many different number of errors are there
-unique(student_41_L$errors)
-unique(student_39_L$errors)  #in both cases there are only 0 and 1
 
-#--------------------------------------------------------------------------------
-# First we will see whether there is a significant difference between the average 
-#estimated thetas, for instances when having different errors on module A
-#NOTE we are doing a Welch test, since there are only two groups (zero mistakes vs one mistake, this is due to the fact
-#that these students have a high true theta)
-# For true_theta = 1.3
-t.test(theta ~ errors, data = student_41_L)
-#t = 3.3965, df = 7.6199, p-value = 0.01012
-#mean in group 0 mean in group 1 
-#1.247428        1.108579
-# There is a significant difference between situations where the student made 1 mistake,
-#as opposed to a situation where the student didn't make a mistake. With the average
-# re-estimated theta of 1.24 for students with no mistake.
-#---------------------------
-# For true_theta = 1.2
-t.test(theta ~ errors, data = student_39_L)
-#t = 5.2064, df = 4.7933, p-value = 0.003898
-#mean in group 0 mean in group 1 
-#1.2008832       0.9202921  
-# There is a significant difference between situations where the student made 1 mistake,
-#as opposed to a situation where the student didn't make a mistake. With the average
-# re-estimated theta of 1.2 (very close to the true theta on average) for students with no mistake.
-#----------------------------------------------------------------------------------
+print(mean(students_abilities_L_split[[1]]$`6`$theta))
+a <- c(0,0,0,0,0,0,-1.097771)  #the last value is the true theta
 
-#Secondly, we will repeat the same analysis as in the `initial_analyses.R` script
-#In order to do this we will need to split the data (NOTE THIS ANALYSIS IS NOT
-#AS INFORMATIVE AS THE PREVIOUS, DUE TO VERY UNEQUAL SAMPLE SIZES (REPEATED MEASUREMENTS) 
-#IN THE SPLIT DATA SETS)
+for (i in c( 2,   3,   4,   5)){
+  print(mean(students_abilities_L_split[[i]]$`5`$theta))
+  print(mean(students_abilities_L_split[[i]]$`6`$theta))
+}
 
-# For true_theta = 1.3
-student_41_L_split <- split(student_41_L, student_41_L$errors)
-# First for 0 errors
-t.test(student_41_L_split[[1]]$theta, student_41_L_split[[1]]$true_theta)
-#t = -3.2382, df = 91, p-value = 0.001679
-# mean of x mean of y 
-#1.21121   1.30000 
+b <- c(0,0,0,0,0,  -0.805334, -1.075197)
+c <- c(0,0,0,0,0, -0.7875042, -1.061197)
+d <- c(0,0,0,0,0, -0.799533, -1.026014)
+e <- c(0,0,0,0,0, -0.7528137, -1.000861)
 
-#Secondly, for 1 error
-t.test(student_41_L_split[[2]]$theta, student_41_L_split[[2]]$true_theta)
-#t = -7.2476, df = 7, p-value = 0.0001703
-#mean of x mean of y 
-#0.9532306 1.3000000
+for (i in c( 6,   7,   8)){
+  print(mean(students_abilities_L_split[[i]]$`4`$theta))
+  print(mean(students_abilities_L_split[[i]]$`5`$theta))
+  print(mean(students_abilities_L_split[[i]]$`6`$theta))
+}
 
-#Conclusion: Even though the size is to small, to say anything about the p-vales
-#and even though in both situations, we had a significant p-value,
-#it is evident by looking at the means of both situations that there is a way bigger
-#discrepancy between the true and the r-estimated average theta in the case where
-#the student makes 1 mistake as opposed to no mistakes in the first module (A)
+f <- c(0,0,0,0,-0.6200134, -0.7171452, -0.9265702)
 
-# For true_theta = 1.2
-student_39_L_split <- split(student_39_L, student_39_L$errors)
+g <- c(0,0,0,0,-0.4958055, -0.6858482, -0.8748593)
 
-# First for 0 errors
-t.test(student_39_L_split[[1]]$theta, student_39_L_split[[1]]$true_theta)
-#t = 0.035781, df = 95, p-value = 0.9715
-# mean of x mean of y 
-#1.200883  1.200000    #NO DIFFERENCE
+h <- c(0,0,0,0,-0.6022569, -0.6557785, -0.8010665)
 
-# No significant difference, and also very small difference when observing the means!
+for (i in c(41,  59,  78)){
+  print(mean(students_abilities_L_split[[i]]$`1`$theta))
+  print(mean(students_abilities_L_split[[i]]$`2`$theta))
+  print(mean(students_abilities_L_split[[i]]$`3`$theta))
+  print(mean(students_abilities_L_split[[i]]$`4`$theta))
+  print(mean(students_abilities_L_split[[i]]$`5`$theta))
+  print(mean(students_abilities_L_split[[i]]$`6`$theta))
+}
 
-#Secondly, for 1 error
-t.test(student_39_L_split[[2]]$theta, student_39_L_split[[2]]$true_theta)
-#t = -5.8383, df = 3, p-value = 0.01001
-#mean of x mean of y 
-#0.9202921 1.2000000
+i <- c(0, 0.06738997, 0.02938897,-0.000210555, -0.02094283, -0.05599033, -0.0868597)
+j <- c(0, 0.1285401, 0.1043499, 0.07667284,  0.05197364, 0.03176222, -0.03640953)
+k <- c(0, 0.1683823, 0.145977, 0.1108515, 0.07896659, 0.04963115, 0.02229565)
 
-#OVERALL CONCLUSION: The number of mistakes in the first module of the reading test,
-#for students having a high "true" theta value (in this case 1.3 and 1.2), influence the
-#final theta estimate. These significant differences were observed both when
-#testing whether there is a difference between the average *ESTIMATED* theta
-#between situations when a student made 0 mistakes and 1 mistake in module 1;
-#AND also in the situation when controlling for the number of mistakes and
-#measuring whether there is a significant difference between the average 
-#ESTIMATED theta and the TRUE theta!
+
+for (i in c(162, 166)){
+  print(mean(students_abilities_L_split[[i]]$`0`$theta))
+  print(mean(students_abilities_L_split[[i]]$`1`$theta))
+  print(mean(students_abilities_L_split[[i]]$`2`$theta))
+  print(mean(students_abilities_L_split[[i]]$`3`$theta))
+  print(mean(students_abilities_L_split[[i]]$`4`$theta))
+}
+
+l <- c(0.4408603, 0.4042815, 0.3526681, 0.3147573, 0.2475633, 0, 0)
+m <- c(0.4715094, 0.4129982, 0.3730442, 0.3465735, 0.4329932, 0, 0)
+
+print(mean(students_abilities_L_split[[196]]$`0`$theta))
+print(mean(students_abilities_L_split[[196]]$`1`$theta))
+print(mean(students_abilities_L_split[[196]]$`2`$theta))
+
+n <- c(1.197479, 0.9607391, 0.9077544, 0, 0, 0, 0)
+
+for (i in c(197, 198, 199)){
+  print(mean(students_abilities_L_split[[i]]$`0`$theta))
+  print(mean(students_abilities_L_split[[i]]$`1`$theta))
+}
+
+o <- c(1.308786, 1.019476, 0, 0, 0, 0, 0)
+p <- c(1.428722, 1.107104, 0, 0, 0, 0, 0)
+q <- c(1.517053, 1.140868, 0, 0, 0, 0, 0)
+
+print(mean(students_abilities_L_split[[200]]$`0`$theta))
+
+r <- c(1.54481, 0, 0, 0, 0, 0, 0)
+
+#data for tables (in appendix)
+mistakes.modA.lezen.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)
+mistakes.modA.lezen.table <- as.data.frame(t(mistakes.modA.lezen.table))
+#add the true thetas
+mistakes.modA.lezen.table$true.theta <- c(-2.54, -1.8, -1.5, -1.3, -1.2, -1, -0.9, -0.8, -0.007,  0.08,  0.13, 0.4,  0.43,  1.2,  1.4, 1.7, 2.2, 3.4)
+
+#data for plots
+mistakes.modA.lezen <- c(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)
+mistakes.modA.lezen.plot <- data.frame(mistakes.modA.lezen, rep(c(-2.54, -1.8, -1.5, -1.3, -1.2, -1, -0.9, -0.8, -0.007,  0.08,  0.13, 0.4,  0.43,  1.2,  1.4, 1.7, 2.2,  3.4), each = 7))
+mistakes.modA.lezen.plot$mistakes <- rep(0:6, 18)
+names(mistakes.modA.lezen.plot) <- c("Re-estimates", "True theta", "Mistakes")
+
+#save the data
+library(foreign)
+write_csv(mistakes.modA.lezen.table, "mistakes.modA.lezen.table.csv")
+write_csv(mistakes.modA.lezen.plot, "mistakes.modA.lezen.plot.csv")
+
+#Obtain the plot
+library(ggplot2)
+mistakes.modA.lezen.plot$`True theta` <- as.factor(mistakes.modA.lezen.plot$`True theta`)
+
+ggplot(mistakes.modA.lezen.plot[which(mistakes.modA.lezen.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.2, 1.6) #+
+  #scale_y_continuous(breaks =  c(-2.54, -1.8, -1.5, -1.3, -1.2, -1, -0.9, -0.8, -0.007,  0.08,  0.13, 0.4,  0.43,  1.2,  1.4, 1.7, 2.2, 3.4))
+  #labs(x = "Total number of mistakes in modules A (for all three subjects)",
+      # y = "Classification error", title = "Classification errors vs (total) number of mistakes in Module A")
 
 
 #------------------------------------------------------
 # REKENEN
 #------------------------------------------------------
-
-#We will only look at the situations where significant differences appeared in the
-#initial analyses, namely for students with tue theta 1.8; 1.75; 1.7; 1.65; 0.25; -1.2; -1.25; -1.3
-#ie., students: 63, 62, 61, 60, 32(?), 3, 2, 1
-#Extract these students in separate data frames
-student_63_R <- students_abilities_R[[63]]
-student_62_R <- students_abilities_R[[62]]
-student_61_R <- students_abilities_R[[61]]
-student_60_R <- students_abilities_R[[60]]
-student_32_R <- students_abilities_R[[32]]
-student_3_R <- students_abilities_R[[3]]
-student_2_R <- students_abilities_R[[2]]
-student_1_R <- students_abilities_R[[1]]
-#Transform the variable `errors` into a factor
-student_63_R$errors <- as.factor(student_63_R$errors)
-student_62_R$errors <- as.factor(student_62_R$errors)
-student_61_R$errors <- as.factor(student_61_R$errors)
-student_60_R$errors <- as.factor(student_60_R$errors)
-student_32_R$errors <- as.factor(student_32_R$errors)
-student_3_R$errors <- as.factor(student_3_R$errors)
-student_2_R$errors <- as.factor(student_2_R$errors)
-student_1_R$errors <- as.factor(student_1_R$errors)
-
-#Now check how many different number of errors are there and how many students within each error category 
-unique(student_63_R$errors)  #0:98 ,1:2   
-unique(student_62_R$errors) #0:99 ,1:1
-unique(student_61_R$errors) #0:98,1:2
-unique(student_60_R$errors) # No mistakes, only 0
-unique(student_32_R$errors) # 0:30, 1:48, 2:19, 3:3
-unique(student_3_R$errors)  # 4:12, 5:88
-unique(student_2_R$errors)  # 4:8,5:92
-unique(student_1_R$errors)  # 3:1, 4:15, 5:84
-
-#--------------------------------------------------------------------------------
-# First we will see whether there is a significant difference between the average 
-#estimated thetas, for instances when having different number of errors on module A
-
-#NOTE WE DO NOT ONLY LOOK AT THE P-VALUE (and don't take it too seriously) SINCE THERE IS A HUGE DISCREPANCY IN SIZE (BUT MORE AT THE AVERAGE ESTIMATES)
-# FOR THETA = 1.8
-t.test(theta ~ errors, data = student_63_R)
-#t = 11.129, df = 2.3426, p-value = 0.004428
-#mean in group 0 mean in group 1 
-# 1.697439        1.147979 
-#There is a difference as expected
-
-# FOR THETA = 1.75  (here we will only look at the difference, without doing a t-test)
-student_62_R %>%
-  filter(errors==1)
-
-student_62_R %>%
-  filter(errors==0) %>%
-  summary()
-#mean in group 0 mean in group 1 
-# 1.678        1.3485
-#There is a difference as expected
-
-# FOR THETA = 1.7
-t.test(theta ~ errors, data = student_61_R)
-#t = 1.7353, df = 1.0583, p-value = 0.3224
-#mean in group 0 mean in group 1 
-#1.648288        1.327997 
-#There is still a discrepancy  (when looking at the means)
-
-# FOR THETA = 1.65
-# We skip this, since there are no mistakes 
-
-#FOR THETA = 0.25  (we do an ANOVA since there are more than 2 categories)
-anova <- aov(theta ~ errors, data = student_32_R)
-summary(anova)
-# Df Sum Sq  Mean Sq F value Pr(>F)  
-#errors       3 0.0426 0.014193   2.421 0.0707 
-#There is no "significant" differences, but let's look at the means per error level
-student_32_R %>%
-  filter(errors==0) %>%
-  summary()          #0.2777   #In the first case we have a slight OVERESTIMATE of theta!! (LOOK INTO THIS FOR MORE STUDENTS)
-
-student_32_R %>%
-  filter(errors==1) %>%
-  summary()      #0.23764 
+for (i in c( 1,   2,   3,  22,  45,  81,  89,  98, 141, 187, 200)){
+  print(unique(students_abilities_R[[i]]$errors))
+}
 
 
-student_32_R %>%
-  filter(errors==2) %>%
-  summary()      #0.2255
+print(mean(students_abilities_R_split[[1]]$`4`$theta))
+print(mean(students_abilities_R_split[[1]]$`5`$theta))
+a <- c(0, 0, 0, 0, -1.106521, -1.383891)
 
-student_32_R %>%
-  filter(errors==3) %>%
-  summary()     #0.2258   #So in general, for a medium theta, there is no big difference
+for(i in c(2,3)){
+  print(mean(students_abilities_R_split[[i]]$`3`$theta))
+  print(mean(students_abilities_R_split[[i]]$`4`$theta))
+  print(mean(students_abilities_R_split[[i]]$`5`$theta))
+}
+b <- c(0, 0, 0, -0.9658731, -1.052734, -1.283875)
+c <- c(0, 0, 0, -0.90781, -0.9838026, -1.150232)
 
-#FOR THETA -1.2
-t.test(theta ~ errors, data = student_3_R)
-#t = 9.1856, df = 47.147, p-value = 4.482e-12
-#mean in group 4 mean in group 5 
-#-0.9325235      -1.179111
+for(i in c(22,  45)){
+  print(mean(students_abilities_R_split[[i]]$`0`$theta))
+  print(mean(students_abilities_R_split[[i]]$`1`$theta))
+  print(mean(students_abilities_R_split[[i]]$`2`$theta))
+  print(mean(students_abilities_R_split[[i]]$`3`$theta))
+  print(mean(students_abilities_R_split[[i]]$`4`$theta))
+  print(mean(students_abilities_R_split[[i]]$`5`$theta))
+}
 
-
-#FOR THETA -1.25
-t.test(theta ~ errors, data = student_2_R)
-#t = 5.285, df = 9.8939, p-value = 0.0003679
-#mean in group 4 mean in group 5 
-#-0.9859082      -1.2427683
-
-#For both these, it is obvious that the higher the number of errors, the closer the average estimate to the true theta
-
-#FOR THETA -1.3
-#since there is only 1 instance for theta = 3 we will filter it out
-student_1_R %>%
-  filter(errors !=3) %>%
-  t.test(theta ~ errors, data = .)
-
-#t = 6.9549, df = 31.718, p-value = 7.409e-08
-#mean in group 4 mean in group 5 
-#-1.024322       -1.265712   #same conclusion as previously  
-student_1_R %>%
-  filter(errors ==3) %>%
-  summary()  #theta = -0.8662, 
-
-#same conclusion as previously
-
-#SECONDLY WE WILL LOOK AT WHETHER THERE ARE DIFFERENCES BETWEEN THE TRUE AND THE ESTIMATED THETA WHEN CONTROLLING FOR THE ERRORS
-# FOR THETA = 1.8
-student_63_R_split <- split(student_63_R, student_63_R$errors)
-
-# For 0 errors
-t.test(student_63_R_split[[1]]$theta, student_63_R_split[[1]]$true_theta)
-#t = -3.5235, df = 97, p-value = 0.0006515
-#1.697439  1.800000  (not a very big difference, eveen though "significant")
-
-#For 1 error (we will not do a test, only look at values, since there are only 2 obs)
-summary(student_63_R_split[[2]])
-#avg.theta: 1.148  (1.8 - 1.148 = 0.652 )
-#We can conclude that the discrepancy is way higher when having one error as opposed to 0 erros
-
-# FOR THETA = 1.75
-student_62_R_split <- split(student_62_R, student_62_R$errors)
-
-# For 0 errors
-t.test(student_62_R_split[[1]]$theta, student_62_R_split[[1]]$true_theta)
-#t = -2.5462, df = 98, p-value = 0.01245
-#1.678359  1.750000   (not a very big difference)
-
-#For 1 error (we will not do a test, only look at values, since there is only 1 obs)
-summary(student_62_R_split[[2]])
-#avg.theta: 1.349 (1.75 - 1.349 = 0.401)
-#We can conclude that the discrepancy is way higher when having one error as opposed to 0 erros (but not as high as with the 
-#student having "true" theta = 1.8)
+d <- c(-0.07594316, -0.1317397, -0.1474175, -0.1679615, -0.1904007, -0.1844534)
+e <- c(0.08405695, 0.06533081, 0.03807081, 0.02298288, -0.002579274, -0.003964214)
 
 
-# FOR THETA = 1.7
-student_61_R_split <- split(student_61_R, student_61_R$errors)
+for(i in c(81,  89,  98)){
+  print(mean(students_abilities_R_split[[i]]$`0`$theta))
+  print(mean(students_abilities_R_split[[i]]$`1`$theta))
+  print(mean(students_abilities_R_split[[i]]$`2`$theta))
+  print(mean(students_abilities_R_split[[i]]$`3`$theta))
+  print(mean(students_abilities_R_split[[i]]$`4`$theta))
+}
 
-# For 0 errors
-t.test(student_61_R_split[[1]]$theta, student_61_R_split[[1]]$true_theta)
-#t = -1.6758, df = 97, p-value = 0.097
-#1.648288  1.700000    (not a very big difference)
+f <- c(0.2271753, 0.2020615, 0.1777914, 0.1407536, 0.1065037, 0)
+g <- c(0.2563725, 0.2255479, 0.2036752, 0.1480875, 0.1592695, 0)
+h <- c(0.301739, 0.2628649, 0.2376078,0.1929994, 0.1670854, 0)
 
-#For 1 error (we will not do a test, only look at values, since there are only 2 obs)
-summary(student_61_R_split[[2]])
-#avg.theta: 1.328 (1.7 - 1.328 = 0.372 )
-#We can conclude that the discrepancy is way higher when having one error as opposed to 0 erros (but not as high as with the 
-#student having "true" theta = 1.8 and 1,75)
-#OBSERVATIIN: so as true theta get's smaller, the difference between the true and the (average) estimates
-#theta get's also smaller as the number of mistakes increases. Clearly proving, once more, that these mismatches.
-#tend to appear on the upper extreme
 
-#FOR THETA = 1.65
-#NO NEED FOR ANALYSES SINCE WE HAVE NO ERRORS
+print(mean(students_abilities_R_split[[141]]$`0`$theta))
+print(mean(students_abilities_R_split[[141]]$`1`$theta))
+print(mean(students_abilities_R_split[[141]]$`2`$theta))
+print(mean(students_abilities_R_split[[141]]$`3`$theta))
 
-#FOR THETA = 0.25  (FOUR SITUATIONS)
-student_32_R_split <- split(student_32_R, student_32_R$errors)
+i <- c(0.5094521, 0.4663315, 0.4244001, 0.3497867, 0, 0)
 
-#FOR 0 errors
-t.test(student_32_R_split[[1]]$theta, student_32_R_split[[1]]$true_theta)
-#t = 2.0054, df = 29, p-value = 0.05434
-#0.2776954 0.2500000  (AGAIN AN OVERESTIMATE OF THE TRUE THETA)
+print(mean(students_abilities_R_split[[187]]$`0`$theta))
+print(mean(students_abilities_R_split[[187]]$`1`$theta))
+print(mean(students_abilities_R_split[[187]]$`2`$theta))
 
-#fOR 1 error
-t.test(student_32_R_split[[2]]$theta, student_32_R_split[[2]]$true_theta)
-#t = -1.0614, df = 47, p-value = 0.2939
-#mean of x mean of y    (no big difference, and no no overestimate)
-#0.2376425 0.2500000 
+j <- c( 0.9233876, 0.8655755, 0.765423, 0, 0, 0)
 
-#for 2 errors
+print(mean(students_abilities_R_split[[200]]$`0`$theta))
+print(mean(students_abilities_R_split[[200]]$`1`$theta))
 
-t.test(student_32_R_split[[3]]$theta, student_32_R_split[[3]]$true_theta)
-#t = -1.5343, df = 18, p-value = 0.1423
-#mean of x mean of y    (no big difference, and no no overestimate)
-#0.2255281 0.2500000  (slightly bigger, but as expected) 
+k <- c(1.74426, 1.350973, 0, 0, 0, 0)
 
-#for 3 errors
-t.test(student_32_R_split[[4]]$theta, student_32_R_split[[4]]$true_theta) #COMPLETELY IGNORING THE P-VALUE
-#t = -0.93816, df = 2, p-value = 0.4472
-#mean of x mean of y 
-#0.2257963 0.2500000 (THE DIFFERENCE DEOSN;T GET VERY BIGGER AS the number of errors increase)
+#data for tables
+mistakes.modA.rekenen.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k)
+mistakes.modA.rekenen.table <- as.data.frame(t(mistakes.modA.rekenen.table))
+#add the true thetas
+mistakes.modA.rekenen.table$true.theta <- c(-1.97, -1.43, -1.17, -0.16, 0.042,  0.21,  0.23,  0.27, 0.5,  0.93, 1.85) 
 
-#CONCLUSION: At the middle of the 'true' theta continuum there seems to be an overestimate of thew ability
-#when the student doesn't make any mistakes, as opposed to the extremes.
+#Data for plots
+mistakes.modA.rekenen <- c(a, b, c, d, e, f, g, h, i, j, k)
+mistakes.modA.rekenen.plot <- data.frame(mistakes.modA.rekenen, rep(c(-1.97, -1.43, -1.17, -0.16, 0.042,  0.21,  0.23,  0.27, 0.5,  0.93, 1.85), each = 6))
+mistakes.modA.rekenen.plot$mistakes <- rep(0:5, 11)
+names(mistakes.modA.rekenen.plot) <- c("Re-estimates", "True theta", "Mistakes")
 
-#FOR THETA = -1.2
-student_3_R_split <- split(student_3_R, student_3_R$errors)
+#save
+write_csv(mistakes.modA.rekenen.table, "mistakes.modA.rekenen.table.csv")
+write_csv(mistakes.modA.rekenen.plot, "mistakes.modA.rekenen.plot.csv")
 
-# For 4 errors
-t.test(student_3_R_split[[1]]$theta, student_3_R_split[[1]]$true_theta)
-#t = 15.019, df = 11, p-value = 1.124e-0
-#-0.9325235 -1.200000    (there is a difference, ignoring the p-value)
+#plot
 
-#For 5 errors
-t.test(student_3_R_split[[2]]$theta, student_3_R_split[[2]]$true_theta)
-#t = 1.0399, df = 87, p-value = 0.3
-#-1.179111 -1.200000    (very small difference, as expected)
+mistakes.modA.rekenen.plot$`True theta` <- as.factor(mistakes.modA.rekenen.plot$`True theta`)
 
-#FOR THETA = -1.25
-student_2_R_split <- split(student_2_R, student_2_R$errors)
-
-# For 4 errors
-t.test(student_2_R_split[[1]]$theta, student_2_R_split[[1]]$true_theta)
-#t = 5.9289, df = 7, p-value = 0.0005823
-#-0.9859082 -1.2500000  (non-negiligable difference)
-
-#For 5 errors
-t.test(student_2_R_split[[2]]$theta, student_2_R_split[[2]]$true_theta)
-#t = 0.37195, df = 91, p-value = 0.7108
-#-1.242768 -1.250000     (very small difference, as expected)
-
-#FOR THETA = -1.3
-student_1_R_split <- split(student_1_R, student_1_R$errors)
-
-#for 1 error
-summary(student_1_R_split[[1]])
-
-#-0.866 - 1.3  a big difference of 0.434 (as expected)
-
-# For 4 errors
-t.test(student_1_R_split[[2]]$theta, student_1_R_split[[2]]$true_theta)
-#t = 9.8633, df = 14, p-value = 1.108e-07
-#-1.024322 -1.300000 (not a small difference)
-
-#For 5 errors
-t.test(student_1_R_split[[3]]$theta, student_1_R_split[[3]]$true_theta)
-#t = 1.6663, df = 83, p-value = 0.09943
-#-1.265712 -1.300000  (not so small of a difference)
-
-#OVERALL CONCLUSUON: WE USUALLY HAVE AN OVER-UNDER ESTIMATE OF THETA, ON THE POSITIVE-NEGATIVE EXTREMES
-#OF THE ABILITY CONTINUUM. And we have a slight over-estimate of theta in the middle of the continuum
-
+ggplot(mistakes.modA.rekenen.plot[which(mistakes.modA.rekenen.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.9, 1.9)
 
 #------------------------------------------------------
-# Taal
+# TAAL
 #------------------------------------------------------
-# Only for student with "true" ability of 1.35 (i.e., student 49)
-
-student_49_T <- students_abilities_T[[49]]
-student_49_T$errors <- as.factor(student_49_T$errors)
-summary(student_49_T)  # 0:93; 1:5; 2:2
-
-# First we will see whether there is a significant difference between the average 
-#estimated thetas, for instances when having different errors on module A
-
-anova <- aov(student_49_T$theta ~ student_49_T$errors)
-summary(anova)
-#                    Df Sum Sq Mean Sq F value Pr(>F)
-#student_49_T$errors  2  0.160 0.08010   1.124  0.329
-
-student_49_T %>%
-  filter(errors == 0) %>%
-  summary()  #1.307
-
-student_49_T %>%
-  filter(errors == 1) %>%
-  summary()  #1.165
-
-student_49_T %>%
-  filter(errors == 2) %>%
-  summary()  #1.120
-
-#There tends to be an underestimate (as seen wirth the previous subjects)
-
-#SECONDLY WE WILL LOOK AT WHETHER THERE ARE DIFFERENCES BETWEEN THE TRUE AND THE ESTIMATED THETA WHEN CONTROLLING FOR THE ERRORS
-student_49_T_split <- split(student_49_T, student_49_T$errors)
-
-# For 0 errors
-t.test(student_49_T_split[[1]]$theta, student_49_T_split[[1]]$true_theta)
-#t = -1.502, df = 92, p-value = 0.1365
-#1.307468  1.350000   (there is a difference even after controlling for the number of errors!!!!!!)
-
-# For 1 error
-t.test(student_49_T_split[[2]]$theta, student_49_T_split[[2]]$true_theta) #(Not even looking at the p-value)
-#mean of x mean of y 
-#1.16496   1.35000   (the differene increases by a lot wheb the the number of errors incereases)
-#For 2 errors
-
-summary(student_49_T_split[[2]])
-#1.165 vs 1.35 (a smaller difference actually)
-
-#OVERALL CONCLUSION: BIG DIFFERENCES TEND TO BE PRESENT EVEN AFTER CONTROLLING FOR THE NUMBER OF MISTAKES.
-
-
-
-
-
-
-
-#========================================================================================
-#Repeat the initial analyses for ALL student, controlling for the number of errors 
-#=====================================================================================
-
-#For Lezen
-
-#split each student by the number of errors
-students_abilities_L_split <- list()
-for(i in 1:length(true.theta_L)){
-  students_abilities_L_split[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
+for (i in c(1,   2,  35,  40,  50,  80, 114, 126, 151, 173, 197, 198, 199, 200)){
+  print(unique(students_abilities_T[[i]]$errors))
 }
 
-summaries_L <- list()
-for(i in 1:length(true.theta_L)){
-  summaries_L[[i]] <- lapply(students_abilities_L_split[[i]], summary)
+print(mean(students_abilities_T_split[[1]]$`3`$theta))
+print(mean(students_abilities_T_split[[1]]$`4`$theta))
+print(mean(students_abilities_T_split[[1]]$`5`$theta))
+
+a <- c(0, 0, 0, -1.080217, -1.208618, -1.486848)
+
+print(mean(students_abilities_T_split[[2]]$`2`$theta))
+print(mean(students_abilities_T_split[[2]]$`3`$theta))
+print(mean(students_abilities_T_split[[2]]$`4`$theta))
+print(mean(students_abilities_T_split[[2]]$`5`$theta))
+
+b <- c(0, 0, -0.8361318, -1.021674, -1.110697, -1.322772)
+
+for (i in c(35,  40,  50)){
+  print(mean(students_abilities_T_split[[i]]$`0`$theta))
+  print(mean(students_abilities_T_split[[i]]$`1`$theta))
+  print(mean(students_abilities_T_split[[i]]$`2`$theta))
+  print(mean(students_abilities_T_split[[i]]$`3`$theta))
+  print(mean(students_abilities_T_split[[i]]$`4`$theta))
+  print(mean(students_abilities_T_split[[i]]$`5`$theta))
 }
 
-#For Rekenen
+c <- c(0.02232902, -0.01262994, -0.03228247, -0.05830431, -0.06439781, -0.1245654)
+d <- c(0.07396241, 0.039990181, 0.003881742, -0.02454378, -0.02944609, -0.05069841)
+e <- c(0.1273112, 0.09075322, 0.06889079, 0.02958782, 0.004247461, -0.1126466)
 
-#split each student by the number of errors
-students_abilities_R_split <- list()
-for(i in 1:length(true.theta_R)){
-  students_abilities_R_split[[i]] <-  split(students_abilities_R[[i]], students_abilities_R[[i]]$error)
+for (i in c(80, 114, 126, 151)){
+  print(mean(students_abilities_T_split[[i]]$`0`$theta))
+  print(mean(students_abilities_T_split[[i]]$`1`$theta))
+  print(mean(students_abilities_T_split[[i]]$`2`$theta))
+  print(mean(students_abilities_T_split[[i]]$`3`$theta))
+  print(mean(students_abilities_T_split[[i]]$`4`$theta))
 }
 
-summaries_R <- list()
-for(i in 1:length(true.theta_R)){
-  summaries_R[[i]] <- lapply(students_abilities_R_split[[i]], summary)
+f <- c(0.2039156, 0.17475, 0.1488729, 0.1039887, 0.06937735, 0)
+g <- c(0.3164847, 0.2892954,  0.2656929, 0.2369992, 0.2195473, 0)
+h <- c(0.3796649, 0.3471875,  0.3084062, 0.2702077, 0.262165, 0)
+i <- c(0.4783319, 0.4432322, 0.3889314, 0.2972278, 0.1225794, 0)
+
+
+print(mean(students_abilities_T_split[[173]]$`0`$theta))
+print(mean(students_abilities_T_split[[173]]$`1`$theta))
+print(mean(students_abilities_T_split[[173]]$`2`$theta))
+print(mean(students_abilities_T_split[[173]]$`3`$theta))
+
+j <- c(0.6089161, 0.566516, 0.5489141, 0.2598443, 0, 0)
+
+for (i in c(197, 198)){
+  print(mean(students_abilities_T_split[[i]]$`0`$theta))
+  print(mean(students_abilities_T_split[[i]]$`1`$theta))
+  print(mean(students_abilities_T_split[[i]]$`2`$theta))
 }
 
-#For Taal
+k <- c(1.391322, 1.148818, 1.001995, 0, 0, 0)
+l <- c(1.536291, 1.205486, 1.075224, 0, 0, 0)
 
-#split each student by the number of errors
-students_abilities_T_split <- list()
-for(i in 1:length(true.theta_T)){
-  students_abilities_T_split[[i]] <-  split(students_abilities_T[[i]], students_abilities_T[[i]]$error)
+
+for (i in c(199, 200)){
+  print(mean(students_abilities_T_split[[i]]$`0`$theta))
+  print(mean(students_abilities_T_split[[i]]$`1`$theta))
 }
 
-summaries_R <- list()
-for(i in 1:length(true.theta_R)){
-  summaries_R[[i]] <- lapply(students_abilities_R_split[[i]], summary)
-}
+m <- c(1.621503, 1.237984, 0, 0, 0, 0)
+n <- c(1.730166, 1.262784, 0, 0, 0, 0)
+
+#data for tables
+mistakes.modA.taal.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+mistakes.modA.taal.table <- as.data.frame(t(mistakes.modA.taal.table))
+#add the true thetas
+mistakes.modA.taal.table$true.theta <- c(-1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4, 1.6,  1.8,  2.12) 
+
+#Data for plots
+mistakes.modA.taal <- c(a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+mistakes.modA.taal.plot <- data.frame(mistakes.modA.taal, rep(c(-1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4, 1.6,  1.8,  2.12), each = 6))
+mistakes.modA.taal.plot$mistakes <- rep(0:5, 14)
+names(mistakes.modA.taal.plot) <- c("Re-estimates", "True theta", "Mistakes")
+
+#save
+write_csv(mistakes.modA.taal.table, "mistakes.modA.taal.table.csv")
+write_csv(mistakes.modA.taal.plot, "mistakes.modA.taal.plot.csv")
+
+#plot
+
+mistakes.modA.taal.plot$`True theta` <- as.factor(mistakes.modA.taal.plot$`True theta`)
+
+ggplot(mistakes.modA.taal.plot[which(mistakes.modA.taal.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.9, 1.9)
+
+

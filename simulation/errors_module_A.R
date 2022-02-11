@@ -27,11 +27,6 @@ for (i in 1:length(true.theta_L)){
   
 }
 
-#subset(students_patterns_L[[30]], subset = item_id == c("BL00518", "BL00519", "BL00520", "BL00521", "BL02412",  "OP00142"))
-#students_patterns_L[[1]] %>%
- # filter(item_id == "BL00518")
-# for each student there are 600 items in total: since we have 6 items in module A and 100 repeated measurements
-#So we can add a factor variable `repeat` indicating from which measurement does a particular item come from
 
 for( i in 1:length(true.theta_L)){
   patterns_module_A_L[[i]]$occ <- rep(1:n_sim, each = 6)
@@ -97,26 +92,7 @@ test_design_R %>%
 #4      RDA1 RD516663             4
 #5      RDA1 RD516375             5
 
-# Filter only these items:
-#patterns_module_A_R <- list()
-#for (i in 1:length(true.theta_R)){
-#  patterns_module_A_R[[i]] <- students_patterns_R[[i]] %>%
-#    filter(item_id == c("RD516087", "RD516456", "RD516A28", "RD516663", "RD516375")) 
-#}
 
-#Illustrating the problem:
-#subset(students_patterns_R[[30]], subset = item_id == c("RD516087", "RD516456", "RD516A28", "RD516663", "RD516375"))
-#x <- students_patterns_R[[1]] %>%
-#  filter(item_id == c("RD516087", "RD516456", "RD516A28", "RD516663", "RD516375")) 
-#y <- students_patterns_R[[1]] %>%
-#  filter(item_id == "RD516456")
-#students_patterns_L[[1]] %>%
-#filter(item_id == c("BL00518", "BL00519", "BL00520", "BL00521", "BL02412",  "OP00142"))
-
-#students_patterns_R[[1]] %>%
-#filter(item_id == c("RD516087", "RD516456", "RD516A28", "RD516663", "RD516375"))
-
-# Since we have this persistent probe=le, we are going to take a detour and ging to repeat it for each item separately
 #item 1
 patterns_module_A_R.1 <- list()
 for (i in 1:length(true.theta_R)){
@@ -241,16 +217,7 @@ test_design_T %>%
 #4      TDA1  IP00074             4
 #5      TDA1  GR00148             5
 
-# Filter only these items:
-#patterns_module_A_T <- list()
-#for (i in 1:length(true.theta_T)){
-#  patterns_module_A_T[[i]] <- students_patterns_T[[i]] %>%
-#    filter(item_id == c("SN00003D", "SN00038", "SW00090D", "IP00074", "GR00148")) 
-#}
-
-
-#students_patterns_T[[1]] %>%
-#  filter(item_id == "SN00003D") 
+ 
 patterns_module_A_T.1 <- list()
 for (i in 1:length(true.theta_T)){
   patterns_module_A_T.1[[i]] <- students_patterns_T[[i]] %>%
