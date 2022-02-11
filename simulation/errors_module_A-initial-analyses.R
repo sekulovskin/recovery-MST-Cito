@@ -83,6 +83,9 @@ r <- c(1.54481, 0, 0, 0, 0, 0, 0)
 #data for tables (in appendix)
 mistakes.modA.lezen.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)
 mistakes.modA.lezen.table <- as.data.frame(t(mistakes.modA.lezen.table))
+mistakes.modA.lezen.table[mistakes.modA.lezen.table == 0] <- NA
+mistakes.modA.lezen.table$avg.theta <- apply(mistakes.modA.lezen.table, 1, mean, na.rm = TRUE)
+mistakes.modA.lezen.table[is.na(mistakes.modA.lezen.table)] <- 0
 #add the true thetas
 mistakes.modA.lezen.table$true.theta <- c(-2.54, -1.8, -1.5, -1.3, -1.2, -1, -0.9, -0.8, -0.007,  0.08,  0.13, 0.4,  0.43,  1.2,  1.4, 1.7, 2.2, 3.4)
 
@@ -177,6 +180,9 @@ k <- c(1.74426, 1.350973, 0, 0, 0, 0)
 #data for tables
 mistakes.modA.rekenen.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k)
 mistakes.modA.rekenen.table <- as.data.frame(t(mistakes.modA.rekenen.table))
+mistakes.modA.rekenen.table[mistakes.modA.rekenen.table == 0] <- NA
+mistakes.modA.rekenen.table$avg.theta <- apply(mistakes.modA.rekenen.table, 1, mean, na.rm = TRUE)
+mistakes.modA.rekenen.table[is.na(mistakes.modA.rekenen.table)] <- 0
 #add the true thetas
 mistakes.modA.rekenen.table$true.theta <- c(-1.97, -1.43, -1.17, -0.16, 0.042,  0.21,  0.23,  0.27, 0.5,  0.93, 1.85) 
 
@@ -274,6 +280,9 @@ n <- c(1.730166, 1.262784, 0, 0, 0, 0)
 #data for tables
 mistakes.modA.taal.table <- data.frame(a, b, c, d, e, f, g, h, i, j, k, l, m, n)
 mistakes.modA.taal.table <- as.data.frame(t(mistakes.modA.taal.table))
+mistakes.modA.taal.table[mistakes.modA.taal.table == 0] <- NA
+mistakes.modA.taal.table$avg.theta <- apply(mistakes.modA.taal.table, 1, mean, na.rm = TRUE)
+mistakes.modA.taal.table[is.na(mistakes.modA.taal.table)] <- 0
 #add the true thetas
 mistakes.modA.taal.table$true.theta <- c(-1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4, 1.6,  1.8,  2.12) 
 
