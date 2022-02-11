@@ -10,6 +10,11 @@ bibliography: ["ref.bib"]
 csl: apa-no-doi-no-issue.csl
 link-citations: TRUE
 ---
+<style>
+body {
+text-align: justify}
+</style>
+
 ```{r libraries, include=FALSE}
 library(tidyverse)
 library(Hmisc)
@@ -20,17 +25,17 @@ source("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/s
 
 # **Introduction**
  
-*Multistage tests* (MSTs), are said to be "the best of both worlds" when compared to the traditional *Linear Tests* (LTs) on the one hand, and *Computerized Adaptive Tests* (CATs) on the other. They allow for adaptation of the difficulty based on the level of proficiency, without many of the shortcomings that follow when using completely adaptive tests (such as CAT). Briefly, many of the problems that CAT's face, such as the lack of control over item ordering, not being easily applicable to essay items, no possibility of reviewing, difficulty of programming, are compensated for when using MST's. Multistage tests can be seen as a series of small sequential batches of items (called *modules*), where, based on the proficiency estimated in one module, an appropriately difficult following module is administered. Every specific combination of modules can be seen as a separate booklet, which implies that different students (with varying levels of proficiency) can follow different paths (which can be seen as booklets). For more details on MST's, see, for example @yan2016computerized pp 3-20. 
-The particular MST that that is studied here is called **ACET** (*Dutch*: Adaptive Centrale Eindtoets), which was developed by [Cito](https://www.cito.com/) for the classification of students on different levels (also called classes) of secondary education. **ACET** is comprised of  three separate MST's for measuring *Reading (Lezen)*, *Mathematics (Rekenen)* and *Language proficiency (Taal)*, and a linear test for *Writing (Schrijven)* (throughout this report the Dutch names for the subjects are used). The final score of *ACET* is calculated as a composite of the four resulting ability estimates on the four subjects. The MST design for the all three subjects is presented below.
+*Multistage tests* (MSTs), are said to be "the best of both worlds" when compared to the traditional *Linear Tests* (LTs) on the one hand, and *Computerized Adaptive Tests* (CATs) on the other. They allow for the adaptation of the difficulty based on the level of proficiency, without many of the shortcomings that follow when using completely adaptive tests (such as CAT). Briefly, many of the problems that CAT's face, such as the lack of control over item ordering, not being easily applicable to essay items, no possibility of reviewing, difficulty of programming, etc, are all compensated for when using MST's. Multistage tests can be seen as a series of small sequential batches of items (called *modules*), where, based on the proficiency estimated in one module, an appropriately difficult following module is administered. Every specific combination of modules can be seen as a separate booklet, which implies that different students (with varying levels of proficiency) can follow different paths (which can be seen as booklets). For more details on MST's, see, for example @yan2016computerized pp 3-20. 
+The particular MST that that is studied here is called **ACET** (*Dutch*: Adaptive Centrale Eindtoets), which was developed by [Cito](https://www.cito.com/) for the classification of students on different levels (also called classes) of secondary education. **ACET** is comprised of  three separate MST's for measuring *Reading (Lezen)*, *Mathematics (Rekenen)* and *Language proficiency (Taal)*, and a linear test for *Writing (Schrijven)* (throughout this report the Dutch names for the subjects are used). The final score of *ACET* is calculated as a composite of the resulting ability estimates on the four subjects. The MST design for the all three subjects is presented below.
   
-```{r ACET, out.width = "70%", fig.align = 'center', echo=FALSE, cache=TRUE}
+```{r ACET, out.width = "70%", fig.align = 'center', echo=FALSE}
 include_graphics("ACET.jpg")
 ``` 
-Knowing how MST's (and adaptive tests in general) work, it is only logical to ask the question how fair are these tests when estimating the final ability of the students. More specifically, what happens when, for example, a highly proficient student makes mistakes in the early stages of the MST, and as a result is routed thorough a easier path? In other words: *to what extent can students "recover" from mistakes made in an earlier stage(s) and still reach an estimate close to their true ability*. This is the research question that is tackled in the work presented in this report in order to try to answer this issue specifically of *ACET*. 
-**ACET** consists of multiple versions for each module on all three subjects. In order to keep the simulation as simple as possible,  a special version of the MST developed for hearing impaired students will be used which only contains one version per module.  Throughout this report the terms ability, proficiency and $\theta$ (which is the Greek symbol used in [IRT](https://en.wikipedia.org/wiki/Item_response_theory) to represent the latent ability) are used interchangeably. In an effort to answer the research question for this project, two simulations studies were conducted.
+Knowing how MST's (and adaptive tests in general) work, it is only logical to ask the question how fair are these tests when estimating the final ability of the students. More specifically, what happens when, for example, a highly proficient student makes mistakes in the early stages of the MST, and as a result is routed thorough a easier path? In other words: *to what extent can students "recover" from mistakes made in an earlier stage(s) and still reach an estimate close to their true ability*. This is the research question that is tackled in the work presented in this report in order to try to answer this issue specifically for *ACET*. 
+**ACET** consists of multiple versions for each module on all three subjects. In order to keep the simulation as simple as possible,  a special version of the MST developed for hearing impaired students will be used which only contains one version per module.  Throughout this report the terms ability, proficiency and $\theta$ (which is the Greek symbol used in [IRT](https://en.wikipedia.org/wiki/Item_response_theory) to represent the latent ability) are used interchangeably. In an effort to answer the research question, two simulations studies were conducted.
 
-This report is divided as follows. In the next section the first (initial) simulation, undertaken to explore how these particular MSTs function when we "know" the true ability of the students is presented and results from initial statistical analyses are briefly presented. Afterwards, the number of errors in Module A and in Day 1 are calculated and visual representation of the difference btwetn the true and re-estimated ability are given fro all three subjects. Also, the number of different paths, with a special focus on the students located on the extremes of the latent ability distribution is presented and discussed. In the end of this section, in a small statistical "experiment" it is explored whether there are significant differences in the difference between the true and the re-estimated proficiency between the three subjects when controlling for different excoriates. In the section afterwards, using the observed data from ACET 2021, we repeat the simulation using the ....(finish this after finishing the actual sections).
-All the code used to obtain the results presented in this report is openly available on [GitHub](https://github.com/sekulovskin/recovery-MST-Cito). Note, due to the nature of the simulations (more specifically the way the multuple MST responses are generated), exact replications are not possible (even when using the same random seed), thus the results might slightly vary. However, the simulations were repeated many times, and roughly the same results were observed.
+This report is divided as follows. In the next section the first (initial) simulation, undertaken to explore how these particular MSTs function when we "know" the true ability of the students is presented and results from initial statistical analyses are discussed. Afterwards, the number of errors in Module A and in Day 1 are calculated and visual representation of the difference between the true and re-estimated ability are given for all three subjects. Also, the number of different paths, with a special focus on the students located on the extremes of the latent ability distribution, is presented and discussed. In the end of this section, in a small statistical "experiment" it is explored whether there are significant differences in the difference between the true and the re-estimated proficiency between the three subjects when controlling for different excoriates. In the section afterwards, using the observed data from ACET 2021, we repeat the simulation using the ....(finish this after finishing the actual sections).
+All the code used to obtain the results presented in this report is openly available on [GitHub](https://github.com/sekulovskin/recovery-MST-Cito). Note, due to the nature of the simulations (more specifically the way the multiple MST responses are generated), exact replications are not possible (even when using the same random seed), thus the results might slightly vary. However, the simulations were repeated many times, and roughly the same results were observed.
 
 # **Initial (exploratory) simulation**
 
@@ -86,7 +91,7 @@ p <- data.frame()
 names(p) <- "p values"
 tbl_summary(p, statistic = list(all_continuous() ~ "{mean} ({sd}) [{p1}, {p99}], "))
 ```
-The mean p-value for Rekenen is higher than for Lazen roughly indicating less problems with high difference, however the 98% interval still contains the cutoff of 0.01.
+The mean p-value for Rekenen is higher than for Lazen, roughly indicating less problems with high difference, however the 98% interval still contains the cutoff of 0.01.
 
 ```{r include=FALSE}
 which(p$`p values` <= 0.01)   
@@ -115,7 +120,7 @@ transform.ref.score.taal(true.theta_R[c(1,   2,  35,  40,  50,  80, 114, 126, 15
 ```
 
 
-Here significant differences were found for $\theta$ values -1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4  1.6,  1.8 and  2.12 corresponding to reference Taal scores of 0,  1, 35, 36, 42, 49, 55, 58, 61, 64, 68, 69, 70 and 70 respectively.
+Here significant differences were found for $\theta$ values -1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4, 1.6,  1.8 and  2.12 corresponding to reference Taal scores of 0,  1, 35, 36, 42, 49, 55, 58, 61, 64, 68, 69, 70 and 70 respectively.
   
 **Conclusion:** Based on the presented preliminary analyses, we can see that, when we do not control for any variables, and just inspect whether there is a difference between the true and the average of the re-estimated $\theta's$ for each true ability: 
  
@@ -128,44 +133,94 @@ Here significant differences were found for $\theta$ values -1.7, -1.3, -0.03,  
 Based on this first basic rudimentary analyses on the simulates MST responses, we can conclude that mismatches between the true and the re-estimated proficiency tend to appear, especially for the subject Lezen. These results give reason to continue to explore why this is the case by considering different aspects of the MST, which is done in the sections that follow.
 
 
-## Number of mistakes 
+## Number of early mistakes 
 
-Since it is in the inherent nature of an MST  that the the performance in the early (or even the first) module is crucial in deciding in which module will a student be routed in the following stage (see, [Introduction section](# **Introduction**)) it is important to consider students responses on the early stages. Thus, `R` scripts that calculate the number of mistakes in Module A *and* the number of mistakes on Day 1 were written and used both in this simulation and in the one presented in the next section.
+Since it is in the inherent nature of an MST  that the the performance in the early (or even the first) module is crucial in deciding in which module will a student be routed in the following stage (see, [Introduction section](# **Introduction**)) it is important to consider students responses on the early stages. Thus, `R` scripts that calculate the number of mistakes in Module A *and* the number of mistakes on Day 1 were written and used both in this simulation and in the one presented in the next section. Since in ACET students are either awarded the maximum number of points or no points, a mistake is defined as a score of zero on a particular item.
 
-### Analyses
+Here the repeated re-estimates for the "students" that showed significant differences in the [initial analysis](## Initial analyses) were separated with respect to the number of mistakes in module A in order to see whether the observed significant differences can be attributed to the number of errors. No statistical significance tests were implemented in this situation since the number of replications on different errors (mistake levels) is highly variable, which would've resulted in p-values that make little sense. Thus, a tabular representation of these results for each subject are presented below. Here the mean number of mistakes for each number of mistakes on each of the significant proficiency found in the first analyses are presented (for all three subjects). Moreover, plots of the same results are available in the [Appendix](#*Appendix*). These analyses will not be repeated for the number of mistakes on Day 1, since, as can be seen from the **ACTET** MST design presented in the introduction, these represent the sum of mistakes in stages 1 2 and 3, which means that separating on a wide range of number is not very insightful. However, the number of mistakes on Day 1 is used as a covariate in the main statistical analysis presented at the end of this section. 
 
-The repeated re-estimates for all "students" that showed significant differences in the [initial analysis](## Initial analyses) were separated with respect to the number of mistakes in order to see whether the observed significant differences can be attributed to the number of errors (in module A and in day 1). No statistical significance tests were implemented in this situation since the number of replications on different errors (mistake levels) varies a lot, which would've resulted in p-values that make little sense. SO it was decided that only descriptive statistics will be observed
 
-#### Mistakes in Module A
+### Mistakes in Module A
 
-##### **Lezen**
+#### Significant differences observed in the first analyses
+
 ```{r echo=FALSE}
-mistakes.modA.lezen <- read.csv("mistakes.modA.lezen.csv")
-
-gsub(0, " ", kable(mistakes.modA.lezen))
+mistakes.modA.lezen <- read.csv("mistakes.modA.lezen.table.csv")
+names(mistakes.modA.lezen) <- c("0", "1", "2", "3", "4", "5", "6", "Average re-restimated theta", "True theta")
+gsub(0, " ", kable(round(mistakes.modA.lezen, 4)))
 ```
 
-In this case the topmost and bottommost extreme values (i.e., -2.54 and 3.4) only have the perfect number of errors (6 and 0 respectively) which indicates that the MST has difficulties accurately re-estimating the true abilities, regardless of the performance in the first module (*possibly move this futrher below*). 
+It is evident that for the extreme ability values, high mismatches tend to appear, regardless of the number of mistakes. In other words, high discrepancies between the true and re-estimated $\theta$ appear even when students make the perfect score (6 for low achieving students and 0 for high achieving students). For example, the student with a true ability of -2.54 has an estimated ability of -1.97 even when incorrectly scoring all six items in Module A. A similar situation can be observed with the students having true abilities of 3.4, 2.2 and 1.7. For the medium achieving students there tend to be smaller discrepancies, especially when approaching the appropriate number of mistakes for that level of proficiency, though, average discrepancies of 0.1 units on the latent ability scale can still be observed. The fluctuation of the re-estimates as a function of the number of mistakes in module A is quite mild, indicating that these medium proficient students are not as sensitive to the number of mistakes in module A as high proficient students.
 
-##### **Rekenen**
+```{r echo=FALSE}
+mistakes.modA.rekenen <- read.csv("mistakes.modA.rekenen.table.csv")
+names(mistakes.modA.rekenen) <- c("0", "1", "2", "3", "4", "5","Average re-restimated theta", "True theta")
+gsub(0, " ", kable(round(mistakes.modA.rekenen, 4)))
+```
 
-##### **Taal**
+The most desirable situation can again be observed with the subject Rekenen, where even on the extremes of the latent ability continuum, the discrepancies between the true and the re-estimated abilities  tend to be significantly lower when compared to Lezen. The fact that differences between the true and the re-restimated $\theta$ when having the perfect score are still observed for these extreme values, is not an inherint issue only to MST, but it is also connected to the test information, In other words, the items (and consequently the test) does not posses enough information to accurately capture the abilities on the extremes, which is beyond the scope of this project. When we look at the medium proficient students we can see that there aren;t many big fluctuations, however, as the number of mistakes becomes too low or too high differences of around 0.1 units can still be observed. However, when this is translated into reference scores, it doesn't impose a big problem. 
 
+```{r echo=FALSE}
+mistakes.modA.taal <- read.csv("mistakes.modA.taal.table.csv")
+names(mistakes.modA.taal) <- c("0", "1", "2", "3", "4", "5","Average re-restimated theta", "True theta")
+gsub(0, " ", kable(round(mistakes.modA.taal, 4)))
+```
 
-#### Day 1
+It is interesting to note that for Taal large mismatches are only present on the positive extreme of the ability continuum. For the medium true abilities no big mismatches are observed.
 
-### Plots
+**Conclusion: ** It is important to note that medium proficient students, when scoring a perfect score tend to be overestimated by around 0.1 units on the latent ability scale. (NOT FINISHED)
 
- - plots (connect with the (average) item difficulty parameters)
  
 ## Number of paths per subject
 
+It is also important to inspect whether the large discrepancies between the true and re-estimated latent ability,  can be attributed to taking different paths trough the MST for the latent abilities located on the edges of the distribution. Since it is rare to expect that those students would take another path than the "perfect" one^[A perfect path is a completely difficult or completely easy path such as A-C-F-I and A-B-D-G.] For this purpose the high and low true $\theta's$ that showed significant differences in the initial analysis are used, and inspected whether they took more than one path (for each of the three subjects). Afterwards, the mean $\theta$ re-estimates are calculated for each path separately in order to see whether taking one path over another can (partly) explain the ability discrepancy observed in the first analysis.
+
+### Lezen
+
+```{r echo=FALSE}
+paths.lezen <- read.csv("paths.lezen.csv")
+names(paths.lezen) <- c("Path", "Average re-estimated theta", "True theta")
+kable(paths.lezen, digits = 4)
+```
+Only two students on the positive extreme had followed more than one path. The results presented in the table above show that when a highly proficient student makes a mistake in Module A of the Lezen MST and is routed to easier Module B instead to the more difficult Module C in the second stage, big ability discrepancies tend to appear. For example, the student with a true $\theta$ of 1.2 has an average re-estimated $\theta$ of 1.18 when following the perfect route (i.e., A-C-F-I), however, that re-estimate falls down ~ 0.9 when taking the route A-B-F-I. A similar situation is observed with the true latent ability of 1.4. These results clearly indicate that when a student makes mistakes in Module A of the Lezen MST, and is routed to the easier Module B in the second stage, even if he/she manages to continue on the difficult route in stages 3 and 4, the final estimate of ability differs quite a lot compared to when being routed to Module C in the second stage. This should be kept in mid when administering the Lezen MST, some recommendations are given in the [Conslusion section](# **Conclusion**).
+
+### Rekenen
+
+```{r echo=FALSE}
+paths.rekenen <- read.csv("paths.rekenen.csv")
+names(paths.rekenen) <- c("Path", "Average re-estimated theta", "True theta")
+kable(paths.rekenen, digits = 4)
+```
+Only one student on the positive extreme was observed follow more than one path for the Rekenen test. ....
+### Taal
+
+```{r echo=FALSE}
+paths.taal <- read.csv("paths.taal.csv")
+names(paths.taal) <- c("Path", "Average re-estimated theta", "True theta")
+kable(paths.taal, digits = 4)
+```
+
+
+It should be noted that some of the the differences can be attributed to the fact that we are not dealing with the same level of ability in the different courses, so comparing them directly is not advisable.
 
 ## Statistical Analyses (maybe a better name)
 
- - Explain the idea
- - Put the assumptions in appendix
- - Give the result and conclusions
+By now it is already evident the most of the problems concerning the recovery from early mistakes are present in the Lezen MST. However, due to the complexity of the research question, no single way to quantify this "hint" is available. Thus, in an effort to incpect whether significant differences for the theta discrepancy between the true courses are present when controlling for certain covariates, such as the number of mistakes in module A, the number of mistakes in day 1,  the number of different paths taken, and the weights of the items in Modules A, an [Aalysis of Covariance](https://en.wikipedia.org/wiki/Analysis_of_covariance) was performed on the simulated data. First all the variables are explained:
+
+ - **Dependant variable:**: Difference between the absolute values of the true and re-restimated thetas;
+ - **Indepdentend (factor) varable:** The subjects, having three levels (Lezen, Taal and Rekenen);
+ - **Covariates:**
+    - Average number of mistakes in Module A
+    - Average number of mistakes in Day 1
+    - Number of paths for each different theta
+    - Weights of the items in the first module
+    - Information (??)
+ 
+ 
+### Descriptives and assumptions
+
+
+### Results 
  
 # **Classification errors (simulation 2)**
 
@@ -186,4 +241,48 @@ In this case the topmost and bottommost extreme values (i.e., -2.54 and 3.4) onl
 
 \newpage
 # **Appendix**
- 
+
+## Plots
+
+### Mistakes in Module A
+
+```{r echo=FALSE, fig.align = 'center'}
+mistakes.modA.lezen.plot <- read.csv("mistakes.modA.lezen.plot.csv")
+names(mistakes.modA.lezen.plot) <- c("Re-estimates", "True theta", "Mistakes")
+mistakes.modA.lezen.plot$`True theta` <- as.factor(mistakes.modA.lezen.plot$`True theta`)
+ggplot(mistakes.modA.lezen.plot[which(mistakes.modA.lezen.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.2, 1.6)+ 
+  labs(title = "Lezen",
+       x = "Number of mistakes in Module A")
+```
+
+
+```{r echo=FALSE, fig.align = 'center'}
+mistakes.modA.rekenen.plot <- read.csv("mistakes.modA.rekenen.plot.csv")
+names(mistakes.modA.rekenen.plot) <- c("Re-estimates", "True theta", "Mistakes")
+mistakes.modA.rekenen.plot$`True theta` <- as.factor(mistakes.modA.rekenen.plot$`True theta`)
+
+ggplot(mistakes.modA.rekenen.plot[which(mistakes.modA.rekenen.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.9, 1.9) + 
+  labs(title = "Rekenen",
+       x = "Number of mistakes in Module A")
+```
+
+
+```{r echo=FALSE, fig.align = 'center'}
+mistakes.modA.taal.plot <- read.csv("mistakes.modA.taal.plot.csv")
+names(mistakes.modA.taal.plot) <- c("Re-estimates", "True theta", "Mistakes")
+mistakes.modA.taal.plot$`True theta` <- as.factor(mistakes.modA.taal.plot$`True theta`)
+
+ggplot(mistakes.modA.taal.plot[which(mistakes.modA.taal.plot$`Re-estimates`!=0),], aes(x = Mistakes, y = `Re-estimates`, group = `True theta`)) +  
+  geom_line(aes(color=`True theta`), size = 1, linetype = 3)+
+  geom_point(aes(color=`True theta`)) +
+  ylim(-1.9, 1.9)+ 
+  labs(title = "Taal",
+       x = "Number of mistakes in Module A")
+```
+
