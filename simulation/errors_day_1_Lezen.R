@@ -18,6 +18,15 @@ test_design_L %>%
 test_design_L %>%
   filter(module_id == "LDF1")
 
+
+#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
+booklet_id <- "placeholder"
+person_id <- "placeholder"
+item_id <- "placeholder"
+item_score <- 1
+
+placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
+
 ###For Module A
 patterns_module_A_L <- list()
 for (i in 1:length(true.theta_L)){
@@ -30,7 +39,7 @@ for (i in 1:length(true.theta_L)){
 #add variable indicating occasion
 
 for( i in 1:length(true.theta_L)){
-  patterns_module_A_L[[i]]$occ <- rep(1:100, each = 6)
+  patterns_module_A_L[[i]]$occ <- rep(1:n_sim, each = 6)
 }
 
 ###For Module B (we will do it for each item separately, unfortunately)
@@ -43,6 +52,13 @@ for (i in 1:length(true.theta_L)){
   patterns_module_B_L.1[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "BL00474D") 
   
+}
+
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.1[[i]]) == 0){
+    patterns_module_B_L.1[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -61,6 +77,12 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.2[[i]]) == 0){
+    patterns_module_B_L.2[[i]] <- placeholder.df
+  }
+}
+
 for( i in 1:length(true.theta_L)){
   patterns_module_B_L.2[[i]]$occ <-seq(1:nrow(patterns_module_B_L.2[[i]]))
 } 
@@ -73,6 +95,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_B_L.3[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "BL00341") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.3[[i]]) == 0){
+    patterns_module_B_L.3[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -89,6 +117,12 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.4[[i]]) == 0){
+    patterns_module_B_L.4[[i]] <- placeholder.df
+  }
+}
+
 for( i in 1:length(true.theta_L)){
   patterns_module_B_L.4[[i]]$occ <-seq(1:nrow(patterns_module_B_L.4[[i]]))
 } 
@@ -103,6 +137,13 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.5[[i]]) == 0){
+    patterns_module_B_L.5[[i]] <- placeholder.df
+  }
+}
+
+
 for( i in 1:length(true.theta_L)){
   patterns_module_B_L.5[[i]]$occ <-seq(1:nrow(patterns_module_B_L.5[[i]]))
 } 
@@ -114,6 +155,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_B_L.6[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "OP00204") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.6[[i]]) == 0){
+    patterns_module_B_L.6[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -128,6 +175,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_B_L.7[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "OP00078") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_B_L.7[[i]]) == 0){
+    patterns_module_B_L.7[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -332,6 +385,12 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.1[[i]]) == 0){
+    patterns_module_D_L.1[[i]] <- placeholder.df
+  }
+}
+
 for( i in 1:length(true.theta_L)){
   patterns_module_D_L.1[[i]]$occ <-seq(1:nrow(patterns_module_D_L.1[[i]]))
 } 
@@ -347,6 +406,12 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.2[[i]]) == 0){
+    patterns_module_D_L.2[[i]] <- placeholder.df
+  }
+} 
+
 for( i in 1:length(true.theta_L)){
   patterns_module_D_L.2[[i]]$occ <-seq(1:nrow(patterns_module_D_L.2[[i]]))
 } 
@@ -358,6 +423,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_D_L.3[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "BL00386") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.3[[i]]) == 0){
+    patterns_module_D_L.3[[i]] <- placeholder.df
+  }
 }
 
 for(i in 1:length(true.theta_L)){
@@ -373,6 +444,12 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.4[[i]]) == 0){
+    patterns_module_D_L.4[[i]] <- placeholder.df
+  }
+}
+
 for( i in 1:length(true.theta_L)){
   patterns_module_D_L.4[[i]]$occ <-seq(1:nrow(patterns_module_D_L.4[[i]]))
 } 
@@ -384,6 +461,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_D_L.5[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "SV00442") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.5[[i]]) == 0){
+    patterns_module_D_L.5[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -401,9 +484,16 @@ for (i in 1:length(true.theta_L)){
   
 }
 
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.6[[i]]) == 0){
+    patterns_module_D_L.6[[i]] <- placeholder.df
+  }
+}
+
 for( i in 1:length(true.theta_L)){
   patterns_module_D_L.6[[i]]$occ <-seq(1:nrow(patterns_module_D_L.6[[i]]))
 } 
+
 #item 7 D
 
 patterns_module_D_L.7 <- list()
@@ -412,6 +502,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_D_L.7[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "V00444") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.7[[i]]) == 0){
+    patterns_module_D_L.7[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -425,6 +521,12 @@ for (i in 1:length(true.theta_L)){
   patterns_module_D_L.8[[i]] <- students_patterns_L[[i]] %>%
     filter(item_id == "OP00188D") 
   
+}
+
+for(i in 1:length(true.theta_L)){
+  if(nrow(patterns_module_D_L.8[[i]]) == 0){
+    patterns_module_D_L.8[[i]] <- placeholder.df
+  }
 }
 
 for( i in 1:length(true.theta_L)){
@@ -808,7 +910,7 @@ rm(patterns_module_F_L.1, patterns_module_F_L.2, patterns_module_F_L.3,
 
 patterns_Day.1_L <- list()
 
-for(i in 1:length(true.theta_L)){
+for(i in 1:length(true.theta_L)){   #problems with modules B and D
   patterns_Day.1_L[[i]] <- rbind(patterns_module_A_L[[i]], patterns_module_B_L[[i]], patterns_module_C_L[[i]], 
                                  patterns_module_D_L[[i]], patterns_module_E_L[[i]], patterns_module_F_L[[i]])
 }
@@ -847,7 +949,7 @@ for(i in 1:length(true.theta_L)){
   n_errors_Day.1_L[[i]] <- unlist( n_errors_Day.1_L[i])
 }
 
-#put in separate once columnt (df) i.e., vector
+#put in separate one column (df) i.e., vector
 for(i in 1:length(true.theta_L)){
    n_errors_Day.1_L[i] <- as.data.frame(n_errors_Day.1_L[i])
 }
@@ -858,15 +960,4 @@ for(i in 1:length(true.theta_L)){
 }
 
 
-###Analysis#####
-
-#students_abilities_L_split.Day.1 <- list()
-#for(i in 1:length(true.theta_L)){
-#  students_abilities_L_split.Day.1[[i]] <-  split(students_abilities_L[[i]], students_abilities_L[[i]]$errors.Day1)
-#}
-
-#summaries_L.Day1 <- list()
-#for(i in 1:length(true.theta_L)){
-#  summaries_L.Day1[[i]] <- lapply(students_abilities_L_split.Day.1[[i]], summary)
-#}
 
