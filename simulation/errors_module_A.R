@@ -331,17 +331,17 @@ rm(errors_module_A_T, n_errors_module_A_T)
 #Split with respect to the number of errors
 #==========================================
 
-students_abilities_L_split <- list()
-for(i in 1:length(true.theta_L)){
-  students_abilities_L_split[[i]] <- split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
-}
-
-students_abilities_R_split <- list()
-for(i in 1:length(true.theta_R)){
-  students_abilities_R_split[[i]] <- split(students_abilities_R[[i]], students_abilities_R[[i]]$error)
-}
-
-students_abilities_T_split <- list()
-for(i in 1:length(true.theta_T)){
-  students_abilities_T_split[[i]] <- split(students_abilities_T[[i]], students_abilities_T[[i]]$error)
-}
+#students_abilities_L_split <- list()
+#for(i in 1:length(true.theta_L)){
+#  students_abilities_L_split[[i]] <- split(students_abilities_L[[i]], students_abilities_L[[i]]$error)
+#}
+#
+#students_abilities_R_split <- list()
+#for(i in 1:length(true.theta_R)){
+#  students_abilities_R_split[[i]] <- split(students_abilities_R[[i]], students_abilities_R[[i]]$error)
+#}
+#
+#students_abilities_T_split <- list()
+#for(i in 1:length(true.theta_T)){
+#  students_abilities_T_split[[i]] <- split(students_abilities_T[[i]], students_abilities_T[[i]]$error)
+#}

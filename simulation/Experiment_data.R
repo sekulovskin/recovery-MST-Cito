@@ -4,26 +4,12 @@
 # `errors_module_A.R` and `errors_day_1_Lezen`, `errors_day_1_Rekenen` and `errors_day_1_Taal`
 #before running the code in this script
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#load("simulated.responses.RData")
-#+http://www.dwoll.de/rexrepos/posts/anovaMixed.html
-#+https://stats.stackexchange.com/questions/58745/using-lmer-for-repeated-measures-linear-mixed-effect-model
-#+
-#+https://statmodeling.stat.columbia.edu/2007/08/16/no_you_dont_nee/
-#
-# Outcome variables are: The average absolute difference between the estimated and real theta. 
-#The factor is the subject;
-# The covariates are:
-#- number of forbidden paths;
-#- weights of the items in the first module (either the sum or the average)
-#- How well the information function follow the abilities of students (this will be per student) 
-#- Number of mistakes in module A
-# Number of mistakes on Day 1
 
 ########Lezen---------------------------------------------------------------------
 
 #1. DV: Define a column indicating the (absolute)difference between true and estimated theta
 for (i in 1:length(true.theta_L)){
-  students_abilities_L[[i]]$diff <-  abs(students_abilities_L[[i]]$true_theta) - abs(students_abilities_L[[i]]$theta)
+  students_abilities_L[[i]]$diff <-  abs(students_abilities_L[[i]]$true_theta - students_abilities_L[[i]]$theta)
 }
 
 avg.theta.diff <- sapply(students_abilities_L, function(x){mean(x$diff)})  #construct the variable
@@ -57,7 +43,7 @@ data_L <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, av
 
 #1. DV: Define a column indicating the (absolute)difference between true and estimated theta
 for (i in 1:length(true.theta_R)){
-  students_abilities_R[[i]]$diff <-  abs(students_abilities_R[[i]]$true_theta) - abs(students_abilities_R[[i]]$theta)
+  students_abilities_R[[i]]$diff <-  abs(students_abilities_R[[i]]$true_theta - students_abilities_R[[i]]$theta)
 }
 
 avg.theta.diff <- sapply(students_abilities_R, function(x){mean(x$diff)})  #construct the variable
@@ -91,7 +77,7 @@ data_R <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, av
 
 #1. DV: Define a column indicating the (absolute)difference between true and estimated theta
 for (i in 1:length(true.theta_T)){
-  students_abilities_T[[i]]$diff <-  abs(students_abilities_T[[i]]$true_theta) - abs(students_abilities_T[[i]]$theta)
+  students_abilities_T[[i]]$diff <-  abs(students_abilities_T[[i]]$true_theta - students_abilities_T[[i]]$theta)
 }
 
 avg.theta.diff <- sapply(students_abilities_T, function(x){mean(x$diff)})  #construct the variable
