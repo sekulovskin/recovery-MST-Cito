@@ -214,14 +214,6 @@ for (i in 1:length(true.theta_L)){
   
 }
 
-#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
-booklet_id <- "placeholder"
-person_id <- "placeholder"
-item_id <- "placeholder"
-item_score <- 1
-
-placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
-
 for(i in 1:length(true.theta_L)){
 if(nrow(patterns_module_C_L.1[[i]]) == 0){
   patterns_module_C_L.1[[i]] <- placeholder.df
@@ -233,7 +225,7 @@ for( i in 1:length(true.theta_L)){
   patterns_module_C_L.1[[i]]$occ <-seq(1:nrow(patterns_module_C_L.1[[i]]))
 } 
 
-#patterns_module_C_L.1[[41]]$occ <-seq(1:nrow(patterns_module_C_L.1[[41]]))
+
 
 #item 2 C
 

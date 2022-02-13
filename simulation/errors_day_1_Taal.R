@@ -26,7 +26,7 @@ for (i in 1:length(true.theta_T)){
 }
 
 for(i in 1:length(true.theta_T)){
-  patterns_module_A_T.1[[i]]$occ <- seq(1:100)
+  patterns_module_A_T.1[[i]]$occ <- seq(1:n_sim)
 }
 
 #item 2
@@ -37,7 +37,7 @@ for (i in 1:length(true.theta_T)){
 }
 
 for(i in 1:length(true.theta_T)){
-  patterns_module_A_T.2[[i]]$occ <- seq(1:100)
+  patterns_module_A_T.2[[i]]$occ <- seq(1:n_sim)
 }
 
 #item 3
@@ -48,7 +48,7 @@ for (i in 1:length(true.theta_T)){
 }
 
 for(i in 1:length(true.theta_T)){
-  patterns_module_A_T.3[[i]]$occ <- seq(1:100)
+  patterns_module_A_T.3[[i]]$occ <- seq(1:n_sim)
 }
 
 #item 4
@@ -60,7 +60,7 @@ for (i in 1:length(true.theta_T)){
 
 
 for(i in 1:length(true.theta_T)){
-  patterns_module_A_T.4[[i]]$occ <- seq(1:100)
+  patterns_module_A_T.4[[i]]$occ <- seq(1:n_sim)
 }
 
 #item 5
@@ -71,7 +71,7 @@ for (i in 1:length(true.theta_T)){
 }
 
 for(i in 1:length(true.theta_R)){
-  patterns_module_A_T.5[[i]]$occ <- seq(1:100)
+  patterns_module_A_T.5[[i]]$occ <- seq(1:n_sim)
 }
 
 ##NOW combine
@@ -281,14 +281,6 @@ for (i in 1:length(true.theta_T)){
   
 }
 
-#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
-booklet_id <- "placeholder"
-person_id <- "placeholder"
-item_id <- "placeholder"
-item_score <- 1
-
-placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
-
 for(i in 1:length(true.theta_T)){
   if(nrow(patterns_module_C_T.1[[i]]) == 0){
     patterns_module_C_T.1[[i]] <- placeholder.df
@@ -468,14 +460,6 @@ for (i in 1:length(true.theta_T)){
     filter(item_id == "SN00135") 
   
 }
-
-#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
-booklet_id <- "placeholder"
-person_id <- "placeholder"
-item_id <- "placeholder"
-item_score <- 1
-
-placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
 
 for(i in 1:length(true.theta_T)){
   if(nrow(patterns_module_D_T.1[[i]]) == 0){
@@ -657,14 +641,6 @@ for (i in 1:length(true.theta_T)){
   
 }
 
-#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
-booklet_id <- "placeholder"
-person_id <- "placeholder"
-item_id <- "placeholder"
-item_score <- 1
-
-placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
-
 for(i in 1:length(true.theta_T)){
   if(nrow(patterns_module_E_T.1[[i]]) == 0){
     patterns_module_E_T.1[[i]] <- placeholder.df
@@ -844,14 +820,6 @@ for (i in 1:length(true.theta_T)){
     filter(item_id == "SN00201") 
   
 }
-
-#detour since we cannot add an indicator variable if our lists begins with empty DF's (for whatever reason)
-booklet_id <- "placeholder"
-person_id <- "placeholder"
-item_id <- "placeholder"
-item_score <- 1
-
-placeholder.df <- data.frame(booklet_id, person_id, item_id, item_score)
 
 for(i in 1:length(true.theta_T)){
   if(nrow(patterns_module_F_T.1[[i]]) == 0){
@@ -1076,13 +1044,13 @@ for(i in 1:length(true.theta_T)){
 
 ###Analysis#####
 
-students_abilities_T_split.Day.1 <- list()
-for(i in 1:length(true.theta_T)){
-  students_abilities_T_split.Day.1[[i]] <-  split(students_abilities_T[[i]], students_abilities_T[[i]]$errors.Day1)
-}
-
-summaries_T.Day1 <- list()
-for(i in 1:length(true.theta_T)){
-  summaries_T.Day1[[i]] <- lapply(students_abilities_T_split.Day.1[[i]], summary)
-}
+#students_abilities_T_split.Day.1 <- list()
+#for(i in 1:length(true.theta_T)){
+#  students_abilities_T_split.Day.1[[i]] <-  split(students_abilities_T[[i]], students_abilities_T[[i]]$errors.Day1)
+#}
+#
+#summaries_T.Day1 <- list()
+#for(i in 1:length(true.theta_T)){
+#  summaries_T.Day1[[i]] <- lapply(students_abilities_T_split.Day.1[[i]], summary)
+#}
 
