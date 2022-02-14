@@ -7,7 +7,7 @@ library(broom)
 library(emmeans)
 library(rstatix)
 library(lmtest)
-data <- read_sav("experiment_data.sav")
+data <- read_sav("Report/experiment_data.sav")
 data$subject <- as.factor(data$subject)
 #First let's inspect some plots:
 ggplot(data, aes(avg.error.modA, avg.theta.diff, colour=subject)) +
@@ -54,22 +54,22 @@ leveneTest(avg.theta.diff ~ subject, data)
 
 #### 3 Distribution of the DV
 
-hist(data$avg.theta.diff)
+hist(log10(data$avg.theta.diff))
 
 ##Perform the analysis:  *Note in the analyses below I might use the terms `covariate` and `predictor` interchangeably 
 
 #### an anova only
-anova <- aov(avg.theta.diff ~ subject, data = data)
+anova <- aov(log10(avg.theta.diff) ~ subject, data = data)
 summary(anova)
 
 
 # Now we will fit a full model with all the covariates and then reduce one by one 
 
-ancova1 <- aov(avg.theta.diff ~ avg.error.modA + avg.error.Day1 + n.paths + avg.item.weights.modA + subject, data = data)
+ancova1 <- aov(log10(avg.theta.diff) ~ avg.error.modA + avg.error.Day1 + n.paths + avg.item.weights.modA + subject, data = data)
 Anova(ancova1, type = "III")  #This model cannot be estimated
 
 # Take out  avg.item.weights.modA
-ancova2 <- aov(avg.theta.diff ~ avg.error.modA + avg.error.Day1 + n.paths + subject, data = data)
+ancova2 <- aov(log10(avg.theta.diff) ~ avg.error.modA + avg.error.Day1 + n.paths + subject, data = data)
 Anova(ancova2, type = "III")
 
 #Take out errors in Mod A
@@ -77,13 +77,13 @@ ancova3 <- aov(avg.theta.diff ~ avg.error.Day1  +  n.paths + subject, data = dat
 Anova(ancova3, type = "III")
 
 ##Test the models with the LR test
-lrtest(ancova3, ancova2) #Since we fail to reject H0. we should keep the nested model (i.e, ancova 3)
+lrtest(ancova3, ancova2) #Since we reject H0. we should keep the more complex model
 
 
 #==========================================================
 #So we will stick with the model ancova 2 and perform the post hoc using those covariates 
 
-post_hoc <- emmeans_test(avg.theta.diff ~ subject, covariate = c(avg.error.Day1, n.paths),
+post_hoc <- emmeans_test(log10(avg.theta.diff)~ subject, covariate = c(avg.error.modA , avg.error.Day1, n.paths),
                          p.adjust.method = "bonferroni", data = data) #using a bonfferoni correction
 post_hoc
 
