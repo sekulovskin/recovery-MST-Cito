@@ -28,16 +28,10 @@ for(i in 1:length(true.theta_L)){
   n.paths[i] <- length(unique(students_abilities_L[[i]]$booklet_id))
 }
 
-#Weights of the items in the first module (I am taking the average here, since I think it's better than taking the sum):
-#this will be a "disaggregated" level 2 variable
-item_weights_A <- pars_L %>%
-  filter(item_id == c("BL00518", "BL00519", "BL00520", "BL00521", "BL02412",  "OP00142")) %>%
-  select(item_score) 
-avg.item.weights.modA <- mean(item_weights_A$item_score)
-avg.item.weights.modA <- rep(avg.item.weights.modA , length(true.theta_L))
+
 subject <- rep("Lezen", length(true.theta_L))
 
-data_L <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, avg.item.weights.modA, subject)
+data_L <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, subject)
 
 ########Rekenen---------------------------------------------------------------------
 
@@ -62,16 +56,9 @@ for(i in 1:length(true.theta_R)){
   n.paths[i] <- length(unique(students_abilities_R[[i]]$booklet_id))
 }
 
-#Weights of the items in the first module (I am taking the average here, since I think it's better than taking the sum):
-#this will be a "disaggregated" level 2 variable
-item_weights_A <- pars_R %>%
-  filter(item_id == c("RD516087", "RD516456", "RD516A28", "RD516663", "RD516375")) %>%
-  select(item_score) 
-avg.item.weights.modA <- mean(item_weights_A$item_score)
-avg.item.weights.modA <- rep(avg.item.weights.modA , length(true.theta_R))
 subject <- rep("Rekenen", length(true.theta_R))
 
-data_R <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, avg.item.weights.modA, subject)
+data_R <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, subject)
 
 ########Taal---------------------------------------------------------------------
 
@@ -96,16 +83,9 @@ for(i in 1:length(true.theta_T)){
   n.paths[i] <- length(unique(students_abilities_T[[i]]$booklet_id))
 }
 
-#Weights of the items in the first module (I am taking the average here, since I think it's better than taking the sum):
-#this will be a "disaggregated" level 2 variable
-item_weights_A <- pars_T %>%
-  filter(item_id == c("SN00003D", "SN00038", "SW00090D", "IP00074", "GR00148")) %>%
-  select(item_score) 
-avg.item.weights.modA <- mean(item_weights_A$item_score)
-avg.item.weights.modA <- rep(avg.item.weights.modA , length(true.theta_T))
 subject <- rep("Taal", length(true.theta_T))
 
-data_T <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, avg.item.weights.modA, subject)
+data_T <- data.frame(avg.theta.diff, avg.error.modA, avg.error.Day1, n.paths, subject)
 
 #================================================================
 #Now combine
