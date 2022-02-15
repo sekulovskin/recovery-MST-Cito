@@ -11,7 +11,8 @@ summary(ACET_2021)
 ACET_2021 <- ACET_2021 %>%
   arrange(test_score)
 
-# So we have 6 classes and we will randomly sample 50 students from each class
+# So we have 6 classes and we will take the average for each class
+# In order to construct the typical student
 
 pro_bb <- ACET_2021 %>%
   filter(class == "PRO/VMBO BB") %>%

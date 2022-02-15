@@ -1,5 +1,5 @@
 ---
-title: "**Internship Report**: ***Recovery of early mistakes in multistage tests***"
+title: "**Internship Report**: ***Recovery of Early Mistakes in Multistage Tests***"
 date: "10.1.2022 - 18.2.2022"
 author: Nikola Sekulovski
 output: 
@@ -26,7 +26,10 @@ library(lmtest)
 library(car)
 library(foreign)
 library(haven)
+library(emmeans)
+library(rstatix)
 source("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/ref-score&classification-functions.R")
+options(knitr.kable.NA = '')
 ```
 
 <center> <h1>**Introduction**</h1> </center>
@@ -43,7 +46,7 @@ Knowing how MSTs (and adaptive tests in general) work, it is only logical to ask
 This report is divided as follows. In the next section the first (initial) simulation, undertaken to explore how these particular MSTs function when we "know" the true ability of the students is presented and results from initial statistical analyses are discussed. Afterwards, the number of errors in Module A and in Day 1 are calculated and visual representation of the difference between the true and re-estimated ability are given for all three subjects. Also, the number of different paths, with a special focus on the students located on the extremes of the latent ability distribution is presented and discussed. In the end of this section, in a small statistical "experiment" is explored whether there are significant differences in the difference between the true and the re-estimated proficiency between the three subjects when controlling for different excoriates. In the section afterwards, using the observed data from ACET 2021, we repeat the simulation using the ....(finish this after finishing the actual sections).
 All the code used to obtain the results presented in this report is openly available on [GitHub](https://github.com/sekulovskin/recovery-MST-Cito). Note, due to the nature of the simulations (more specifically the way the multiple MST responses are generated), exact replications are not possible (even when using the same random seed), thus the results might slightly vary. However, the simulations were repeated many times, and roughly the same results were observed.
 
-  <center> <h1>**Initial (exploratory) simulation**</h1> </center>
+  <center> <h1>**Initial Analyses (Simulation 1)**</h1> </center>
 
 ## Outline of the simulation study
 
@@ -61,7 +64,7 @@ tbl_summary(thetas, statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {
 
  Afterwards, **ACET's** test design, routing rules and the item parameters, for each subject, were used to generate a 1000 MST responses for each artificial student (i.e., for each true $\theta$). These responses were simulated using the `sim_mst` function from the package `dexterMST` [@dextermst], which simulates data from an Extended Nominal Response Model. Afterwards, using the `ability` function from the package `dexter` [@dexter], re-estimates of the true ability were obtained with Weighted Likelihood Estimation (WLE) for all 1000 simulated responses for the 200 students for each of the three subjects (resulting in 200000 different response patterns for each subject). This plethora of responses for each level of ability allows to, separately,  explore how the ability estimate for each of the three subjects changes when certain factors, such as the number of mistakes in module A, the number of mistakes in Day 1 and different MST paths are varied. 
 
-## Initial analyses
+## Welch tests
 
  In order to preliminary inspect whether different patterns produced by the multiple simulated responses for each level of the true ability lead to differences between the true and the re-estimated $\theta$ simple [Welch's Tests](https://en.wikipedia.org/wiki/Welch%27s_t-test) were executed comparing each true $\theta$ and the mean of the re-estimated $\theta's$  for each subject. Briefly, the goal here is to inspect whether there is a *statistically significant* difference between the true and the average of the re-estimated $\theta's$ for each level of the true ability. However, this is done out of pure exploratory reasons and the p-values are always "taken with a grain of salt", since they can be quite misleading, especially when having a big sample size (which in this case is a 1000 - the number of simulations), the interested reader is refereed to @cohen1994earth for further elaborations the issues with standard Null Hypothesis Testing. Since we are dealing with a "large enough" sample size we will use the value of $\alpha = .01$ as a cutoff for whether a mean difference is significant.
  
@@ -128,11 +131,11 @@ transform.ref.score.taal(true.theta_R[c(1,   2,  35,  40,  50,  80, 114, 126, 15
 
 Here significant differences were found for $\theta$ values -1.7, -1.3, -0.03,  0.012,  0.07,  0.18,  0.304, 0.36,  0.46, 0.6, 1.4, 1.6,  1.8 and  2.12 corresponding to reference Taal scores of 0,  1, 35, 36, 42, 49, 55, 58, 61, 64, 68, 69, 70 and 70 respectively.
   
-**Conclusion:** Based on the presented preliminary analyses, we can see that, when we do not control for any variables, and just inspect whether there is a difference between the true and the average of the re-estimated $\theta's$ for each true ability: 
+**Conclusion:** Based on the presented preliminary analyses, it can be seen that, when we do not control for any variables, and just inspect whether there is a difference between the true and the average of the re-estimated $\theta's$ for each true ability: 
  
  - *Lezen* has the highest magnitude of significant results (having the lowest mean p-value), with 9%  of the true abilities significantly differing from their mean re-estimated counterparts (with most being on the extremes of the latent ability distribution);
  
- - *Rekenen* has the the smallest magnitude of significant results (having the highest mean p-value) with around 5.5 % of the  of the true abilities significantly differing from their mean re-estimated counterparts. However, in this case mismatches were slightly more evenly spread out through the whole continuum;
+ - *Rekenen* has the the smallest magnitude of significant results (having the highest mean p-value) with around 5.5 % of the  of the true abilities significantly differing from their mean re-estimated counterparts. However, in this case mismatches were slightly more evenly spread out through the whole latent ability continuum;
  
  - *Taal* is somewhere in the middle both in terms of the magnitude of p-values and also in terms of the percentage of $\theta$ values  significantly differing from their mean re-estimated, which in this case was 7%. 
  
@@ -141,7 +144,7 @@ Based on this first basic rudimentary analyses on the simulates MST responses, w
 
 ## Number of early mistakes 
 
-Since it is in the inherent nature of an MST  that the the performance in the early (or even the first) module is crucial in deciding in which module will a student be routed in the following stage (see, [Introduction section](# **Introduction**)) it is important to consider students responses on the early stages. Thus, `R` scripts that calculate the number of mistakes in Module A *and* the number of mistakes on Day 1 were written and used both in this simulation and in the one presented in the next section. Since in ACET students are either awarded the maximum number of points or no points, a mistake is defined as a score of zero on a particular item.
+Since it is in the inherent nature of an MST  that the the performance in the early (or even the first) module is crucial in deciding in which module will a student be routed in the following stage (see, [Introduction section](# **Introduction**)) it is important to consider students responses on the early stages. Thus, `R` scripts that calculate the number of mistakes in Module A *and* the number of mistakes on Day 1 were written and used both in this simulation and in the one presented in the next section. In *ACET* students are either awarded the maximum number of points or no points, thus a mistake is defined as a score of zero on a particular item.
 
 Here the repeated re-estimates for the "students" that showed significant differences in the [initial analysis](## Initial analyses) were separated with respect to the number of mistakes in module A in order to see whether the observed significant differences can be attributed to the number of errors. No statistical significance tests were implemented in this situation since the number of replications on different errors (mistake levels) is highly variable, which would've resulted in p-values that make little sense. Thus, a tabular representation of these results for each subject are presented below. Here the mean number of mistakes for each number of mistakes on each of the significant proficiency found in the first analyses are presented (for all three subjects). Moreover, plots of the same results are available in the [Appendix](#*Appendix*). These analyses will not be repeated for the number of mistakes on Day 1, since, as can be seen from the **ACTET** MST design presented in the introduction, these represent the sum of mistakes in stages 1 2 and 3, which means that separating on a wide range of number is not very insightful. However, the number of mistakes on Day 1 is used as a covariate in the main statistical analysis presented at the end of this section. 
 
@@ -154,7 +157,7 @@ names(mistakes.modA.lezen) <- c("0", "1", "2", "3", "4", "5", "6", "Average re-r
 gsub(0, " ", kable(round(mistakes.modA.lezen, 4)))
 ```
 
-It is evident that for the extreme ability values, high mismatches tend to appear, regardless of the number of mistakes. In other words, high discrepancies between the true and re-estimated $\theta$ appear even when students make the perfect score (6 for low achieving students and 0 for high achieving students). For example, the student with a true ability of -2.54 has an estimated ability of -1.97 even when incorrectly scoring all six items in Module A. A similar situation can be observed with the students having true abilities of 3.4, 2.2 and 1.7. For the medium achieving students there tend to be smaller discrepancies, especially when approaching the appropriate number of mistakes for that level of proficiency, though, average discrepancies of 0.1 units on the latent ability scale can still be observed. The fluctuation of the re-estimates as a function of the number of mistakes in module A is quite mild, indicating that these medium proficient students are not as sensitive to the number of mistakes in module A as high proficient students.
+It is evident that for the extreme ability values, high mismatches tend to appear, regardless of the number of mistakes. In other words, high discrepancies between the true and re-estimated $\theta$ appear even when students make the perfect score (6 for low achieving students and 0 for high achieving students). For example, the student with a true ability of -2.54 has an estimated ability of -1.97 even when incorrectly scoring all six items in the first module. A similar situation can be observed with the students having true abilities of 3.4, 2.2 and 1.7. For the medium achieving students there tend to be smaller discrepancies, especially when approaching the appropriate number of mistakes for that level of proficiency, though, average discrepancies of 0.1 units on the latent ability scale can still be observed. The fluctuation of the re-estimates as a function of the number of mistakes in module A is quite mild, indicating that these medium proficient students are not as sensitive to the number of mistakes in module A as high proficient students.
 
 ```{r echo=FALSE}
 mistakes.modA.rekenen <- read.csv("mistakes.modA.rekenen.table.csv")
@@ -208,7 +211,7 @@ kable(paths.taal, digits = 4)
 
 It should be noted that some of the the differences can be attributed to the fact that we are not dealing with the same level of ability in the different courses, so comparing them directly is not advisable.
 
-## Statistical Analyses 
+## Main Statistical Analysis 
 
 By now it is already evident the most of the problems concerning the recovery from early mistakes are present in the Lezen MST. However, due to the dimensionality of the research question, it is very possible that certain differences might be hidden due to confounding. Thus, in an effort to inspect whether significant differences in the ability discrepancy (between the true and re-estimated abilities) for the three courses are present, when controlling for certain covariates, an [Aalysis of Covariance](https://en.wikipedia.org/wiki/Analysis_of_covariance) was performed on the simulated data, with the following variables:
 
@@ -220,55 +223,39 @@ By now it is already evident the most of the problems concerning the recovery fr
     - Number of paths for each different theta
     - Weights of the items in the first module
 
-First, an initial exploration of the data prepared for the analysis is given, afterwards the assumptions of the analysis are briefly presented, finally the results are presented and discussed.
-
 ### The data
-```{r include=FALSE}
+
+The summary statistics for the outcome variable and the covariates for each class are presented below. 
+ Taal has the highest mean average theta discrepancy, shortly followed by Lezen (they differ in 0.001 units), while Rekenen has the lowest mean average theta discrepancy. It should be mentioned that the difference in the mean  average number of errors in Module A betwen Lezen on the one hand and Rekenen and Taal on the other is due to the fact that Module A for the former containts 6 items in total, whereas the latter contain 5 each. We can see that the highest mean average number of errors is present in Rekenen, and the most number of paths are present in Taal.
+ 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 data <- read_sav("experiment_data.sav")
-data$subject <- as.factor(data$subject)
-names(data) <- c("Avg. theta difference", "Avg. n. errors Mod. A", "Avg. n. errors Day 1", "Number of paths", "Avg items weights Mod A", "subject")
-data$`Avg items weights Mod A` <- round(data$`Avg items weights Mod A`, 2)
+data$subject <- factor(data$subject, labels = c("Lezen", "Rekenen", "Taal"))
+data2 <- data
+names(data2) <- c("Avg. theta difference", "Avg. n of errors in Mod A", "Avg. errors in Day 1", "Number of paths", "Subject")
+
+data2 %>%
+  group_by(`Subject`) %>%
+  select(`Avg. theta difference`, `Avg. n of errors in Mod A`, `Avg. errors in Day 1`, `Number of paths`) %>%
+  summarise_all(funs(mean)) %>%
+  kable(digits = 4)
+
+
 ```
 
- <center> <h4>Lezen</h4> </center>
-
-```{r echo=FALSE}
-data %>%
-  filter(subject == 1) %>%
-  select(-subject) %>%
-tbl_summary(statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {max}]"))
-```
-
- <center> <h4>Rekenen</h4> </center>
-```{r echo=FALSE}
-data %>%
-  filter(subject == 2) %>%
-  select(-subject) %>%
-tbl_summary(statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {max}]"))
-```
-
-<center> <h4>Taal</h4> </center>
-
-```{r echo=FALSE}
-data %>%
-  filter(subject == 3) %>%
-  select(-subject) %>%
-tbl_summary(statistic = list(all_continuous() ~ "{mean} ({sd}) [{min}, {max}]"))
-```
-
+Below the relationship between the outcome variable and each covariate is displayed. Of course, as expected due to the nature of the dependent variable 
 ```{r echo=FALSE, fig.align='center'}
-data <- read_sav("experiment_data.sav")
 data$subject <- as.factor(data$subject)
 scatter <- ggplot(data, aes(avg.error.modA, avg.theta.diff, colour=subject))  
 A <- scatter + geom_point() +
    theme_classic() + theme(legend.position="none") + 
-  labs(y = "Avg. theta difference", "Avg errors in Module A")
+  labs(y = "Avg. theta difference",x = "Avg errors in Module A")
 
 # For average mistakes in day 1
 scatter <- ggplot(data, aes(avg.error.Day1, avg.theta.diff, colour=subject))  
 B <- scatter + geom_point() + 
   theme_classic() + theme(legend.position="") + 
-  labs(y = "Avg. theta difference", "Avg errors in Day 1")
+  labs(y = "Avg. theta difference", x ="Avg errors in Day 1")
 
 # For number of paths
 scatter <- ggplot(data, aes(n.paths, avg.theta.diff, colour=subject))  
@@ -284,73 +271,116 @@ ggarrange(A, B, C,
 
 ### Assumptions
 
-There are many option in taclking issues regarding the violations of assumptions in ANCOVA (and in linear models in general). For example, one can use so-called [Generalized Linear Models](https://en.wikipedia.org/wiki/Generalized_linear_model), [nonparamteric](https://en.wikipedia.org/wiki/Nonparametric_statistics) alternatives, [robust analyses](https://en.wikipedia.org/wiki/Robust_statistics) or account for the violations directly. Since the aim of thus work is to explore and clearly communicate certain issues, the last approach will be taken in addressing one violation of the assumptions. Since the aim of this analysis is to illustrate as simply as possible whether there are differences between the three courses in the difference between the true and estimated ability after controling for the abovementioned covariates, it is best to stick with the most simple and straightforward analysis, of course, while always taking the p-values with "a grain of salt". However, in the results that follow the obtained p-values were very low, inficating that there is an effect, even if some of the (non accounted for violations) made them smaller than thet actually are.
+There are many option in tackling issues regarding the violations of assumptions in ANCOVA (and in linear models in general). For example, one can use so-called [Generalized Linear Models](https://en.wikipedia.org/wiki/Generalized_linear_model), [nonparamteric](https://en.wikipedia.org/wiki/Nonparametric_statistics) alternatives, [robust analyses](https://en.wikipedia.org/wiki/Robust_statistics) or account for the violations directly. Since the aim of this work is to explore and clearly communicate certain issues, the last approach will be taken. Since the aim of this analysis is to illustrate as simply as possible whether there are differences between the three courses in the difference between the true and estimated ability after controlling for the above-mentioned covariates, it is best to stick with the most simple and straightforward analysis, of course, while always taking the p-values with "a grain of salt", since certain violations of the assumptions may decrease the estimates of the SE and consequently influence the p-values. However, in the results that follow the obtained p-values were very low, inficating that there is an effect, even if some of the (non accounted for violations) made them smaller than they truly are. In other words if violations of the assumptions are an expected part of the analysis and if they are clearly communicated then one can proceed to *cautiously* interpret the results (for more elaborations, see, @field2012discovering, Chapter 11).
+
 
 #### Normality
-When performing an ANCOVA and related analyses, one assumption that is often the first to be checked is whether the frequency distribution of the dependent variable (approximately) follows a normal distribution. On the left hand side of the plot below, a histogram of the observed, average theta differences (for all three courses together) is presented. It is clear, and expected, that most of the observations are accumulated around 0, followed by a sharp decrease, which is a clear sign of non-normality. One suggested solution, that is often taken, is to [tranform](https://en.wikipedia.org/wiki/Data_transformation_(statistics)) the outcome variable, which makes highly skewed data more normal, while at the same time keeping the internal relationship of the data points the same. The figure on the right hand side shows the log (base 10) transformed  outcome variable. Even though it is still positively skewed, based on current statistical literature, there this assumption doesn't expect the frequency of the outcome needs to *perfectly* follow a normal distribution but needs to not *seriously* deviate from normality, this is often confused with the assumption that the residuals need to be normally distributed around zero (see [this](https://towardsdatascience.com/is-normal-distribution-necessary-in-regression-how-to-track-and-fix-it-494105bc50dd) resource for further information). It is fair to note, that some statisticians have cast doubt on the effectivness of log transformation (see, for example, @changyong2014log).
+When performing an ANCOVA and related analyses, one assumption that is often the first to be checked, is whether the frequency distribution of the dependent variable (approximately) follows a normal distribution. On the left hand side of the plot below, a histogram of the observed, average theta differences (for all three courses together) is presented. It is clear, and expected, that most of the observations are accumulated around 0, followed by a sharp decrease, which is a clear sign of non-normality. One suggested solution, that is often taken, is to [tranform](https://en.wikipedia.org/wiki/Data_transformation_(statistics)) the outcome variable, which makes highly skewed data more normal, while at the same time keeping the internal relationship of the data points the same. The figure on the right hand side shows the inverse of the  outcome variable. Even though it is now slightly negativelu skewed, based on current statistical literature, this assumption doesn't expect the frequency of the outcome needs to *perfectly* follow a normal distribution but needs to not *seriously* deviate from normality, this is often confused with the assumption that the residuals need to be normally distributed around zero (see [this](https://towardsdatascience.com/is-normal-distribution-necessary-in-regression-how-to-track-and-fix-it-494105bc50dd) resource for further information). 
 
 ```{r echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
-A <- ggplot(data, aes(x =avg.theta.diff)) +
+data <- read_sav("experiment_data.sav")
+A <- ggplot(data, aes(x = avg.theta.diff)) +
    geom_histogram(fill = "black") +
   theme_classic() +
   labs(title  = "Average theta difference" , x = "", y = "")
-B <- ggplot(data, aes(x = log10(avg.theta.diff))) +
+B <- ggplot(data, aes(x = 1/avg.theta.diff)) +
   geom_histogram(fill = "black") +
   theme_classic() +
-  labs(title  = "Log of the Average theta difference", x = "", y = "")
+  labs(title  = "Inverse of the Average theta difference", x = "", y = "")
 
 ggarrange(A, B,
           labels = c("", ""),
           ncol = 2, nrow = 1)
 ```
 
+#### Outliers
+Another assumption is the presence of outliers. As it had been discussed above, there tend to be big discrepancies between the true and average re-estimated abilities when we have extreme (positive and negative) values for the true theta, which would represent outlines in this analyses. However, keeping these values in is a very important aspect of what is aimed to be achieved. Since the main objective is to see whether we still find differences between the groups even after controlling for the covariates.
+
 #### Equality of variance
 
-The [Levene's test](https://en.wikipedia.org/wiki/Levene%27s_test) for equality of variances F(2, 597) = 2.66, p = 0.07, meaning that we fail to reject the null hypothesis stating that the variances in the outcome variable between the three subjects differ. In other words, this assumption has been met. 
+The [Levene's test](https://en.wikipedia.org/wiki/Levene%27s_test) for equality of variances F(2, 597) = 2.06, p = .13, meaning that  null hypothesis which states that the variances in the outcome variable between the three subjects are the same, cannot be rejected. In other words, this assumption has been met. 
 ```{r echo=FALSE}
-levenes_test <- leveneTest(log10(avg.theta.diff) ~ factor(subject), data)
+levenes_test <- leveneTest(avg.theta.diff ~ factor(subject), data)
 kable(levenes_test)
 ```
 
-The [Levene's test](https://en.wikipedia.org/wiki/Levene%27s_test) for equality of variances shored 
-
 #### Homogeneity of regression slopes
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align = 'center'}
-data <- read_sav("experiment_data.sav")
-data$subject <- as.factor(data$subject)
-scatter <- ggplot(data, aes(avg.error.modA, log10(avg.theta.diff), colour=subject))  
-A <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) +
-   theme_classic() + theme(legend.position="none") + 
-  labs(y = "Log Avg. theta difference", "Avg. errors in Module A")
-
-# For average mistakes in day 1
-scatter <- ggplot(data, aes(avg.error.Day1, log10(avg.theta.diff), colour=subject))  
-B <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) + 
-  theme_classic() + theme(legend.position="") + 
-  labs(y = "Log Avg. theta difference", "Avg. errors in Day 1")
-
-# For number of paths
-scatter <- ggplot(data, aes(n.paths, log10(avg.theta.diff), colour=subject))  
-C <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) +
-  theme_classic() + 
-  labs(y = "Log Avg. theta difference", x = "Number of paths")
-
-#Combine
-ggarrange(A, B, C,
-          labels = c("", "", ""),
-          ncol = 2, nrow = 2)
-```
+The assumption of homogeneity of regression slopes is clearly violated, since thee regression line for Lezen crosses the ones for Taal and Rekenen in for all three covariates (see the plot in the [Appendix](#Appendix). However, since it was expected that this would happen due to the nature of the data, it is proceeded with interpreting the results.
 
 ### Results 
 
+For both models the [Type III Sum of Squares](https://towardsdatascience.com/anovas-three-types-of-estimating-sums-of-squares-don-t-make-the-wrong-choice-91107c77a27a) are observed.
+
+#### ANOVA
+
+First a regular Analysis of variance was performed to see whether significant differences between the three classes on the inverse of the average theta ability difference were present. As can be seen from the table below there is a significant difference between at least two of the three classes in the inverse of the average ability difference, F(2, 597) = 63.66, p < .0001. 
+
+```{r echo=FALSE}
+anova <- aov(1/avg.theta.diff ~ subject, data = data)
+anova <- anova(anova)
+kable(anova)
+```
 
 
- 
-<center> <h1>**Classification errors (simulation 2)**</h1> </center>
+#### ANCOVA
+
+In order to test whether when "equalizing" the average ability differences on covariates such as the number of mistakes and number of different paths taken in the MST, two ANCOVA models were fitted. The first contained all three covariates and in the second the average number of mistakes in module A was taken out, the reasoning behind this was that the number of mistakes in Day 1 containts the number of Mistakes in Module A, and thus fitting a more complex model did not add any values to the analyses (the difference and resulting F-test value was the same).
+
+As can be seen in the table below all three covariates have a significant relationship with the dependent variable. Furthermore, the difference between the groups is still significant (F(1, 596) = 268.82, p < .0001). This means that there is a significant difference between the means of the *inverse* average ability discrepancies, when controlling for the number of mistakes in day 1 and the number of paths taken in the MST for the repeated simulations. 
+
+```{r echo=FALSE}
+ancova <- aov(1/avg.theta.diff ~ avg.error.Day1  +  n.paths + subject, data = data)
+ancova <- Anova(ancova, type = "III")
+kable(ancova)
+```
+
+
+#### Post hoc tests
+
+Now since we know that there is a significant difference between at least two of the three classes, it is time to incpect where are these differences. For this [post hoc tests](https://en.wikipedia.org/wiki/Post_hoc_analysis) with a *Bonferroni correction* for the alpha value were applied.
+
+```{r echo=FALSE}
+post_hoc <- emmeans_test(1/avg.theta.diff ~ subject, covariate = c(avg.error.Day1, n.paths),
+                         p.adjust.method = "bonferroni", data = data) 
+
+post_hoc[1,3] <- "Lezen"
+post_hoc[2,3] <- "Lezen"
+post_hoc[3,3] <- "Rekenen"
+post_hoc[1,4] <- "Rekenen"
+post_hoc[2,4] <- "Taal"
+post_hoc[3,4] <- "Taal"
+kable(post_hoc[, -c(1,2,7)], digits = 4)
+rm(list=ls()) 
+```
+
+As can be seen from the table above, significant differences for the means of the *inverse* average ability discrepancies, when controlling for the number of mistakes in day 1 and the number of paths, appear between the subjects Taal and Lezen and Taal and Rekenen. The main conclusion from this analysis, which is connected to what was observed in the previous sections, is that the Rekenen MST, by far, produces the smallest discrepancies between the true and the estimated ability. Furthermore these results *hint* that *when controlling for important factors* in the MST, the lead with respect to the highet discrepances is taken on by Taal. However, this second  observation should be taken with caution due to all the aforementioned issues regarding the assumptions of this particular analysis and also the problems with Null Hypothesis Significance Testing in general. Additionally, another aspect that might cast doubnt on this last observation is are covariates that are not included in the analysis above. For example, one such covariate is the average weights of the items in Module A, with Lezen having the highest value (5.3) and Taal the lowest (3.2), with Rekenen in the middle with 4. 
+
+It should be noted that due to the non-linear relationships between the dependent variable and the predictors (see, plots) a quadratic term was added for each of the covariates, and no differences in the results were observed whatsoever.
+
+<center> <h1>**Classification Errors (Simulation 2)**</h1> </center>
 
 ## Introduction
 
+The aim of Simulation 1 was to look at how the MST's of the three subjects react and differ from each other when considering different aspects of the test design. The aim of this simulation on the other hand, is to look at all the three tests together, and hopefully try to figure out how the number of mistakes made in Modules A in all three MST subjects relates to the classification in classes of secondary education and furthermore  derive certain threshold values above which mislcasifications tend to appear. For this simulation, the observed ability estimates (including the subject Schrijven), final test scores and associated classifications in secondary education for all students that participated in **ACET 2021**, were used. 
+The average ability estimate for each subject was used to create the "perfect" student for each of the 6 classes of secondary education. Afterwards, these "perfect" students abilities were used to generate a 1000 MST responses for each perfect student, resulting in 6000 different MST patterns per subject. Afterwards, functions that transform the ability estimates into reference scores, based on the rules used for **ACET** were programmed for all four subjects. Additionally a function that classifies students in one of the 6 classes of secondary education based on their **total test score** (derived  as linear function of the reference scores for each subject), was  programmed. In this section first the classification errors as a function of the total number of mistakes in Modules A for all six secondary education classed are presented and discussed. Afterwrds based on simillar aproaches threshold values for each subject are calculated 
+
 ## Classification errors and total number of mistakes in modules A
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+load("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/classification-errors-mistakes-modA2.RData")
+
+classification.classes.error.modA$class <- as.factor(classification.classes.error.modA$class)
+
+ggplot(classification.classes.error.modA, aes(x = mistakes, y = errors, group = class)) +  
+  geom_line(aes(color=class), size = 1)+
+  geom_point(aes(color=class)) +
+  theme_classic() +
+  ylim(0, 0.4) +
+  labs(x = "Total number of mistakes in modules A (for all three subjects)",
+       y = "Classification error")
+  
+  
+```
 
 ## Threshold values 
  
@@ -414,3 +444,30 @@ ggplot(mistakes.modA.taal.plot[which(mistakes.modA.taal.plot$`Re-estimates`!=0),
        x = "Number of mistakes in Module A")
 ```
 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align = 'center'}
+data <- read_sav("experiment_data.sav")
+data$subject <- as.factor(data$subject)
+scatter <- ggplot(data, aes(avg.error.modA, log10(avg.theta.diff), colour=subject))  
+A <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) +
+   theme_classic() + theme(legend.position="none") + 
+  labs(y = "Log Avg. theta difference", "Avg. errors in Module A")
+
+# For average mistakes in day 1
+scatter <- ggplot(data, aes(avg.error.Day1, log10(avg.theta.diff), colour=subject))  
+B <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) + 
+  theme_classic() + theme(legend.position="") + 
+  labs(y = "Log Avg. theta difference", "Avg. errors in Day 1")
+
+# For number of paths
+scatter <- ggplot(data, aes(n.paths, log10(avg.theta.diff), colour=subject))  
+C <- scatter + geom_point() + geom_smooth(method=lm, se=FALSE, fullrange=TRUE) +
+  theme_classic() + 
+  labs(y = "Log Avg. theta difference", x = "Number of paths")
+
+#Combine
+ggarrange(A, B, C,
+          labels = c("", "", ""),
+          ncol = 2, nrow = 2)
+```
