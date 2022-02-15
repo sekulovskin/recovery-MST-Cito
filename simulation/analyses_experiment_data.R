@@ -123,4 +123,5 @@ item_weights_A <- pars_L %>%
  mean(item_weights_A$item_score) #3.2
  
 
-
+ # Clear global environment 
+ rm(list=ls()) 
