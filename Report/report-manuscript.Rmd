@@ -29,7 +29,7 @@ library(haven)
 library(emmeans)
 library(rstatix)
 source("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/ref-score&classification-functions.R")
-options(knitr.kable.NA = '')
+options(knitr.kable.NA = '/')
 ```
 
 <center> <h1>**Introduction**</h1> </center>
@@ -151,31 +151,37 @@ Here the repeated re-estimates for the "students" that showed significant differ
 
 ### Mistakes in Module A
 
+<center> <h4>Lezen</h4> </center>
 ```{r echo=FALSE}
 mistakes.modA.lezen <- read.csv("mistakes.modA.lezen.table.csv")
 names(mistakes.modA.lezen) <- c("0", "1", "2", "3", "4", "5", "6", "Average re-restimated theta", "True theta")
-gsub(0, " ", kable(round(mistakes.modA.lezen, 4)))
+mistakes.modA.lezen[mistakes.modA.lezen == 0] <- NA
+kable(round(mistakes.modA.lezen, 4))
 ```
 
 It is evident that for the extreme ability values, high mismatches tend to appear, regardless of the number of mistakes. In other words, high discrepancies between the true and re-estimated $\theta$ appear even when students make the perfect score (6 for low achieving students and 0 for high achieving students). For example, the student with a true ability of -2.54 has an estimated ability of -1.97 even when incorrectly scoring all six items in the first module. A similar situation can be observed with the students having true abilities of 3.4, 2.2 and 1.7. For the medium achieving students there tend to be smaller discrepancies, especially when approaching the appropriate number of mistakes for that level of proficiency, though, average discrepancies of 0.1 units on the latent ability scale can still be observed. The fluctuation of the re-estimates as a function of the number of mistakes in module A is quite mild, indicating that these medium proficient students are not as sensitive to the number of mistakes in module A as high proficient students.
 
+<center> <h4>Rekenen</h4> </center>
 ```{r echo=FALSE}
 mistakes.modA.rekenen <- read.csv("mistakes.modA.rekenen.table.csv")
 names(mistakes.modA.rekenen) <- c("0", "1", "2", "3", "4", "5","Average re-restimated theta", "True theta")
-gsub(0, " ", kable(round(mistakes.modA.rekenen, 4)))
+mistakes.modA.rekenen[mistakes.modA.rekenen == 0] <- NA
+kable(round(mistakes.modA.rekenen, 4))
 ```
 
-The most desirable situation can again be observed with the subject Rekenen, where even on the extremes of the latent ability continuum, the discrepancies between the true and the re-estimated abilities  tend to be significantly lower when compared to Lezen. The fact that differences between the true and the re-restimated $\theta$ when having the perfect score are still observed for these extreme values, is not an inherint issue only to MST, but it is also connected to the test information, In other words, the items (and consequently the test) does not posses enough information to accurately capture the abilities on the extremes, which is beyond the scope of this project. When we look at the medium proficient students we can see that there aren;t many big fluctuations, however, as the number of mistakes becomes too low or too high differences of around 0.1 units can still be observed. However, when this is translated into reference scores, it doesn't impose a big problem. 
+The most desirable situation can again be observed with the subject Rekenen, where even on the extremes of the latent ability continuum, the discrepancies between the true and the re-estimated abilities  tend to be significantly lower when compared to Lezen. The fact that differences between the true and the re-restimated $\theta$ when having the perfect score are still observed for these extreme values, is not an inherint issue only to MST, but it is also connected to the test information, In other words, the items (and consequently the test) does not posses enough information to accurately capture the abilities on the extremes, which is beyond the scope of this project. When we look at the medium proficient students we can see that there aren;t many big fluctuations, however, as the number of mistakes becomes too low or too high differences of around 0.1 units can still be observed. However, when this is translated into reference scores, it doesn't impose a much of a problem (further elaborated in Simulation 2). 
 
+<center> <h4>Taal</h4> </center>
 ```{r echo=FALSE}
 mistakes.modA.taal <- read.csv("mistakes.modA.taal.table.csv")
 names(mistakes.modA.taal) <- c("0", "1", "2", "3", "4", "5","Average re-restimated theta", "True theta")
-gsub(0, " ", kable(round(mistakes.modA.taal, 4)))
+mistakes.modA.taal[mistakes.modA.taal == 0] <- NA
+kable(round(mistakes.modA.taal, 4))
 ```
 
-It is interesting to note that for Taal large mismatches are only present on the positive extreme of the ability continuum. For the medium true abilities no big mismatches are observed.
+The situation with Taal is quite similar to the one with Lezen and high mistmatches are present on the edges of the distribution. The fact discrepancies with a higher magnitude were observed for Lezen than for Taal, is the fact that Lezen has a wider range than taal (see the first table, where the distribution of hte true abilities are given).
 
-**Conclusion: ** It is important to note that medium proficient students, when scoring a perfect score tend to be overestimated by around 0.1 units on the latent ability scale. (NOT FINISHED)
+It is important to note that medium proficient students, when scoring a perfect score tend to be over/under estimated by around 0.1 units on the latent ability scale. Thus, proving once more, that most of the difficulties apprear on the edges of the ability.
 
  
 ## Number of paths per subject
@@ -198,8 +204,7 @@ paths.rekenen <- read.csv("paths.rekenen.csv")
 names(paths.rekenen) <- c("Path", "Average re-estimated theta", "True theta")
 kable(paths.rekenen, digits = 4)
 ```
-Only one student on the positive extreme was observed follow more than one path for the Rekenen test. ....
-
+Only one student on the positive extreme followed more than one path for the repeated simulations. Based on the results presented in the table above, it is obvious that students can more easily recover from mistakes made in Module A (i.e., being routed to Module B instead to module C in the second stage, and then going back to the difficult Module E), than they can recover from mistakes in the second or the third stage (see paths A-C-F-H, A-C-E-H). This is a desirable charachetristic and is one more reason why lower discrepancies tend to appear in Rekenen.
  <center> <h4>Taal</h1> </center>
 
 ```{r echo=FALSE}
@@ -208,8 +213,9 @@ names(paths.taal) <- c("Path", "Average re-estimated theta", "True theta")
 kable(paths.taal, digits = 4)
 ```
 
+It can be seen that with Taal more mistmathces tend to appear when the non-perfect path is followed relative to Rekenen. However,possibilities for recovery of eraly mistakes are not completely impossible (see, path A-B-E-I).
 
-It should be noted that some of the the differences can be attributed to the fact that we are not dealing with the same level of ability in the different courses, so comparing them directly is not advisable.
+It should be noted that some of the the differences can be attributed to the fact that we are not dealing with the same level of ability in the different courses, furthermore the weights and even the number of items are not the same for all three courses. Thus, in this analysis all three courses should be considered separately.
 
 ## Main Statistical Analysis 
 
@@ -324,7 +330,7 @@ kable(anova)
 
 #### ANCOVA
 
-In order to test whether when "equalizing" the average ability differences on covariates such as the number of mistakes and number of different paths taken in the MST, two ANCOVA models were fitted. The first contained all three covariates and in the second the average number of mistakes in module A was taken out, the reasoning behind this was that the number of mistakes in Day 1 containts the number of Mistakes in Module A, and thus fitting a more complex model did not add any values to the analyses (the difference and resulting F-test value was the same).
+In order to test whether when "equalizing" the average ability differences on covariates such as the number of mistakes and number of different paths taken in the MST, two ANCOVA models were fitted. The first contained all three covariates and in the second the average number of mistakes in module A was taken out, the reasoning behind this was that the number of mistakes in Day 1 contains the number of Mistakes in Module A, and thus fitting a more complex model did not add any values to the analyses (the difference and resulting F-test value was the same).
 
 As can be seen in the table below all three covariates have a significant relationship with the dependent variable. Furthermore, the difference between the groups is still significant (F(1, 596) = 268.82, p < .0001). This means that there is a significant difference between the means of the *inverse* average ability discrepancies, when controlling for the number of mistakes in day 1 and the number of paths taken in the MST for the repeated simulations. 
 
@@ -350,40 +356,94 @@ post_hoc[1,4] <- "Rekenen"
 post_hoc[2,4] <- "Taal"
 post_hoc[3,4] <- "Taal"
 kable(post_hoc[, -c(1,2,7)], digits = 4)
+
 rm(list=ls()) 
 ```
 
 As can be seen from the table above, significant differences for the means of the *inverse* average ability discrepancies, when controlling for the number of mistakes in day 1 and the number of paths, appear between the subjects Taal and Lezen and Taal and Rekenen. The main conclusion from this analysis, which is connected to what was observed in the previous sections, is that the Rekenen MST, by far, produces the smallest discrepancies between the true and the estimated ability. Furthermore these results *hint* that *when controlling for important factors* in the MST, the lead with respect to the highet discrepances is taken on by Taal. However, this second  observation should be taken with caution due to all the aforementioned issues regarding the assumptions of this particular analysis and also the problems with Null Hypothesis Significance Testing in general. Additionally, another aspect that might cast doubnt on this last observation is are covariates that are not included in the analysis above. For example, one such covariate is the average weights of the items in Module A, with Lezen having the highest value (5.3) and Taal the lowest (3.2), with Rekenen in the middle with 4. 
 
-It should be noted that due to the non-linear relationships between the dependent variable and the predictors (see, plots) a quadratic term was added for each of the covariates, and no differences in the results were observed whatsoever.
+It should be noted that due to the non-linear relationships between the dependent variable and the predictors (see, plots) a quadratic term was added for each of the covariates, and no differences in the results were observed whatsoever. Thus, it was decided to continue with the more simple analysis.
 
 <center> <h1>**Classification Errors (Simulation 2)**</h1> </center>
 
 ## Introduction
 
-The aim of Simulation 1 was to look at how the MST's of the three subjects react and differ from each other when considering different aspects of the test design. The aim of this simulation on the other hand, is to look at all the three tests together, and hopefully try to figure out how the number of mistakes made in Modules A in all three MST subjects relates to the classification in classes of secondary education and furthermore  derive certain threshold values above which mislcasifications tend to appear. For this simulation, the observed ability estimates (including the subject Schrijven), final test scores and associated classifications in secondary education for all students that participated in **ACET 2021**, were used. 
-The average ability estimate for each subject was used to create the "perfect" student for each of the 6 classes of secondary education. Afterwards, these "perfect" students abilities were used to generate a 1000 MST responses for each perfect student, resulting in 6000 different MST patterns per subject. Afterwards, functions that transform the ability estimates into reference scores, based on the rules used for **ACET** were programmed for all four subjects. Additionally a function that classifies students in one of the 6 classes of secondary education based on their **total test score** (derived  as linear function of the reference scores for each subject), was  programmed. In this section first the classification errors as a function of the total number of mistakes in Modules A for all six secondary education classed are presented and discussed. Afterwrds based on simillar aproaches threshold values for each subject are calculated 
+The aim of [Simulation 1]() was to look at how the MST's of the three subjects react and differ from each other when considering different aspects of the test design. The aim of this simulation on the other hand, is to look at all the three tests together, and hopefully try to figure out how the number of mistakes made in Modules A in all three MST subjects, relates to the classification in classes of secondary education and, furthermore,  derive certain threshold values above which mislcassifications tend to appear. For this simulation, the observed ability estimates (including the subject Schrijven), final test scores and associated classifications in secondary education for all students that participated in **ACET 2021**, were used. 
+The average ability estimate for each subject was used to create the typical "student" for each of the 6 classes of secondary education. Afterwards, these true abilities were used to generate a 1000 MST responses for each perfect student, resulting in 6000 different MST patterns per subject. Afterwards, functions that transform the ability estimates into reference scores, based on the rules used for **ACET** (see the table below), were programmed for all four subjects. Additionally a function that classifies students in one of the 6 classes of secondary education based on their **total test score** was programmed. The test score is derived  using a linear function of the reference scores for each subject, The weights in the linear function are bsed on long-term monitoring of students in the first three years of secondary education. The linear function is presented in the [Appendix]() (note that Rekenen is the strongest predictor). This total test score ranges roughly from 500 to 550. It should be noted that derived test scores that were lower or higher than 500 and 550, respectively, were classified in pro/bb and vwo, i.e., the lowest and highest class respectively.  In this section first the classification errors as a function of the total number of mistakes in Modules A for all six secondary education classes are presented and discussed. Afterwards, based on the same simulation approach, threshold values above (and below) which students tend to be misclassified in a class of secondary education that is not the same as the one that corresponds to their true abilities, are calculated.
 
-## Classification errors and total number of mistakes in modules A
+```{r echo=FALSE}
+Score <- c("501-504", "505-524", "525-532", "533-539", "540-544", "545-550")
+Class <- c("pro/bb", "bb/kb", "kb/gt", "gt/havo", "havo/vwo", "vwo")
+test_score <- data.frame(Class, Score)
+kable(test_score)
+```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-load("C:/Users/nikol/Desktop/MSc MSBBSS/Year-2_2021-2022/Internship/repo/mst/simulation/classification-errors-mistakes-modA2.RData")
+## Classification errors vs total number of mistakes in modules A
 
+For each of the 1000 replicated MST responses for all 6 typical students the number of mistakes in Module A (for all three sbjects), were calculated using the written `R` scripts used in the first simulation. Afterwards, the 1000 replicates were separated based on the number of mistakes in each subject. It should be noted that not all of the 6 typical students can have all possible combinations of mistakes, for example a typical student for the class pro/bb tends to have mistakes ranging from 16 (6 for Lezen, and 5 for Rekenen and Taal), to around 9. On the other hand, a typical student from vwo tends to have a low total number of mistakes. In the figure below the classification errors as a function of the total number of mistakes in Module A are presented for all 6 classes. A classification error is defined as the proportion of mismatches between the "true" class and the class given based on the scores derived when a student made a certain number of mistakes. Since Shcrijven is administered via a liner test, the "true" ability for this subject will be re-used throughout calculating the classification errors, thus neutralizing the influence of this subject and only observing caused by the subjects administered though an MST.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center'}
+classification.classes.error.modA <- read.csv("errors.data.modA.csv")
+classification.classes.error.modA$class <- factor(classification.classes.error.modA$class, 
+                                                  levels = c("pro/bb", "bb/kb", "kb/gt", "gt/havo", "havo/vwo", "vwo"), labels = c("pro/bb", "bb/kb", "kb/gt", "gt/havo", "havo/vwo", "vwo"))
 classification.classes.error.modA$class <- as.factor(classification.classes.error.modA$class)
-
-ggplot(classification.classes.error.modA, aes(x = mistakes, y = errors, group = class)) +  
+ggplot(classification.classes.error.modA, aes(x = mistakes, y = 100 * errors, group = class)) +  
   geom_line(aes(color=class), size = 1)+
   geom_point(aes(color=class)) +
   theme_classic() +
-  ylim(0, 0.4) +
-  labs(x = "Total number of mistakes in modules A (for all three subjects)",
-       y = "Classification error")
+  ylim(0, 30) +
+  labs(x = "Total number of mistakes in modules A",
+       y = "Classification error (%)")
   
   
 ```
+Starting off with the lowest proficient class pro/bb (red), as the number of total mistakes in Modules A decreases the classification error increases from 3.7% when making 16 mistakes, to 18.6% when making 9 mistakes. A similar situation can be observed with the highest proficient class vwo (purple), there the classification error is 0 when a student makes 0 or 1 mistakes, then slowly increases to 5% when 3 mistakes are made and then sharply to 15% when 6 mistakes are made. An observation that is a cause for optimism is the second class bb/kb (yellow), where the classification error remains zero, while the number of mistakes ranges from 3 to 12. Moving on to the class kb/gt (green), it can be seen that as the number of errors increases from from 1 to 9, the classification error sharply decreases from around 20% to 3%, one can theoretically expect that if the mistakes increase above 12, then the classification error would start to increase again, gaining a parabola-like shape. We can see that we have a similar situation for gt/havo (turquoise) which ranges from 24% when 1 mistake is made, then decreases to 19% and 11% when 3 and 6 mistakes are made, respectively. The same pattern is observed for the class havo/vwo (blue), where the classification error goes from 24% when no mistakes are made than falls to 13% when 3 mistakes are made and then starts to increase again as the number of mistakes increases. These results are also presented in a tabular form in the Appendix.
+
+For the last two observations (gt/havo and havo/vwo), it is evident that the classification errors are higher when compared to the remaining four classes, regardless of the number of mistakes. This can be, in part, explained by the fact that these two classes have the most narrow range of reference test scores (533-539 for gt/havo and 540-544). This is further supported by the bb/kb class, where the range of test scores belonging to a particular class is way wider (505-524), and thus the classification error is practically zero, regardless of the number of mistakes (within rerason of couse, since we can imagine that if the number of mistakes is zero, then some amount of error will be observed).
+The main two conclusions that can be drawn from this analysis are:
+
+ - The number of early mistakes do influence the classification in classes of secondary education;
+ - There amount of classification error as a function of the number of mistakes varies for the different classes;
+ - The amount of classification error for the medium profficient classes is dependant on the respective range of test scores for that particular class, regardless of the number of mistakes.
 
 ## Threshold values 
+
+In this last part of the project the aim was focused on deriving certain threshold $\theta$ and consequently reference score values for each subject, above which misclassifications tend to appear for each of the six classes. For the aims of this analysis the same simulated data, as the one in the previous analysis was used. The ability difference between each of the 1000 simulated responses and the typical (true) ability for each of the six classes was calculated, by taking the absolute difference between the true (typical) and the re-estimated ability for each subject. In order to see above which theta difference and reference score value differences appear misclassifcations were calculated for each of the six classes for every subject, while keeping the other two subjects constant (i.e., using their true theta values). The results are presented below for each of the three MST subjcts.
+
+<center> <h3>Lezen</h3> </center>
+```{r echo=FALSE}
+Class <- c("pro/bb", "bb/kb", "kb/gt", "gt/havo", "havo/vwo", "vwo")
+ability.diff <- c(0.18, NA, NA, NA, 0.24, NA)
+ref.sc <- c(37, NA, NA, NA, 72, NA)
+threshold.Lezen <- data.frame(Class, ability.diff, ref.sc)
+names(threshold.Lezen) <- c("Class", "Ability difference", "Reference score")
+kable(threshold.Lezen)
+```
+For Lezen the only classes for which threshold values were found (meaning that classification mismatches were observed), was for pro/bb and havo/wvo.  For pro/bb an absolute discrepancy between the true and the re-estimated ability of 0.18 and higher tends to lead to students being classified in bb/kb, this roughly corresponds to obtaining a score of 37 and higher on the Lezen test. For havo/wvo obtaining an ability discrepancy of 0.24, which corresponds to a  reference score of 72 and higher results in a student being incorrectly slaccisifed to the higher class vwo.
+
+<center> <h3>Rekenen</h3> </center>
+```{r echo=FALSE}
+ability.diff <- c(0.19, NA, 0.17, 0.19, 0.18, NA)
+ref.sc <- c(12, NA, 28, 33, 36, NA)
+threshold.Rekenen <- data.frame(Class, ability.diff, ref.sc)
+names(threshold.Rekenen) <- c("Class", "Ability difference", "Reference score")
+kable(threshold.Rekenen)
+```
+Rekenen appears to be a bit more sensitive to discrepancies between the true and the estimated abilty, however, as already seen in Simulation 1, these discrepancies are rarely reached compared to the other two subjects. Based on the results, it appears that discrepancies of around 0.18 and above tend to lead to mismatches. Reference scores of 12, 28, 33 and 36 for prob/bb, kb/gt, gt/havo and havo/wvo, respectively should be treated with caution.
+
+<center> <h3>Taal</h3> </center>
+```{r echo=FALSE}
+ability.diff <- c(0.21, NA, 0.29, NA, 0.37, NA)
+ref.sc <- c(28, NA, 59, NA, 44, NA)
+threshold.Taal <- data.frame(Class, ability.diff, ref.sc)
+names(threshold.Taal) <- c("Class", "Ability difference", "Reference score")
+kable(threshold.Taal)
+```
  
+The highest values of ability discrepancies tend to be present for Taal. Reference score values of 28, 59 and 44 should be treated with caution.
+
+This analysis gives a hint on the average theta discrepancies above which misslassification tend to appear, and it also gives an indication to more carefully observe student with certain reference scores on subjects after they've been classified in a seconday education class. It should be noted however, that this analyis was performed conditional on perfect estimates on the other two subjects, in reality, all three MST's give estimates of the ability and all three (may) containa certain amound of discrepancy, leading to additinal mistmatches. Thus, this analysis fails to capture this important aspect, however it still gives indication of the amount of discepancies on the latent ability that can be tolerated and also gives certain ranges of fererence scores with should be treated with caution while classifying students into secondary education classes. A more general discussion about these results is given in the next section.
+
 <center> <h1>**Conclusion**</h1> </center>
 
  - Recommendations on the test design
@@ -471,3 +531,15 @@ ggarrange(A, B, C,
           labels = c("", "", ""),
           ncol = 2, nrow = 2)
 ```
+
+## Linear function for the total ACET test score
+
+
+$$Total\ score = 484.75816 + Lezen * 0.234368499 + Taal * 0.232847623 + Rekenen * 0.706118502 + schrijven * 0.127383676$$
+
+## Classification errors and total number of mistakes in modules A
+```{r echo=FALSE}
+classification.classes.error.modA <- classification.classes.error.modA[, - 1]
+kable(classification.classes.error.modA, digits = 2)
+```
+
