@@ -151,6 +151,6 @@ for(i in 1:length(true.theta_T)){
 rm(patterns_T, extremes)
 
 
-save.image(file = "initial.simulated.responses.RData")
+#save.image(file = "initial.simulated.responses.RData")
 
 
