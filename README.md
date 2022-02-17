@@ -1,4 +1,4 @@
-**Internship project:** ***Recovery of early mistakes in multistage tests***
+#**Internship project:** ***Recovery of early mistakes in multistage tests***
 This repository contains all the `R` code used to answer the research question: *To what extent can students “recover” from mistakes made in earlier stage(s) and still reach an estimate close to their true ability?* I did this project for an internship at [Cito](https://www.cito.com/), from 10.1.2022 to 18.2.2022 as part of an elective for my Research Master's Programme.  
 This repository contains the following folders:
 
