@@ -10,3 +10,6 @@ This repository contains the following folders:
 - **scripits_mistakes:** Contains the `R` scripts written to calculate the number of mistakes in Modules A and on Day 1;
 - **Simulation 1:** Contains the code needed to produce the simulated MST responses, and the code for the analyses presented in the report for the first simulation;
 - **Simulation 2:**  Contains the code needed to produce the simulated MST responses, and the code for the analyses presented in the report for the first simulation.
+
+
+Note: In the first analyses of Simulation 1, *Welch's tests* are performed to test whether the mean of the ability re-estimates for each level of ability differ significantly from ther true theta. Theoretically, instead of a Welch's test a *one-sample t-test* should've been perfodmed. However, practially, both analyses yield the same results. A proof of this has been added to the `welch-tests.R` script.
